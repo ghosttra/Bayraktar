@@ -35,6 +35,13 @@ namespace Bayraktar
         {
             InitializeComponent();
             //load_method(); 
+
+            CloudLeft.Source =  new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+            CloudRight.Source =  new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+            Bayraktar.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\Bayraktar.png") as ImageSource;
+            Logo.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\logo.png") as ImageSource;
+
+
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
