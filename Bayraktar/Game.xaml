@@ -1,0 +1,48 @@
+﻿<Window x:Class="Bayraktar.Game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bayraktar"
+        mc:Ignorable="d"
+        Title="Bayraktar" Height="1080" Width="1920" WindowState="Maximized" WindowStyle="None"
+        AllowsTransparency="True">
+    <Grid x:Name="CMUs" Background="Green">
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Margin" Value="100,0,100,0"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" x:Name="Road">
+            <Canvas x:Name="CMU">
+                
+            </Canvas>
+        </Border>
+        <Border Grid.Column="1" x:Name="Road1">
+            <Canvas x:Name="CMU1">
+
+            </Canvas>
+        </Border>
+        <Border Grid.Column="2" x:Name="Road2">
+            <Canvas x:Name="CMU2">
+
+            </Canvas>
+        </Border>
+        <Canvas x:Name="PauseButtonCanvas" Grid.Column="2" HorizontalAlignment="Right">
+            <Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" Canvas.Left="-50"/>
+        </Canvas>
+        <Canvas>
+            <Rectangle x:Name="Rect" Visibility="Hidden" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"
+                       Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}"
+                       Fill="White" Opacity=".9">
+            </Rectangle>
+        </Canvas>
+    </Grid>
+    
+
+</Window>

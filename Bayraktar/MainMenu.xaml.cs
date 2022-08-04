@@ -34,10 +34,11 @@ namespace Bayraktar
         public MainMenu()
         {
             InitializeComponent();
-            //load_method(); 
 
-            CloudLeft.Source =  new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
-            CloudRight.Source =  new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+            //load_method();
+
+            CloudLeft.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+            CloudRight.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
             Bayraktar.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\Bayraktar.png") as ImageSource;
             Logo.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\logo.png") as ImageSource;
 
@@ -45,6 +46,7 @@ namespace Bayraktar
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
+
         Random rnd = new Random();
 
         private void SetCloudAnimation(DispatcherTimer timer, Image cloud, bool access)
@@ -54,7 +56,7 @@ namespace Bayraktar
                 DoubleAnimation DA = new DoubleAnimation
                 {
                     From = -200,
-                    To = 850,
+                    To = System.Windows.SystemParameters.PrimaryScreenHeight + 100,
                     RepeatBehavior = RepeatBehavior.Forever
                 };
                 short seconds = (short)rnd.Next(5, 15);
@@ -63,8 +65,6 @@ namespace Bayraktar
                 SetTimer(timer, seconds);
 
                 cloud.BeginAnimation(Canvas.TopProperty, DA);
-
-               
 
                 RotateTransform rotate = new RotateTransform(rnd.Next(1, 3) == 2 ? 270 : 90);
                 cloud.RenderTransform = rotate;
@@ -102,10 +102,51 @@ namespace Bayraktar
 
         }
 
-        private void Exit_OnClick(object sender, RoutedEventArgs e)
+        
+
+        private void removeClouds()
+        {
+            cloudLeftTimer.Stop();
+            cloudRightTimer.Stop();
+
+            CloudLeft.BeginAnimation(TopProperty, new DoubleAnimation());
+            CloudRight.BeginAnimation(TopProperty, new DoubleAnimation());
+        }
+
+        private void setClouds()
+        {
+            Canvas.SetTop(CloudLeft, -200);
+            Canvas.SetTop(CloudRight, -200);
+            SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
+            SetCloudAnimation(cloudRightTimer, CloudRight, true);
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button)
+            {
+                var _sender = sender as Button;
+                switch (_sender.Name)
+                {
+                    case "ChooseLevel": break;
+                    case "Start":
+                        removeClouds();
+                        Game game = new Game();
+                        game.ShowDialog();
+                        setClouds();
+                        break;
+                    case "Settings": break;
+                    default:
+                        Close();
+                        break;
+                }
+            }
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //save_method();
-            Close();
         }
     }
 }
