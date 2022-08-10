@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace Bayraktar
 {
@@ -19,9 +7,11 @@ namespace Bayraktar
     /// </summary>
     public partial class PauseWindow : Window
     {
-        public PauseWindow()
+        public PauseWindow(string title, bool isDefeat)
         {
             InitializeComponent();
+            TitleBlock.Text = title;
+            ContinueBtn.IsEnabled = !isDefeat;
             Height /= 2;
             Width /= 2;
         }

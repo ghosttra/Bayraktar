@@ -18,8 +18,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="На паузі" FontSize="70" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment ="Center"></TextBlock>
-            <Button Content="Продовжити" FontSize="30" Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButtonStyle}" Margin="50" VerticalAlignment="Bottom" IsDefault="True" IsCancel="True" x:Name="Continue" Click="Continue_Click"/>
+            <TextBlock x:Name="TitleBlock" FontSize="70" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment ="Center"></TextBlock>
+            <Button x:Name="ContinueBtn" Content="Продовжити" FontSize="30" Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButtonStyle}" Margin="50" VerticalAlignment="Bottom" IsDefault="True" IsCancel="True" Click="Continue_Click"/>
             <Button Content="Вийти у меню" FontSize="30" Grid.Column="1" Grid.Row="2" Style="{DynamicResource MenuButtonStyle}" Margin="50" VerticalAlignment="Top" x:Name="Exit" Click="Exit_Click"/>
         </Grid>
     </Border>

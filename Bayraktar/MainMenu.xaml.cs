@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 
 namespace Bayraktar
 {
@@ -35,7 +27,7 @@ namespace Bayraktar
         {
             InitializeComponent();
 
-            //load_method();
+            load_method();
 
             CloudLeft.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
             CloudRight.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
@@ -121,6 +113,8 @@ namespace Bayraktar
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
 
+        List<User> users = new List<User>();
+
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button)
@@ -133,9 +127,9 @@ namespace Bayraktar
                         removeClouds();
                         Game game = new Game();
                         game.ShowDialog();
+                        users.Add(game.User);
                         setClouds();
                         break;
-                    case "Settings": break;
                     default:
                         Close();
                         break;
@@ -146,7 +140,38 @@ namespace Bayraktar
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //save_method();
+            save_method();
+        }
+        private void save_method()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+
+            try
+            {
+                using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
+                {
+                    xmlSerializer.Serialize(fs, users);
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+        private void load_method()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+
+            try
+            {
+                using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
+                {
+                    users = xmlSerializer.Deserialize(fs) as List<User>;
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

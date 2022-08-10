@@ -1,49 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Bayraktar
 {
-
     public partial class Game : Window
     {
+
+        public User User { get; set; }
+        public short MaxSpeed { get; set; } = 5;
+        public short MinSpeed { get; set; } = 15;
+        public short HealthPoints { get; set; } = 5;
+        public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
-        private void Cycle()
+        string[] units = { "T-90", "APC-Z"/*, "Grad"*/ };
+        private void AddMilitaryUnit()
         {
             DoubleAnimation DA = new DoubleAnimation
             {
                 From = -300,
-                To = SystemParameters.PrimaryScreenHeight + 300,
+                To = SystemParameters.PrimaryScreenHeight + 250,
             };
-            short seconds = (short)rnd.Next(5, 15);
-            DA.Duration = TimeSpan.FromSeconds(seconds);
-            //short amountOfUnits = short.Parse(rnd.Next(1, 3).ToString());
-            short left = 0;
-            for (short i = 0; i < 3; i++)
+
+            if (MinSpeed >= 10)
+                MinSpeed -= (short)rnd.Next(1, 3);
+            if (MaxSpeed >= 5)
+                MaxSpeed -= (short)rnd.Next(1, 3);
+
+            if (MinSpeed > MaxSpeed)
             {
-                MilitaryUnit militaryU = new MilitaryUnit("APC-Z");
-                Canvas.SetLeft(militaryU, left);
-                Canvas.SetTop(militaryU, -300);
-                AnimationClock clock;
-                clock = DA.CreateClock();
-                clocks.Add(clock);
-                militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
-                militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
-                var this_ = (CMUs.Children[i] as Border).Child;
-                (this_ as Canvas).Children.Add(militaryU);
+                short temp1 = MinSpeed;
+                MinSpeed = MaxSpeed;
+                MaxSpeed = temp1;
             }
+
+            short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
+
+            DA.Duration = TimeSpan.FromSeconds(seconds);
+            short left = (short)rnd.Next(0, 200);
+            MilitaryUnit militaryU = new MilitaryUnit(units[rnd.Next(0, units.Length)]);
+            Canvas.SetLeft(militaryU, left);
+            Canvas.SetTop(militaryU, -300);
+            AnimationClock clock;
+            DA.Completed += (s, e) =>
+            {
+                HealthPoints--;
+                if (HealthPoints == 0)
+                {
+                    PauseFunc("Поразка", true);
+                }
+                if (HealthPoints <= 5)
+                {
+                    HealthText.Content = "Health: " + HealthPoints.ToString();
+                }
+
+            };
+            clock = DA.CreateClock();
+            clocks.Add(clock);
+            militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
+            militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
+            int temp = rnd.Next(0, CMUs.Children.Count);
+            while (!(CMUs.Children[temp] is Border))
+            {
+                temp = rnd.Next(0, 3);
+            }
+            var this_ = (CMUs.Children[temp] as Border).Child;
+            (this_ as Canvas).Children.Add(militaryU);
+
         }
 
         Random rnd = new Random();
+        DispatcherTimer dispatcherTimer;
+        private Timer clockTimer;
+
         public Game()
         {
             InitializeComponent();
+
+
+
+            clockTimer = new Timer(1000);
+            clockTimer.Elapsed += new ElapsedEventHandler(clockTimer_Elapsed);
+            clockTimer.Start();
+            DataContext = this;
 
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
 
@@ -54,14 +101,45 @@ namespace Bayraktar
             Road1.Background = imgBr;
             Road2.Background = imgBr;
 
-            Cycle();
+            Canvas.SetTop(HealthText, SystemParameters.PrimaryScreenHeight - 50);
+            Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
+
+            dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Start();
+
+            AddMilitaryUnit();
         }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            for (int r = 0; r < rnd.Next(3, 9); r++)
+            {
+                AddMilitaryUnit();
+            }
+        }
+
         private async void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            (sender as MilitaryUnit).BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop((sender as MilitaryUnit)) });
+            if (sender is MilitaryUnit)
+            {
+                var MU = (sender as MilitaryUnit);
+                MU.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(MU) });
+                Score += rnd.Next(50, 200);
 
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            CMU.Children.Remove((UIElement)sender);
+                MU.MouseLeftButtonUp -= MilitaryUnit_MouseLeftButtonUp;
+
+                MU.IsHitTestVisible = false;
+
+                HealthPoints++;
+
+                lblScore.Content = Score.ToString();
+
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                CMU.Children.Remove((UIElement)sender);
+
+            }
+
         }
 
         private void PauseAnimation()
@@ -78,16 +156,44 @@ namespace Bayraktar
                 clock.Controller.Resume();
             }
         }
-        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+        private void PauseFunc(string title, bool isDefeat)
         {
             Rect.Visibility = Visibility.Visible;
+            dispatcherTimer.Stop();
             PauseAnimation();
-            PauseWindow pauseWindow = new PauseWindow();
+            PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
                 Close();
-            ResumeAnimation();
-            Rect.Visibility = Visibility.Hidden;
+            else
+            {
+                ResumeAnimation();
+                Rect.Visibility = Visibility.Hidden;
+                dispatcherTimer.Start();
+            }
+
+        }
+
+
+        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PauseFunc("На паузі", false);
+        }
+
+        private void Pause_Key(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && e.IsRepeat == false)
+                PauseFunc("На паузі", false);
+        }
+
+        private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveResult saveResult = new SaveResult();
+            saveResult.ShowDialog();
+            this.User = new User() { Name = Environment.UserName, TimeOf_AtteptEnd = DateTime.Now, Score = this.Score };
+            if (!string.IsNullOrWhiteSpace(saveResult.Name))
+                User.Name = saveResult.Name;
         }
     }
 }

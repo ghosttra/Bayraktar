@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Name>Макс</Name>
+    <Score>88</Score>
+    <TimeOf_AtteptEnd>2022-08-10T19:20:53.1363469+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Віталя</Name>
+    <Score>1399</Score>
+    <TimeOf_AtteptEnd>2022-08-10T19:21:25.024657+03:00</TimeOf_AtteptEnd>
+  </User>
+</ArrayOfUser>

@@ -29,11 +29,9 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button Click="MenuButton_Click" x:Name = "ChooseLevel" Content="Обрати рівень" Style="{DynamicResource MenuButtonStyle}" Grid.Row="0" IsEnabled="False"/>
+                    <Button Click="MenuButton_Click" x:Name = "ChooseLevel" Content="Рейтинг" Style="{DynamicResource MenuButtonStyle}" Grid.Row="0" IsEnabled="False"/>
                     <Button Click="MenuButton_Click" x:Name = "Start" Content="Розпочати" Style="{DynamicResource MenuButtonStyle}" Grid.Row="1"/>
-                    <Button Click="MenuButton_Click" x:Name = "Settings" Content="Налаштування" Style="{DynamicResource MenuButtonStyle}" Grid.Row="2"/>
                     <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід" Style="{DynamicResource MenuButtonStyle}" Grid.Row="3"/>
 
                 </Grid>
