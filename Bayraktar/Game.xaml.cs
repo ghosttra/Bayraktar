@@ -135,7 +135,7 @@ namespace Bayraktar
 
                 HealthPoints++;
 
-                lblScore.Content = Score.ToString();
+                lblScore.Content = "Score: " + Score.ToString();
 
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 CMU.Children.Remove((UIElement)sender);

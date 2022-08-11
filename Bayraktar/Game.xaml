@@ -12,8 +12,13 @@
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property ="FontFamily" Value="./Properties/#DS-Digital"/>
-                <Setter Property ="Foreground" Value="Aqua"/>
+                <Setter Property ="Foreground" Value="Tomato"/>
                 <Setter Property ="FontSize" Value="40"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius ="15" ShadowDepth ="0"  Direction="300" Color="Black" />
+                    </Setter.Value>
+                </Setter>
             </Style>
             <Style TargetType="Border">
                 <Setter Property="Margin" Value="100,0,100,0"/>
@@ -26,14 +31,15 @@
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblScore"  Margin="10" Grid.Column="3" />
-        <Canvas Panel.ZIndex="1">
 
-            <Label  x:Name="lblTime"  Content="{Binding CurrentDateTime}" />
+        <Canvas Panel.ZIndex="1">
+            <Label x:Name="lblScore" Content="Score: 0" Canvas.Top="100" Margin="10" Grid.Column="3" />
+            <Label  x:Name="lblTime" Margin="10"  Content="{Binding CurrentDateTime}" />
+            <Label x:Name="HealthText"  Margin="10" Content="Health: 5" />
         </Canvas>
         <Border   Grid.Row="1" Grid.Column="0" Panel.ZIndex="0" x:Name="Road" Margin="100,0,4,0">
             <Canvas Grid.Row="1" x:Name="CMU">
-                <Label x:Name="HealthText"   Content="Health: 5" />
+
             </Canvas>
         </Border>
         <Border Grid.Column="2" Grid.Row="1" Panel.ZIndex="0" x:Name="Road1" Margin="100,0,100,0">
