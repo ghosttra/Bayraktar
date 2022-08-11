@@ -1,6 +1,6 @@
 # *У розробці* - Bayraktar 
 Проcтий клон гри з мобільного додатку "Дія" - "єБайрактар"
-![alt text](https://imgur.com/a/C6exhC7)
+![alt text](https://i.imgur.com/ba6qpIn.png)
 ## Особливості гри
 1. Нескінченна гра;
 2. Рейтинг;
