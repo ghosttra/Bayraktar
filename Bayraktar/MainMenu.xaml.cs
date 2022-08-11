@@ -29,10 +29,19 @@ namespace Bayraktar
 
             load_method();
 
-            CloudLeft.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
-            CloudRight.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
-            Bayraktar.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\Bayraktar.png") as ImageSource;
-            Logo.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\logo.png") as ImageSource;
+            if (users.Count > 0)
+                Rating.IsEnabled = true;
+
+            try
+            {
+                CloudLeft.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+                CloudRight.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
+                Bayraktar.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\Bayraktar.png") as ImageSource;
+                Logo.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\logo.png") as ImageSource;
+            }
+            catch (Exception)
+            {
+            }
 
 
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
@@ -120,20 +129,23 @@ namespace Bayraktar
             if (sender is Button)
             {
                 var _sender = sender as Button;
+                removeClouds();
                 switch (_sender.Name)
                 {
-                    case "ChooseLevel": break;
+                    case "Rating":
+                        RatingWindow ratingWindow = new RatingWindow(users);
+                        ratingWindow.ShowDialog();
+                        break;
                     case "Start":
-                        removeClouds();
                         Game game = new Game();
                         game.ShowDialog();
                         users.Add(game.User);
-                        setClouds();
                         break;
                     default:
                         Close();
                         break;
                 }
+                setClouds();
             }
 
         }

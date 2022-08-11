@@ -45,10 +45,12 @@ namespace Bayraktar
             short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
 
             DA.Duration = TimeSpan.FromSeconds(seconds);
-            short left = (short)rnd.Next(0, 200);
+            short left = (short)rnd.Next(-50, 50);
             MilitaryUnit militaryU = new MilitaryUnit(units[rnd.Next(0, units.Length)]);
             Canvas.SetLeft(militaryU, left);
             Canvas.SetTop(militaryU, -300);
+            militaryU.Width = Road.Width / 3;
+            militaryU.Height = Road.Width / 3;
             AnimationClock clock;
             DA.Completed += (s, e) =>
             {

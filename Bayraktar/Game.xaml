@@ -25,28 +25,28 @@
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="lblScore"  Margin="10" Grid.Column="3" />
 
+        <Label x:Name="lblScore"  Margin="10" Grid.Column="3" />
         <Canvas Panel.ZIndex="1">
 
             <Label  x:Name="lblTime"  Content="{Binding CurrentDateTime}" />
         </Canvas>
         <Border   Grid.Row="1" Grid.Column="0" Panel.ZIndex="0" x:Name="Road" Margin="100,0,4,0">
-            <Canvas x:Name="CMU">
+            <Canvas Grid.Row="1" x:Name="CMU">
                 <Label x:Name="HealthText"   Content="Health: 5" />
             </Canvas>
         </Border>
         <Border Grid.Column="2" Grid.Row="1" Panel.ZIndex="0" x:Name="Road1" Margin="100,0,100,0">
-            <Canvas x:Name="CMU1">
+            <Canvas Grid.Column="2" x:Name="CMU1">
                 <Label x:Name="RandomText1"   Content="6032R 54 7040A WE73 901 6" />
             </Canvas>
         </Border>
         <Border Grid.Column="3" Grid.Row="1" Panel.ZIndex="0"  x:Name="Road2" Margin="100,0,100,0">
-            <Canvas x:Name="CMU2">
+            <Canvas Grid.Column="3" x:Name="CMU2">
 
             </Canvas>
         </Border>
-        <Canvas x:Name="PauseButtonCanvas" Panel.ZIndex="2" Grid.Row="1"  Grid.Column="3" HorizontalAlignment="Left" Margin="640,0,0,0">
+        <Canvas x:Name="PauseButtonCanvas" Panel.ZIndex="2" Grid.Row="1"  Grid.Column="3" HorizontalAlignment="Right" >
             <Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" Canvas.Left="-50"/>
         </Canvas>
         <Canvas Grid.ColumnSpan="2">

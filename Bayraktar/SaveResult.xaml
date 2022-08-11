@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="0" Content="Ваше ім'я: "/>
         <TextBox x:Name="NameTB" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="0" Margin="10"/>
-        <Button Click="Save_Click" Style="{DynamicResource MenuButtonStyle}" x:Name="Save" Content="Зберегти" Grid.Column="1" Grid.Row="2" Margin="12"/>
+        <Button IsDefault="True" Click="Save_Click" Style="{DynamicResource MenuButtonStyle}" x:Name="Save" Content="Зберегти" Grid.Column="1" Grid.Row="2" Margin="12"/>
 
     </Grid>
 </Window>
