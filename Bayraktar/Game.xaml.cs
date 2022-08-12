@@ -21,7 +21,7 @@ namespace Bayraktar
         public short HealthPoints { get; set; } = 5;
         public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
-        string[] units = { "T-90", "APC-Z"/*, "Grad"*/ };
+        string[] units = { "T-90", "APC-Z", "Grad" };
         private void AddMilitaryUnit()
         {
             DoubleAnimation DA = new DoubleAnimation
@@ -142,6 +142,27 @@ namespace Bayraktar
 
             }
 
+        }
+
+
+        public string RndText
+        {
+            get
+            {
+                string letters = "          ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+                Random rand = new Random();
+
+                string word = "";
+                for (int j = 1; j <= 30; j++)
+                {
+                    int letter_num = rand.Next(0, letters.Length - 1);
+
+                    word += letters[letter_num];
+                }
+
+                return word;
+            }
         }
 
         private void PauseAnimation()

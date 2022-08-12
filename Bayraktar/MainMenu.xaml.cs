@@ -103,7 +103,7 @@ namespace Bayraktar
 
         }
 
-        
+
 
         private void removeClouds()
         {
@@ -135,12 +135,12 @@ namespace Bayraktar
                     case "Rating":
                         RatingWindow ratingWindow = new RatingWindow(users);
                         ratingWindow.ShowDialog();
-                      
                         break;
                     case "Start":
                         Game game = new Game();
                         game.ShowDialog();
-                        users.Add(game.User);
+                        if (game.User.Score != 0)
+                            users.Add(game.User);
                         if (users.Count == 1)
                             Rating.IsEnabled = true;
                         break;

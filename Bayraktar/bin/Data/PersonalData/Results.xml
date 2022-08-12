@@ -1,6 +1,61 @@
 <?xml version="1.0"?>
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
+    <Name>Макс</Name>
+    <Score>154</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:34:36.7818882+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>174</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:34:10.8833632+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>609</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:33:59.0951553+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>148</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:33:40.9026246+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>152</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:33:34.5813646+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>110</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:33:07.451233+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>106</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:32:10.2362503+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>0</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:26:44.6174704+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>0</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:26:41.3284784+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Макс</Name>
+    <Score>0</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:26:27.9626519+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>david</Name>
+    <Score>4730</Score>
+    <TimeOf_AtteptEnd>2022-08-12T19:26:24.8778255+03:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
     <Name>adsad</Name>
     <Score>107</Score>
     <TimeOf_AtteptEnd>2022-08-11T05:55:00.4876456+03:00</TimeOf_AtteptEnd>
