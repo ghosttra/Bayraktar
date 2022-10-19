@@ -1,20 +1,37 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using BayraktarGame;
 
 namespace Bayraktar
 {
     public partial class MilitaryUnit : UserControl
     {
-        private string Unit;
-        public bool isDestroyed { get; set; } = false;
-        public MilitaryUnit(string Unit)
+        private Unit Unit;
+        public MilitaryUnit(Unit unit)
         {
-            this.Unit = Unit;
+            this.Unit = unit;
             InitializeComponent();
-            MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + Unit + ".png") as ImageSource;
+            _setImageSource(MU.Source, unit.Image);
+            //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + unit + ".png") as ImageSource;
+        }
+
+        private void _setImageSource(ImageSource target, byte[] source)
+        {
+            if(source == null)
+                return;
+            using (MemoryStream stream  = new MemoryStream(source))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = stream;
+                image.EndInit();
+                image.Freeze();
+            }
         }
         DispatcherTimer timer;
         private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -23,7 +40,8 @@ namespace Bayraktar
             timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += Timer_Tick;
             timer.Start();
-            MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + Unit + "_Destroyed.png") as ImageSource;
+            _setImageSource(MU.Source, Unit.ImageDestroyed);
+            //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + Unit + "_Destroyed.png") as ImageSource;
             (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
         }
 

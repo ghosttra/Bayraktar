@@ -3,61 +3,66 @@
   <User>
     <Name>Макс</Name>
     <Score>154</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:34:36.7818882+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:34:36.7818882+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>174</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:34:10.8833632+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:34:10.8833632+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>609</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:33:59.0951553+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:33:59.0951553+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>148</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:33:40.9026246+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:33:40.9026246+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>152</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:33:34.5813646+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:33:34.5813646+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>110</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:33:07.451233+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:33:07.451233+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>106</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:32:10.2362503+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:32:10.2362503+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>0</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:26:44.6174704+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:26:44.6174704+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>0</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:26:41.3284784+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:26:41.3284784+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>Макс</Name>
     <Score>0</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:26:27.9626519+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:26:27.9626519+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>david</Name>
     <Score>4730</Score>
-    <TimeOf_AtteptEnd>2022-08-12T19:26:24.8778255+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-12T18:26:24.8778255+02:00</TimeOf_AtteptEnd>
   </User>
   <User>
     <Name>adsad</Name>
     <Score>107</Score>
-    <TimeOf_AtteptEnd>2022-08-11T05:55:00.4876456+03:00</TimeOf_AtteptEnd>
+    <TimeOf_AtteptEnd>2022-08-11T04:55:00.4876456+02:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Ayaka</Name>
+    <Score>666</Score>
+    <TimeOf_AtteptEnd>2022-10-18T15:53:45.8722577+02:00</TimeOf_AtteptEnd>
   </User>
 </ArrayOfUser>

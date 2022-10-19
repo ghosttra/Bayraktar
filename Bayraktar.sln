@@ -5,6 +5,10 @@ VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bayraktar", "Bayraktar\Bayraktar.csproj", "{35974349-F357-43F0-B497-60E8BF6F167B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BayraktarGame", "BayraktarGame\BayraktarGame.csproj", "{21DF819D-8806-4E30-A8DD-BC37D14832AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEntities", "GameEntities\GameEntities.csproj", "{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{35974349-F357-43F0-B497-60E8BF6F167B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35974349-F357-43F0-B497-60E8BF6F167B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35974349-F357-43F0-B497-60E8BF6F167B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DF819D-8806-4E30-A8DD-BC37D14832AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DF819D-8806-4E30-A8DD-BC37D14832AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DF819D-8806-4E30-A8DD-BC37D14832AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DF819D-8806-4E30-A8DD-BC37D14832AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
