@@ -24,17 +24,18 @@
                     <RowDefinition Height="2*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row ="2" Background="DarkGray">
-                    <Grid.RowDefinitions>
+                <StackPanel Grid.Row ="2" Background="DarkGray" >
+                    <!--<Grid.RowDefinitions>-->
+                        <!--<RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button Click="MenuButton_Click" x:Name = "Rating" Content="Рейтинг" Style="{DynamicResource MenuButtonStyle}" Grid.Row="0" IsEnabled="False"/>
-                    <Button Click="MenuButton_Click" x:Name = "Start" Content="Розпочати" Style="{DynamicResource MenuButtonStyle}" Grid.Row="1"/>
-                    <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід" Style="{DynamicResource MenuButtonStyle}" Grid.Row="3"/>
+                    </Grid.RowDefinitions>-->
+                    <Button Click="MenuButton_Click" x:Name = "Rating" Content="Рейтинг" Style="{DynamicResource MenuButtonStyle}" IsEnabled="False"/>
+                    <Button Click="MenuButton_Click" x:Name = "Start" Content="Розпочати" Style="{DynamicResource MenuButtonStyle}" />
+                    <Button Click="MenuButton_Click" x:Name = "StartMultiplayer" Content="Мультiплеер" Style="{DynamicResource MenuButtonStyle}" />
+                    <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід" Style="{DynamicResource MenuButtonStyle}" />
 
-                </Grid>
+                </StackPanel>
                 <Image Grid.Row="1" x:Name="Bayraktar" Margin="30,0,30,0"/>
                 <Border Grid.Row="0" Background="DarkGray">
                     <Image x:Name="Logo"/>

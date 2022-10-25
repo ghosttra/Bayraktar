@@ -22,8 +22,8 @@ namespace Bayraktar
 
         public string CurrentDateTime
         {
-            get { return (string)GetValue(CurrentDateTimeProperty); }
-            set { SetValue(CurrentDateTimeProperty, value); }
+            get => (string)GetValue(CurrentDateTimeProperty);
+            set => SetValue(CurrentDateTimeProperty, value);
         }
 
         public static readonly DependencyProperty CurrentDateTimeProperty =
