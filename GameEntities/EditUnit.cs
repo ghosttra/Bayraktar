@@ -33,10 +33,9 @@ namespace GameEntities
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image|*.png;*.jpg";
             openFileDialog.Title = "Select Picture";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                box.Image = Image.FromStream(openFileDialog.OpenFile());
-            }
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
+            box.Image = b;
         }
         private void normalPicBtn_Click(object sender, EventArgs e)
         {
@@ -68,7 +67,7 @@ namespace GameEntities
         private Unit _newUnit()
         {
             ImageConverter converter = new ImageConverter();
-
+            
             Unit unit = new Unit
             {
                 Name = nameBox.Text,
