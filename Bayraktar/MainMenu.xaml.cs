@@ -138,11 +138,15 @@ namespace Bayraktar
                     case "Start":
                         Game game = new Game();
                         game.ShowDialog();
-                        if (game.User.Score != 0)
-                            users.Add(game.User);
-                        if (users.Count == 1)
-                            Rating.IsEnabled = true;
+                        //if (game.User.Score != 0)
+                        //    users.Add(game.User);
+                        //if (users.Count == 1)
+                        //    Rating.IsEnabled = true;
                         break;
+                    case "StartMultiplayer":
+                        
+                        break;
+
                     default:
                         Close();
                         break;

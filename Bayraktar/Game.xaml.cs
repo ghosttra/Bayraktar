@@ -19,7 +19,7 @@ namespace Bayraktar
     public partial class Game : Window
     {
 
-        public Game(bool gameMode)
+        public Game(bool gameMode) : this()
         {
             _gameMode = gameMode;
         }
@@ -29,10 +29,9 @@ namespace Bayraktar
         public User User { get; set; }
         public short MaxSpeed { get; set; } = 5;
         public short MinSpeed { get; set; } = 15;
-        public int  HealthPoints { get; set; }
+        public int HealthPoints { get; set; }
         public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
-        string[] units = { "T-90", "APC-Z", "Grad" };
         private void AddMilitaryUnit()
         {
             DoubleAnimation DA = new DoubleAnimation
@@ -89,34 +88,26 @@ namespace Bayraktar
             (this_ as Canvas).Children.Add(militaryU);
 
         }
-        
+
 
         Random rnd = new Random();
         DispatcherTimer dispatcherTimer;
-        private Timer clockTimer;
+        //private Timer _clockTimer;
 
         public Game()
         {
             InitializeComponent();
 
-
-
-            clockTimer = new Timer(1000);
-            clockTimer.Elapsed += new ElapsedEventHandler(clockTimer_Elapsed);
-            clockTimer.Start();
+            //_clockTimer = new Timer(1000);
+            //_clockTimer.Elapsed += clockTimer_Elapsed;
+            //_clockTimer.Start();
             DataContext = this;
 
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-
-            var imgBr = new ImageBrush() { ImageSource = new BitmapImage(new Uri(@"..\Data\Pictures\Levels\Road.png", UriKind.Relative)) };
-            Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
-
-            Road.Background = imgBr;
-            Road1.Background = imgBr;
-            Road2.Background = imgBr;
+            //Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
 
             Canvas.SetTop(HealthText, SystemParameters.PrimaryScreenHeight - 50);
-            Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
+            //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
 
             dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
             dispatcherTimer.Tick += DispatcherTimer_Tick;
@@ -150,32 +141,13 @@ namespace Bayraktar
                 lblScore.Content = "Score: " + Score.ToString();
 
                 await Task.Delay(TimeSpan.FromSeconds(3));
-                CMU.Children.Remove((UIElement)sender);
+                // CMU.Children.Remove((UIElement)sender);
 
             }
 
         }
 
 
-        //public string RndText
-        //{
-        //    get
-        //    {
-        //        string letters = "          ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-
-        //        Random rand = new Random();
-
-        //        string word = "";
-        //        for (int j = 1; j <= 30; j++)
-        //        {
-        //            int letter_num = rand.Next(0, letters.Length - 1);
-
-        //            word += letters[letter_num];
-        //        }
-
-        //        return word;
-        //    }
-        //}
 
         private void PauseAnimation()
         {
@@ -210,16 +182,19 @@ namespace Bayraktar
 
         }
 
-
-        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void _pause()
         {
             PauseFunc("На паузі", false);
+        }
+        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _pause();
         }
 
         private void Pause_Key(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape && e.IsRepeat == false)
-                PauseFunc("На паузі", false);
+                _pause();
         }
 
         private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

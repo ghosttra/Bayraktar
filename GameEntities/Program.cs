@@ -16,7 +16,7 @@ namespace GameEntities
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UnitsEdit());
+            Application.Run(new Server());
         }
     }
 }

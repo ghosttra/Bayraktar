@@ -22,39 +22,42 @@
             </Style>
             <Style TargetType="Border">
                 <Setter Property="Margin" Value="100,0,100,0"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Image Source ="Pictures\Levels\Road.png"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Setter.Value>
+                </Setter>
             </Style>
+
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="17*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-
-        <Canvas Panel.ZIndex="1">
-            <Label x:Name="lblScore" Content="Score: 0" Canvas.Top="100" Margin="10" Grid.Column="3" />
-            <Label  x:Name="lblTime" Margin="10"  Content="{Binding CurrentDateTime}" />
-            <Label x:Name="HealthText"  Margin="10" Content="Health: 5" />
-        </Canvas>
-        <Border   Grid.Row="1" Grid.Column="0" Panel.ZIndex="0" x:Name="Road" Margin="100,0,4,0">
-            <Canvas Grid.Row="1" x:Name="CMU">
-
-            </Canvas>
+        <Border Panel.ZIndex="1" BorderThickness="4" Background="#4CF0FFFF" CornerRadius="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" BorderBrush="Tomato">
+            <StackPanel>
+                <!--<Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" HorizontalAlignment="Left" Source="Pictures/pause.png"/>-->
+                <Label x:Name="lblScore" Content="Score: 0" Canvas.Top="113" Margin="10" Canvas.Left="10" />
+                <Label x:Name="lblTime" Margin="10" Content="{Binding CurrentDateTime}" />
+                <Label x:Name="HealthText" Margin="10" Content="Health: 5" Canvas.Left="10" Canvas.Top="65" />
+            </StackPanel>
         </Border>
-        <Border Grid.Column="2" Grid.Row="1" Panel.ZIndex="0" x:Name="Road1" Margin="100,0,100,0">
-            <Canvas Grid.Column="2" x:Name="CMU1">
-                <Label x:Name="RandomText1" Content="{Binding RndText}" />
-            </Canvas>
+        <Border   Grid.Column="0" Panel.ZIndex="0" x:Name="Road">
+            <Canvas/>
         </Border>
-        <Border Grid.Column="3" Grid.Row="1" Panel.ZIndex="0"  x:Name="Road2" Margin="100,0,100,0">
-            <Canvas Grid.Column="3" x:Name="CMU2">
-
-            </Canvas>
+        <Border Grid.Column="1" Panel.ZIndex="0" x:Name="Road1" >
+            <Canvas/>
         </Border>
-        <Canvas x:Name="PauseButtonCanvas" Panel.ZIndex="2" Grid.Row="1"  Grid.Column="3" HorizontalAlignment="Right" >
-            <Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" Canvas.Left="-50"/>
-        </Canvas>
+        <Border Grid.Column="2" Panel.ZIndex="0"  x:Name="Road2">
+            <Canvas/>
+        </Border>
+        <Canvas x:Name="PauseButtonCanvas" Panel.ZIndex="2" HorizontalAlignment="Right" />
         <Canvas Grid.ColumnSpan="2">
             <Rectangle x:Name="Rect" Visibility="Hidden" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"
                        Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}"
