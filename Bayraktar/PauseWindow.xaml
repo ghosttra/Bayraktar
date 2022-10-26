@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
      Background="Transparent" AllowsTransparency="True"  WindowStyle="None" WindowStartupLocation="CenterScreen" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}" Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+            <Setter Property="Margin" Value="50"/>
+            <Setter Property="Height" Value="70"/>
+        </Style>
+    </Window.Resources>
     <Border Background="White" CornerRadius ="25" BorderBrush="Black" BorderThickness="3">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -19,8 +25,8 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="TitleBlock" FontSize="70" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment ="Center"></TextBlock>
-            <Button x:Name="ContinueBtn" Content="Продовжити" FontSize="30" Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButtonStyle}" Margin="50" VerticalAlignment="Bottom" IsDefault="True" IsCancel="True" Click="Continue_Click"/>
-            <Button Content="Вийти у меню" FontSize="30" Grid.Column="1" Grid.Row="2" Style="{DynamicResource MenuButtonStyle}" Margin="50" VerticalAlignment="Top" x:Name="Exit" Click="Exit_Click"/>
+            <Button x:Name="ContinueBtn" Content="Продовжити" FontSize="30" Grid.Column="1" Grid.Row="1"  IsDefault="True" IsCancel="True" Click="Continue_Click"/>
+            <Button Content="Вийти у меню" FontSize="30" Grid.Column="1" Grid.Row="2"  x:Name="Exit" Click="Exit_Click"/>
         </Grid>
     </Border>
 </Window>

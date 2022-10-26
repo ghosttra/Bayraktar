@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -9,16 +11,25 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using BayraktarGame;
+using GameEntities;
 
 namespace Bayraktar
 {
     public partial class Game : Window
     {
 
+        public Game(bool gameMode)
+        {
+            _gameMode = gameMode;
+        }
+
+        //attack or defense
+        private bool _gameMode;
         public User User { get; set; }
         public short MaxSpeed { get; set; } = 5;
         public short MinSpeed { get; set; } = 15;
-        public short HealthPoints { get; set; } = 5;
+        public int  HealthPoints { get; set; }
         public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
         string[] units = { "T-90", "APC-Z", "Grad" };
@@ -37,16 +48,16 @@ namespace Bayraktar
 
             if (MinSpeed > MaxSpeed)
             {
-                short temp1 = MinSpeed;
-                MinSpeed = MaxSpeed;
-                MaxSpeed = temp1;
+                (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
             }
 
             short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
 
             DA.Duration = TimeSpan.FromSeconds(seconds);
             short left = (short)rnd.Next(-50, 50);
-            MilitaryUnit militaryU = new MilitaryUnit(units[rnd.Next(0, units.Length)]);
+
+            //todo
+            MilitaryUnit militaryU = new MilitaryUnit(new Unit());
             Canvas.SetLeft(militaryU, left);
             Canvas.SetTop(militaryU, -300);
             militaryU.Width = Road.Width / 3;
@@ -78,6 +89,7 @@ namespace Bayraktar
             (this_ as Canvas).Children.Add(militaryU);
 
         }
+        
 
         Random rnd = new Random();
         DispatcherTimer dispatcherTimer;
@@ -145,25 +157,25 @@ namespace Bayraktar
         }
 
 
-        public string RndText
-        {
-            get
-            {
-                string letters = "          ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        //public string RndText
+        //{
+        //    get
+        //    {
+        //        string letters = "          ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-                Random rand = new Random();
+        //        Random rand = new Random();
 
-                string word = "";
-                for (int j = 1; j <= 30; j++)
-                {
-                    int letter_num = rand.Next(0, letters.Length - 1);
+        //        string word = "";
+        //        for (int j = 1; j <= 30; j++)
+        //        {
+        //            int letter_num = rand.Next(0, letters.Length - 1);
 
-                    word += letters[letter_num];
-                }
+        //            word += letters[letter_num];
+        //        }
 
-                return word;
-            }
-        }
+        //        return word;
+        //    }
+        //}
 
         private void PauseAnimation()
         {

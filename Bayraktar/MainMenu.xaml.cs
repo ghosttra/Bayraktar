@@ -126,11 +126,10 @@ namespace Bayraktar
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button)
+            if (sender is Button button)
             {
-                var _sender = sender as Button;
                 removeClouds();
-                switch (_sender.Name)
+                switch (button.Name)
                 {
                     case "Rating":
                         RatingWindow ratingWindow = new RatingWindow(users);
