@@ -19,6 +19,13 @@ namespace Bayraktar
     public partial class Game : Window
     {
 
+        public Game(bool gameMode)
+        {
+            _gameMode = gameMode;
+        }
+
+        //attack or defense
+        private bool _gameMode;
         public User User { get; set; }
         public short MaxSpeed { get; set; } = 5;
         public short MinSpeed { get; set; } = 15;
