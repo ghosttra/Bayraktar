@@ -62,7 +62,12 @@
   </User>
   <User>
     <Name>Ayaka</Name>
-    <Score>666</Score>
-    <TimeOf_AtteptEnd>2022-10-18T15:53:45.8722577+02:00</TimeOf_AtteptEnd>
+    <Score>145</Score>
+    <TimeOf_AtteptEnd>2022-10-26T08:58:26.1497529+02:00</TimeOf_AtteptEnd>
+  </User>
+  <User>
+    <Name>Ayaka</Name>
+    <Score>67</Score>
+    <TimeOf_AtteptEnd>2022-10-26T08:58:38.0745323+02:00</TimeOf_AtteptEnd>
   </User>
 </ArrayOfUser>
