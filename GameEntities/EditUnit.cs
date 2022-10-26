@@ -31,13 +31,12 @@ namespace GameEntities
 
         private void _uploadPic(PictureBox box)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image|*.png;*.jpg";
+            openFileDialog.Title = "Select Picture";
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             try
             {
-
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Image|*.png;*.jpg";
-                openFileDialog.Title = "Select Picture";
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
                 Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
                 box.Image = b;
             }
