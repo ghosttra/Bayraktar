@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -27,15 +28,24 @@ namespace GameEntities
             unitsDGV.DataSource = _dataBase.Units.ToList();
         }
 
-        
+
         private void _uploadPic(PictureBox box)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image|*.png;*.jpg";
-            openFileDialog.Title = "Select Picture";
-            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
-            Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
-            box.Image = b;
+            try
+            {
+
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image|*.png;*.jpg";
+                openFileDialog.Title = "Select Picture";
+                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+                Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
+                box.Image = b;
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+                MessageBox.Show(e.Message);
+            }
         }
         private void normalPicBtn_Click(object sender, EventArgs e)
         {
@@ -67,7 +77,7 @@ namespace GameEntities
         private Unit _newUnit()
         {
             ImageConverter converter = new ImageConverter();
-            
+
             Unit unit = new Unit
             {
                 Name = nameBox.Text,
@@ -76,10 +86,10 @@ namespace GameEntities
                 Image = (byte[])converter.ConvertTo(normalPic.Image, typeof(byte[])),
                 ImageDestroyed = (byte[])converter.ConvertTo(destroyedPic.Image, typeof(byte[]))
             };
-            
+
             return unit;
         }
-        
+
 
         private bool _check()
         {
@@ -125,7 +135,7 @@ namespace GameEntities
 
         private void delBtn_Click(object sender, EventArgs e)
         {
-            if(unitsDGV.SelectedRows.Count==0)
+            if (unitsDGV.SelectedRows.Count == 0)
                 return;
 
             _updateDgv();
@@ -133,8 +143,8 @@ namespace GameEntities
 
         private void unitsDGV_SelectionChanged(object sender, EventArgs e)
         {
-            if(unitsDGV.SelectedRows.Count==0)
-                return; 
+            if (unitsDGV.SelectedRows.Count == 0)
+                return;
             _fillBoxes();
         }
 
