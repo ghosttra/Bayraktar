@@ -32,7 +32,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -58,7 +57,7 @@
             <Canvas/>
         </Border>
         <Canvas x:Name="PauseButtonCanvas" Panel.ZIndex="2" HorizontalAlignment="Right" />
-        <Canvas Grid.ColumnSpan="2">
+        <Canvas>
             <Rectangle x:Name="Rect" Visibility="Hidden" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"
                        Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}"
                        Fill="White" Opacity=".9">

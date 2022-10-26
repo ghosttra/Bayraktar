@@ -101,7 +101,7 @@ namespace Bayraktar
             //_clockTimer = new Timer(1000);
             //_clockTimer.Elapsed += clockTimer_Elapsed;
             //_clockTimer.Start();
-            DataContext = this;
+            //DataContext = this;
 
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
             //Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
@@ -112,8 +112,6 @@ namespace Bayraktar
             dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
             dispatcherTimer.Tick += DispatcherTimer_Tick;
             dispatcherTimer.Start();
-
-            AddMilitaryUnit();
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -166,7 +164,7 @@ namespace Bayraktar
 
         private void PauseFunc(string title, bool isDefeat)
         {
-            Rect.Visibility = Visibility.Visible;
+           Rect.Visibility = Visibility.Visible;
             dispatcherTimer.Stop();
             PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
@@ -199,11 +197,11 @@ namespace Bayraktar
 
         private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveResult saveResult = new SaveResult();
-            saveResult.ShowDialog();
-            this.User = new User() { Name = Environment.UserName, TimeOf_AtteptEnd = DateTime.Now, Score = this.Score };
-            if (!string.IsNullOrWhiteSpace(saveResult.Name))
-                User.Name = saveResult.Name;
+            //SaveResult saveResult = new SaveResult();
+            //saveResult.ShowDialog();
+            //this.User = new User() { Name = Environment.UserName, TimeOf_AtteptEnd = DateTime.Now, Score = this.Score };
+            //if (!string.IsNullOrWhiteSpace(saveResult.Name))
+            //    User.Name = saveResult.Name;
         }
     }
 }
