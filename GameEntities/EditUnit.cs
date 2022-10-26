@@ -18,6 +18,8 @@ namespace GameEntities
         public UnitsEdit()
         {
             InitializeComponent();
+            unitsDGV.AutoGenerateColumns = false;
+            unitsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             _updateDgv();
         }
 

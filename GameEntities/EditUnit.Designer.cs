@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.unitsDGV = new System.Windows.Forms.DataGridView();
             this.normalPic = new System.Windows.Forms.PictureBox();
             this.destroyedPic = new System.Windows.Forms.PictureBox();
             this.nameBox = new System.Windows.Forms.TextBox();
@@ -45,24 +44,17 @@
             this.updBtn = new System.Windows.Forms.Button();
             this.delBtn = new System.Windows.Forms.Button();
             this.tip = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).BeginInit();
+            this.unitsDGV = new System.Windows.Forms.DataGridView();
+            this.NameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PriceCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CoolDownCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.normalPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.destroyedPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolDownNum)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).BeginInit();
             this.SuspendLayout();
-            // 
-            // unitsDGV
-            // 
-            this.unitsDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.unitsDGV.Location = new System.Drawing.Point(12, 2);
-            this.unitsDGV.Name = "unitsDGV";
-            this.unitsDGV.ReadOnly = true;
-            this.unitsDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.unitsDGV.Size = new System.Drawing.Size(388, 328);
-            this.unitsDGV.TabIndex = 0;
-            this.unitsDGV.SelectionChanged += new System.EventHandler(this.unitsDGV_SelectionChanged);
             // 
             // normalPic
             // 
@@ -194,11 +186,48 @@
             this.delBtn.UseVisualStyleBackColor = true;
             this.delBtn.Click += new System.EventHandler(this.delBtn_Click);
             // 
+            // unitsDGV
+            // 
+            this.unitsDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.unitsDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NameCol,
+            this.PriceCol,
+            this.CoolDownCol});
+            this.unitsDGV.Location = new System.Drawing.Point(12, 2);
+            this.unitsDGV.Name = "unitsDGV";
+            this.unitsDGV.ReadOnly = true;
+            this.unitsDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.unitsDGV.Size = new System.Drawing.Size(388, 328);
+            this.unitsDGV.TabIndex = 13;
+            this.unitsDGV.SelectionChanged += new System.EventHandler(this.unitsDGV_SelectionChanged);
+            // 
+            // NameCol
+            // 
+            this.NameCol.DataPropertyName = "Name";
+            this.NameCol.HeaderText = "Name";
+            this.NameCol.Name = "NameCol";
+            this.NameCol.ReadOnly = true;
+            // 
+            // PriceCol
+            // 
+            this.PriceCol.DataPropertyName = "Price";
+            this.PriceCol.HeaderText = "Price";
+            this.PriceCol.Name = "PriceCol";
+            this.PriceCol.ReadOnly = true;
+            // 
+            // CoolDownCol
+            // 
+            this.CoolDownCol.DataPropertyName = "Cooldown";
+            this.CoolDownCol.HeaderText = "CoolDown";
+            this.CoolDownCol.Name = "CoolDownCol";
+            this.CoolDownCol.ReadOnly = true;
+            // 
             // UnitsEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(855, 455);
+            this.Controls.Add(this.unitsDGV);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -210,23 +239,20 @@
             this.Controls.Add(this.nameBox);
             this.Controls.Add(this.destroyedPic);
             this.Controls.Add(this.normalPic);
-            this.Controls.Add(this.unitsDGV);
             this.Name = "UnitsEdit";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.normalPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.destroyedPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolDownNum)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView unitsDGV;
         private System.Windows.Forms.PictureBox normalPic;
         private System.Windows.Forms.PictureBox destroyedPic;
         private System.Windows.Forms.TextBox nameBox;
@@ -242,6 +268,10 @@
         private System.Windows.Forms.Button updBtn;
         private System.Windows.Forms.Button delBtn;
         private System.Windows.Forms.ToolTip tip;
+        private System.Windows.Forms.DataGridView unitsDGV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PriceCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CoolDownCol;
     }
 }
 
