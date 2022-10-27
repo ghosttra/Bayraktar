@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using BayraktarGame;
 
 namespace Bayraktar
 {
@@ -136,15 +137,11 @@ namespace Bayraktar
                         ratingWindow.ShowDialog();
                         break;
                     case "Start":
-                        Game game = new Game();
-                        game.ShowDialog();
-                        //if (game.User.Score != 0)
-                        //    users.Add(game.User);
-                        //if (users.Count == 1)
-                        //    Rating.IsEnabled = true;
+                        new Game(GameMode.Singleplayer, GameRole.Attack).ShowDialog();
                         break;
                     case "StartMultiplayer":
-                        
+                        //todo
+                        new Game(GameMode.Multiplayer, GameRole.Attack).ShowDialog();
                         break;
 
                     default:

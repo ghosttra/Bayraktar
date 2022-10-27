@@ -155,9 +155,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BayraktarGame\BayraktarGame.csproj">
+    <ProjectReference Include="..\BayraktarGame\BayraktarGameData.csproj">
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
-      <Name>BayraktarGame</Name>
+      <Name>BayraktarGameData</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameEntities\GameServer.csproj">
       <Project>{f4ea6bb0-2b6b-4f4c-83e4-c07534c8369a}</Project>

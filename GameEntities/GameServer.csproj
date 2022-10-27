@@ -118,9 +118,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BayraktarGame\BayraktarGame.csproj">
+    <ProjectReference Include="..\BayraktarGame\BayraktarGameData.csproj">
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
-      <Name>BayraktarGame</Name>
+      <Name>BayraktarGameData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

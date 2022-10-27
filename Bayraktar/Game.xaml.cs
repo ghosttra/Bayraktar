@@ -16,20 +16,66 @@ using GameEntities;
 
 namespace Bayraktar
 {
+
     public partial class Game : Window
     {
 
-        public Game(bool gameMode) : this()
+        public Game(GameMode gameMode, GameRole gameRole) : this()
         {
             _gameMode = gameMode;
+            _gameRole = gameRole;
+            switch (gameRole)
+            {
+                case GameRole.Attack:
+                    //todo
+                    //интерфейс атаки
+                    break;
+                case GameRole.Defense:
+                    //todo
+                    break;
+            }
+
+            switch (gameMode)
+            {
+                case GameMode.Singleplayer:
+                    dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
+                    dispatcherTimer.Tick += (sender, args) =>
+                    {
+                        for (int r = 0; r < rnd.Next(3, 9); r++)
+                        {
+                            AddMilitaryUnit();
+                        }
+                    };
+                    dispatcherTimer.Start();
+                    break;
+                case GameMode.Multiplayer:
+                    //todo
+                    //настройка времени игровой сессии, за которое атакующая сторона должна выиграть
+                    break;
+            }
+        }
+        private Game()
+        {
+            InitializeComponent();
+            Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
+
+            //_clockTimer = new Timer(1000);
+            //_clockTimer.Elapsed += clockTimer_Elapsed;
+            //_clockTimer.Start();
+            //DataContext = this;
+
+            //Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
+
+            //Canvas.SetTop(HealthText, SystemParameters.PrimaryScreenHeight - 50);
+            //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
         }
 
-        //attack or defense
-        private bool _gameMode;
+        //Attack or Defense
+        private GameRole _gameRole;
+        //Single or Multi
+        private GameMode _gameMode;
         public User User { get; set; }
-        public short MaxSpeed { get; set; } = 5;
-        public short MinSpeed { get; set; } = 15;
-        public int HealthPoints { get; set; }
+      
         public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
         private void AddMilitaryUnit()
@@ -56,7 +102,8 @@ namespace Bayraktar
             short left = (short)rnd.Next(-50, 50);
 
             //todo
-            MilitaryUnit militaryU = new MilitaryUnit(new Unit());
+            
+            MilitaryUnit militaryU = new MilitaryUnit(_newUnit());
             Canvas.SetLeft(militaryU, left);
             Canvas.SetTop(militaryU, -300);
             militaryU.Width = Road.Width / 3;
@@ -89,38 +136,18 @@ namespace Bayraktar
 
         }
 
+        private Unit _newUnit()
+        {
+            return null;
+        }
+
 
         Random rnd = new Random();
         DispatcherTimer dispatcherTimer;
         //private Timer _clockTimer;
 
-        public Game()
-        {
-            InitializeComponent();
 
-            //_clockTimer = new Timer(1000);
-            //_clockTimer.Elapsed += clockTimer_Elapsed;
-            //_clockTimer.Start();
-            //DataContext = this;
 
-            Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-            //Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
-
-            Canvas.SetTop(HealthText, SystemParameters.PrimaryScreenHeight - 50);
-            //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
-
-            dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
-            dispatcherTimer.Tick += DispatcherTimer_Tick;
-            dispatcherTimer.Start();
-        }
-
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            for (int r = 0; r < rnd.Next(3, 9); r++)
-            {
-                AddMilitaryUnit();
-            }
-        }
 
         private async void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -134,11 +161,11 @@ namespace Bayraktar
 
                 MU.IsHitTestVisible = false;
 
-                HealthPoints++;
+                //HealthPoints++;
 
                 lblScore.Content = "Score: " + Score.ToString();
 
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                //await Task.Delay(TimeSpan.FromSeconds(3));
                 // CMU.Children.Remove((UIElement)sender);
 
             }
@@ -164,7 +191,7 @@ namespace Bayraktar
 
         private void PauseFunc(string title, bool isDefeat)
         {
-           Rect.Visibility = Visibility.Visible;
+            Rect.Visibility = Visibility.Visible;
             dispatcherTimer.Stop();
             PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
