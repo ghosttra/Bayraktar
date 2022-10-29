@@ -21,5 +21,10 @@ namespace GameEntities
         {
             new UnitsEdit().ShowDialog();
         }
+
+        private void startBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -12,7 +12,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using BayraktarGame;
-using GameEntities;
 
 namespace Bayraktar
 {
@@ -32,6 +31,7 @@ namespace Bayraktar
                     break;
                 case GameRole.Defense:
                     //todo
+                    //интерфейс обороны
                     break;
             }
 
@@ -53,6 +53,8 @@ namespace Bayraktar
                     //настройка времени игровой сессии, за которое атакующая сторона должна выиграть
                     break;
             }
+
+
         }
         private Game()
         {
@@ -86,19 +88,19 @@ namespace Bayraktar
                 To = SystemParameters.PrimaryScreenHeight + 250,
             };
 
-            if (MinSpeed >= 10)
-                MinSpeed -= (short)rnd.Next(1, 3);
-            if (MaxSpeed >= 5)
-                MaxSpeed -= (short)rnd.Next(1, 3);
+            //if (MinSpeed >= 10)
+            //    MinSpeed -= (short)rnd.Next(1, 3);
+            //if (MaxSpeed >= 5)
+            //    MaxSpeed -= (short)rnd.Next(1, 3);
 
-            if (MinSpeed > MaxSpeed)
-            {
-                (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
-            }
+            //if (MinSpeed > MaxSpeed)
+            //{
+            //    (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
+            //}
 
-            short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
+            //short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
 
-            DA.Duration = TimeSpan.FromSeconds(seconds);
+            //  DA.Duration = TimeSpan.FromSeconds(seconds);
             short left = (short)rnd.Next(-50, 50);
 
             //todo
@@ -111,15 +113,15 @@ namespace Bayraktar
             AnimationClock clock;
             DA.Completed += (s, e) =>
             {
-                HealthPoints--;
-                if (HealthPoints == 0)
-                {
-                    PauseFunc("Поразка", true);
-                }
-                if (HealthPoints <= 5)
-                {
-                    HealthText.Content = "Health: " + HealthPoints.ToString();
-                }
+                //HealthPoints--;
+                //if (HealthPoints == 0)
+                //{
+                //    PauseFunc("Поразка", true);
+                //}
+                //if (HealthPoints <= 5)
+                //{
+                //    HealthText.Content = "Health: " + HealthPoints.ToString();
+                //}
 
             };
             clock = DA.CreateClock();

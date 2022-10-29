@@ -122,6 +122,10 @@
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
       <Name>BayraktarGameData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MessagePacket\MessagePacket.csproj">
+      <Project>{0eb1ac98-6065-45ee-b83e-332e43be9df8}</Project>
+      <Name>MessagePacket</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -7,9 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BayraktarInterface", "Bayra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BayraktarGameData", "BayraktarGame\BayraktarGameData.csproj", "{21DF819D-8806-4E30-A8DD-BC37D14832AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameEntities\GameServer.csproj", "{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServerInterface", "GameEntities\GameServerInterface.csproj", "{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BayraktarClient", "BayraktarClient\BayraktarClient.csproj", "{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient", "BayraktarClient\GameClient.csproj", "{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagePacket", "MessagePacket\MessagePacket.csproj", "{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\GameServer.csproj", "{7D95B883-F419-4041-93D0-911A44AFD714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBayraktarClient", "UserBayraktarClient\UserBayraktarClient.csproj", "{C68A7CD3-ABC6-4202-84A8-E9945A338C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBayraktarServer", "UserBayraktarServer\UserBayraktarServer.csproj", "{EF5C7428-579C-4FCC-92CE-1702FD4EF720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D95B883-F419-4041-93D0-911A44AFD714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D95B883-F419-4041-93D0-911A44AFD714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D95B883-F419-4041-93D0-911A44AFD714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D95B883-F419-4041-93D0-911A44AFD714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68A7CD3-ABC6-4202-84A8-E9945A338C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68A7CD3-ABC6-4202-84A8-E9945A338C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68A7CD3-ABC6-4202-84A8-E9945A338C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68A7CD3-ABC6-4202-84A8-E9945A338C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF5C7428-579C-4FCC-92CE-1702FD4EF720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF5C7428-579C-4FCC-92CE-1702FD4EF720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF5C7428-579C-4FCC-92CE-1702FD4EF720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF5C7428-579C-4FCC-92CE-1702FD4EF720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

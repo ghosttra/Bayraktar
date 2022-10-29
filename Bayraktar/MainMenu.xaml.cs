@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using BayraktarClient;
 using BayraktarGame;
 
 namespace Bayraktar
@@ -15,7 +16,7 @@ namespace Bayraktar
     {
         private DispatcherTimer cloudLeftTimer = new DispatcherTimer();
         private DispatcherTimer cloudRightTimer = new DispatcherTimer();
-
+        private GameClient _client;
         private void SetTimer(DispatcherTimer timer, int seconds)
         {
             timer.Stop();
@@ -28,28 +29,15 @@ namespace Bayraktar
         {
             InitializeComponent();
 
-            load_method();
-
-            if (users.Count > 0)
-                Rating.IsEnabled = true;
-
-            try
-            {
-                CloudLeft.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
-                CloudRight.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\cloud.png") as ImageSource;
-                Bayraktar.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\Bayraktar.png") as ImageSource;
-                Logo.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\logo.png") as ImageSource;
-            }
-            catch (Exception)
-            {
-            }
-
-
+            _load();
+            
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
 
         Random rnd = new Random();
+
+        #region CloudsAnimation
 
         private void SetCloudAnimation(DispatcherTimer timer, Image cloud, bool access)
         {
@@ -58,7 +46,7 @@ namespace Bayraktar
                 DoubleAnimation DA = new DoubleAnimation
                 {
                     From = -200,
-                    To = System.Windows.SystemParameters.PrimaryScreenHeight + 100,
+                    To = SystemParameters.PrimaryScreenHeight + 100,
                     RepeatBehavior = RepeatBehavior.Forever
                 };
                 short seconds = (short)rnd.Next(5, 15);
@@ -104,8 +92,6 @@ namespace Bayraktar
 
         }
 
-
-
         private void removeClouds()
         {
             cloudLeftTimer.Stop();
@@ -123,7 +109,8 @@ namespace Bayraktar
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
 
-        List<User> users = new List<User>();
+            #endregion
+        
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
@@ -133,10 +120,11 @@ namespace Bayraktar
                 switch (button.Name)
                 {
                     case "Rating":
-                        RatingWindow ratingWindow = new RatingWindow(users);
-                        ratingWindow.ShowDialog();
+                        //RatingWindow ratingWindow = new RatingWindow();
+                        //ratingWindow.ShowDialog();
                         break;
                     case "Start":
+
                         new Game(GameMode.Singleplayer, GameRole.Attack).ShowDialog();
                         break;
                     case "StartMultiplayer":
@@ -159,34 +147,39 @@ namespace Bayraktar
         }
         private void save_method()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
 
-            try
-            {
-                using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
-                {
-                    xmlSerializer.Serialize(fs, users);
-                }
-            }
-            catch (Exception)
-            {
-            }
+
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+
+            //try
+            //{
+            //    using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
+            //    {
+            //        xmlSerializer.Serialize(fs, users);
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //}
 
         }
-        private void load_method()
+        private void _load()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+            //todo
+            //Вытягивать из сервера
 
-            try
-            {
-                using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
-                {
-                    users = xmlSerializer.Deserialize(fs) as List<User>;
-                }
-            }
-            catch (Exception)
-            {
-            }
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
+
+            //try
+            //{
+            //    using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
+            //    {
+            //        users = xmlSerializer.Deserialize(fs) as List<User>;
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //}
         }
     }
 }
