@@ -131,14 +131,33 @@ namespace GameEntities
         {
             if (!_check())
                 return;
+            if (unitsDGV.SelectedRows.Count == 0)
+                return;
+            if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
+            _fillUnit(unit);
+            _dataBase.SaveChanges();
             _updateDgv();
+        }
+
+        private void _fillUnit(Unit unit)
+        {
+            ImageConverter converter = new ImageConverter();
+
+            unit.CoolDown = decimal.ToInt32(coolDownNum.Value);
+            unit.Price = decimal.ToInt32(priceNum.Value);
+            unit.Name = nameBox.Text;
+            unit.Image = (byte[])converter.ConvertTo(normalPic.Image, typeof(byte[]));
+            unit.ImageDestroyed = (byte[])converter.ConvertTo(destroyedPic.Image, typeof(byte[]));
+
         }
 
         private void delBtn_Click(object sender, EventArgs e)
         {
             if (unitsDGV.SelectedRows.Count == 0)
                 return;
-
+            if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
+            _dataBase.Units.Remove(unit);
+            _dataBase.SaveChanges();
             _updateDgv();
         }
 
