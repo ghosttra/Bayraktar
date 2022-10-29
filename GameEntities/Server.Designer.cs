@@ -1,6 +1,6 @@
 ﻿namespace GameEntities
 {
-    partial class Server
+    partial class ServerInterface
     {
         /// <summary>
         /// Required designer variable.
@@ -111,7 +111,7 @@
             this.serverIpBox.Name = "serverIpBox";
             this.serverIpBox.Size = new System.Drawing.Size(115, 20);
             this.serverIpBox.TabIndex = 2;
-            this.serverIpBox.Text = "192.168.0.1";
+            this.serverIpBox.Text = "127.0.0.1";
             // 
             // portBox
             // 
@@ -148,7 +148,7 @@
             this.userControlBtn.Text = "User Control";
             this.userControlBtn.UseVisualStyleBackColor = true;
             // 
-            // Server
+            // ServerInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -160,7 +160,7 @@
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.editorBtn);
             this.MinimumSize = new System.Drawing.Size(450, 500);
-            this.Name = "Server";
+            this.Name = "ServerInterface";
             this.Text = "Server";
             this.configPanel.ResumeLayout(false);
             this.configPanel.PerformLayout();

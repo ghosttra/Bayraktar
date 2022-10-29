@@ -8,6 +8,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GameEntities;
 using Message;
 
 namespace UserBayraktarServer
@@ -18,6 +19,7 @@ namespace UserBayraktarServer
         private CancellationTokenSource _cts;
         private CancellationToken _token;
         public event Action<string> Inform;
+        GameContext _context;
 
         public UserServer(IPAddress address, int port)
         {
@@ -25,9 +27,11 @@ namespace UserBayraktarServer
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             Stopped += () => Inform?.Invoke("Server Stopped");
+
+            _context = new GameContext();
         }
         public Task StartAsync() => Task.Factory.StartNew(Start, _token);
-        public void Start()
+        public async void Start()
         {
             try
             {
@@ -38,7 +42,7 @@ namespace UserBayraktarServer
                 {
                     try
                     {
-                        Task.Factory.StartNew(_accept, _token);
+                        await Task.Factory.StartNew(_accept, _token);
                     }
                     catch (Exception e)
                     {
@@ -71,71 +75,20 @@ namespace UserBayraktarServer
         {
             var client = _server.AcceptTcpClient();
             Inform?.Invoke("Accept connection");
-            UserConnection clientConnection = new UserConnection(client);
+            var clientConnection = new UserConnection(client);
             var auth = clientConnection.Authorize();
-            if (auth == null) return;
-            if (_authorize(auth))
+            if (auth == null) clientConnection.Close();
+            if (!_authorize(auth))
             {
-
+                clientConnection.Close();
             }
+
         }
 
         private bool _authorize(MessageAuthorize auth)
         {
-
-            return false;
-        }
-    }
-
-    public class UserConnection
-    {
-        private TcpClient _client;
-        private NetworkStream _stream => _client.GetStream();
-
-        private readonly CancellationTokenSource _cts;
-        private readonly CancellationToken _token;
-        public UserConnection(TcpClient client)
-        {
-            _client = client;
-            _isRun = true;
-            _cts = new CancellationTokenSource();
-            _token = _cts.Token;
-        }
-
-        private bool _isRun;
-        public Task RunAsync()=>Task.Factory.StartNew(Run, _token);
-
-        public void Run()
-        {
-            while (_isRun)
-            {
-
-            }
-        }
-
-        public void Close()
-        {
-            _cts.Cancel();
-            _isRun = false;
-        }
-
-        private MessagePacket _read()
-        {
-            var buffer = new byte[1024];
-            do
-            {
-                _stream.Read(buffer, 0, buffer.Length);
-            } while (_stream.DataAvailable);
-            return MessagePacket.FromBytes(buffer);
-        }
-        public MessageAuthorize Authorize()
-        {
-            if (_read() is MessageAuthorize authorize)
-            {
-                return authorize;
-            }
-
-            return null;
+            var user = _context.Users.FirstOrDefault(u => u.Login.Equals(auth.Login));
+            return user != null && user.PassWord.Equals(auth.Password);
         }
     }
 }

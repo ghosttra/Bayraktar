@@ -18,46 +18,52 @@ namespace UserBayraktarClient
             get => _user;
             set
             {
-                if(!IsConnected)
+                if(IsConnected!=true)
                     _user = value;
                 else
                 {
                     throw new InvalidOperationException("User is connected and can't be changed");
                 }
             } }
-        private IPEndPoint _server;
+        private IPAddress _serverIp;
+        private int _serverPort;
         private TcpClient _client;
         private NetworkStream _stream=> _client.GetStream();
-        public bool IsConnected => _client.Connected;
-        public UserClient(User user, IPEndPoint server ):this(server)
+        public bool? IsConnected => _client?.Connected;
+        public UserClient(string serverIp, int serverPort, User user) :this(serverIp, serverPort)
         {
             User= user;
         }
 
-        public UserClient(string serverIp, int serverPort) : this(new IPEndPoint(IPAddress.Parse(serverIp), serverPort))
+        public UserClient(string serverIp, int serverPort) : this(IPAddress.Parse(serverIp),serverPort)
         {
         }
-        public UserClient(IPEndPoint server)
+
+        public UserClient(IPAddress serverIp, int serverPort)
         {
-            _server = server;
             _client = new TcpClient();
+            _serverIp = serverIp;
+            _serverPort = serverPort;
         }
 
         public event Action<string> Info;
-        public event Action<bool> Connected;
-        public void Connect()
+        public event Action Connected;
+        public event Action Disconnected;
+
+        public Task ConnectAsync() => Task.Factory.StartNew(Connect);
+        public async void Connect()
         {
             try
             {
                 if (User == null)
                     throw new ArgumentNullException("No user to authtorize");
-                _client.Connect(_server);
+                await _client.ConnectAsync(_serverIp, _serverPort);
                 if (!_authorize())
                 {
-                    _client.Close();
-                    _client.Dispose();
+                    Close();
                     throw new ArgumentException("Authorize error");
                 }
+                Connected?.Invoke();
             }
             catch (Exception e)
             {
@@ -65,6 +71,12 @@ namespace UserBayraktarClient
             }
         }
 
+        public void Close()
+        {
+            _client.Close();
+            _client.Dispose();
+            Disconnected?.Invoke();
+        }
         private bool _authorize()
         {
             MessageAuthorize authorize = new MessageAuthorize(AuthorizeMode.Login)

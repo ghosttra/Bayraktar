@@ -13,6 +13,7 @@ namespace Message
     {
         Data, Command
     }
+    [Serializable]
     public abstract class MessagePacket
     {
         private MessageType _type;
@@ -43,7 +44,7 @@ namespace Message
             }
         }
     }
-
+    [Serializable]
     public class MessageCommand : MessagePacket
     {
         public MessageCommand() : base(MessageType.Command)
@@ -57,6 +58,7 @@ namespace Message
     {
         Registration, Login
     }
+    [Serializable]
     public class MessageAuthorize : MessageCommand
     {
         public AuthorizeMode Mode { get; }
@@ -67,7 +69,7 @@ namespace Message
         public string Login { get; set; }
         public string Password { get; set; }
     }
-
+    [Serializable]
     public class MessageBool : MessageCommand
     {
         public bool Response { get; }
@@ -77,11 +79,13 @@ namespace Message
             Response = response;
         }
     }
+    [Serializable]
     public class Coords
     {
         public int X { get; set; }
         public int Y { get; set; }
     }
+    [Serializable]
     public class MessageCoords : MessagePacket
     {
         public MessageCoords() : base(MessageType.Data)
@@ -101,6 +105,7 @@ namespace Message
 
         public Coords Coords { get; set; }
     }
+    [Serializable]
     public class MessageUnit: MessageCoords
     {
         public MessageUnit(Unit unit, int x, int y): base(x,y)

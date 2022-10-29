@@ -16,7 +16,7 @@ using BayraktarGame;
 namespace Bayraktar
 {
 
-    public partial class Game : Window
+    public partial class Game : UserControl
     {
 
         public Game(GameMode gameMode, GameRole gameRole) : this()
@@ -199,7 +199,9 @@ namespace Bayraktar
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
-                Close();
+            {
+                //Close();
+            }
             else
             {
                 ResumeAnimation();

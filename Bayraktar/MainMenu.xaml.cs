@@ -12,7 +12,7 @@ using BayraktarGame;
 
 namespace Bayraktar
 {
-    public partial class MainMenu : Window
+    public partial class MainMenu : UserControl
     {
         private DispatcherTimer cloudLeftTimer = new DispatcherTimer();
         private DispatcherTimer cloudRightTimer = new DispatcherTimer();
@@ -97,8 +97,8 @@ namespace Bayraktar
             cloudLeftTimer.Stop();
             cloudRightTimer.Stop();
 
-            CloudLeft.BeginAnimation(TopProperty, new DoubleAnimation());
-            CloudRight.BeginAnimation(TopProperty, new DoubleAnimation());
+          //  CloudLeft.BeginAnimation(TopProperty, new DoubleAnimation());
+            //CloudRight.BeginAnimation(TopProperty, new DoubleAnimation());
         }
 
         private void setClouds()
@@ -125,15 +125,15 @@ namespace Bayraktar
                         break;
                     case "Start":
 
-                        new Game(GameMode.Singleplayer, GameRole.Attack).ShowDialog();
+                        ((Window)Parent).Content = new Game(GameMode.Singleplayer, GameRole.Attack);
                         break;
                     case "StartMultiplayer":
                         //todo
-                        new Game(GameMode.Multiplayer, GameRole.Attack).ShowDialog();
+                        ((Window)Parent).Content = new Game(GameMode.Multiplayer, GameRole.Attack);
                         break;
 
                     default:
-                        Close();
+                        //Close();
                         break;
                 }
                 setClouds();

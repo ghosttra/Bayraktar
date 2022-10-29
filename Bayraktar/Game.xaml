@@ -1,4 +1,4 @@
-﻿<Window Closing="GameWindow_Closing" KeyDown="Pause_Key" x:Class="Bayraktar.Game"
+﻿<UserControl  KeyDown="Pause_Key" x:Class="Bayraktar.Game"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
         x:Name="GameWindow"
-        Title="Bayraktar" Height="1080" Width="1920" WindowState="Maximized" WindowStyle="None"
-        AllowsTransparency="True">
+         Height="1080" Width="1920" >
     <Grid x:Name="CMUs" Background="Green">
         <Grid.Resources>
             <Style TargetType="Label">
@@ -66,4 +65,4 @@
     </Grid>
 
 
-</Window>
+</UserControl>

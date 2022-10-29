@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BayraktarGame;
 
 namespace Bayraktar
 {
@@ -30,14 +31,14 @@ namespace Bayraktar
         private void SortByScoreBtn_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-            users.Sort((x, y) => y.Score.CompareTo(x.Score));
+           // users.Sort((x, y) => y.Score.CompareTo(x.Score));
             RatingsLB.ItemsSource = users;
         }
 
         private void SortByDateBtn_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-            users.Sort((x, y) => y.TimeOf_AtteptEnd.CompareTo(x.TimeOf_AtteptEnd));
+           // users.Sort((x, y) => y.TimeOf_AtteptEnd.CompareTo(x.TimeOf_AtteptEnd));
             RatingsLB.ItemsSource = users;
         }
     }

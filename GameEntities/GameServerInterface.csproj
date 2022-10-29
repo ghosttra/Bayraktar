@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F4EA6BB0-2B6B-4F4C-83E4-C07534C8369A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GameEntities</RootNamespace>
-    <AssemblyName>GameEntities</AssemblyName>
+    <RootNamespace>GameServerInterface</RootNamespace>
+    <AssemblyName>GameServerInterface</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -83,6 +83,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Server.resx">
       <DependentUpon>Server.cs</DependentUpon>
@@ -113,6 +114,10 @@
     <ProjectReference Include="..\MessagePacket\MessagePacket.csproj">
       <Project>{0eb1ac98-6065-45ee-b83e-332e43be9df8}</Project>
       <Name>MessagePacket</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserBayraktarServer\UserBayraktarServer.csproj">
+      <Project>{ef5c7428-579c-4fcc-92ce-1702fd4ef720}</Project>
+      <Name>UserBayraktarServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
