@@ -13,8 +13,8 @@
         <Setter Property="Control.Background" Value="#4C7FFFD4"/>
         <Setter Property="Control.BorderThickness" Value="3"/>
         <Setter Property="Control.BorderBrush" Value="Azure"/>
-        <Setter Property="Control.Height" Value="50"/>
-        <Setter Property="Control.Width" Value="250"/>
+        <Setter Property="Control.Height" Value="60"/>
+        <Setter Property="Control.Width" Value="350"/>
         <Setter Property="Control.Margin" Value="30"/>
         <Setter Property="Control.Foreground" Value="Azure"/>
         <Setter Property="Control.FontFamily" Value="Lucida Sans"/>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
         x:Name="GameWindow"
-         Height="1080" Width="1920" >
+        d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid x:Name="CMUs" Background="Green">
         <Grid.Resources>
             <Style TargetType="Label">

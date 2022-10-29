@@ -74,7 +74,6 @@ namespace UserBayraktarClient
         public void Close()
         {
             _client.Close();
-            _client.Dispose();
             Disconnected?.Invoke();
         }
         private bool _authorize()

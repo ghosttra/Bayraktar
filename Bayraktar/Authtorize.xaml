@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
-        Height="450" Width="800">
+        d:DesignHeight="1080" d:DesignWidth="1920"
+        KeyDown="Authorize_OnKeyDown" Focusable="True"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -20,23 +22,25 @@
         </Grid.Background>
         <Grid.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
-                <Setter Property="Height" Value="50"/>
+                <Setter Property="Height" Value="100"/>
+                <Setter Property="FontSize" Value="50"/>
                 <Setter Property="Background" Value="DarkSlateGray"/>
-                <Setter Property="Width" Value="170"/>
+                <Setter Property="Width" Value="300"/>
             </Style>
             <Style TargetType="PasswordBox" BasedOn="{StaticResource Boxes}"/>
             <Style TargetType="TextBox" BasedOn="{StaticResource Boxes}"/>
             <Style TargetType="Label" BasedOn="{StaticResource Labels}">
-                <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="FontSize" Value="50"></Setter>
             </Style>
         </Grid.Resources>
-        <UniformGrid Columns="2" HorizontalAlignment="Left" Height="250">
-            <Label>Login</Label>
-            <TextBox Name="LoginBox"/>
-            <Label>Password</Label>
-            <PasswordBox Name="PassWordBox"/>
-        </UniformGrid>
+        <UniformGrid Columns="2" HorizontalAlignment="Center" Height="350">
+                <Label>Login</Label>
+                <TextBox Name="LoginBox" />
+                <Label>Password</Label>
+                <PasswordBox Name="PassWordBox" />
+            </UniformGrid>
+        
         <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button VerticalAlignment="Bottom" Name="Login" Content="Login" Click="Login_OnClick"/>
             <Button VerticalAlignment="Bottom" Name="Registration" Content="Registration" Click="Registration_Click"/>

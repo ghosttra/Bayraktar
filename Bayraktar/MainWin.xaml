@@ -5,5 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
-        Title="Bayraktar" Height="720" Width="1280">
+        Title="Bayraktar" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized" 
+        WindowStyle="None">
 </Window>

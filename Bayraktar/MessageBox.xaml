@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="MessageBox" MinHeight="200"  MaxWidth="500"
+        Title="MessageBox" MinHeight="250" MinWidth="400"  MaxHeight="400" MaxWidth="500" Background="Transparent"
 >
     <Window.Resources>
         <Style TargetType="TextBlock" BasedOn="{StaticResource Labels}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="30"/>
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
             <Setter Property="Background" Value="#FF313E67"/>
@@ -20,14 +19,14 @@
             <Setter Property="BorderBrush" Value="Azure"/>
         </Style>
     </Window.Resources>
-    <Border Background="#7F802727" CornerRadius="20" BorderBrush="Azure" BorderThickness="2">
+    <Border Background="#CC802727" CornerRadius="20" BorderBrush="Azure" BorderThickness="2">
        <Grid>
            <Grid.RowDefinitions>
-               <RowDefinition Height="*"/>
+               <RowDefinition Height="2*"/>
                <RowDefinition Height="Auto"/>
            </Grid.RowDefinitions>
-           <TextBlock x:Name="InfoLabel" TextWrapping="Wrap" Text="Info"/>
-            <Button Grid.Row="1"  Background="#FF673131" Click="OkButton_Click" IsDefault="True">Ok</Button>
+           <TextBlock x:Name="InfoLabel" TextWrapping="Wrap" Text="Info" TextAlignment="Justify" />
+            <Button Grid.Row="1"  Background="#FF673131" Click="OkButton_Click" IsDefault="True" Margin="1">Ok</Button>
        </Grid>
     </Border>
     

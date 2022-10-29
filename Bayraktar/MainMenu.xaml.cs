@@ -133,7 +133,7 @@ namespace Bayraktar
                         break;
 
                     default:
-                        //Close();
+                        Application.Current.Shutdown();
                         break;
                 }
                 setClouds();

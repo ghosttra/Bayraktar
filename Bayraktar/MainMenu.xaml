@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bayraktar"
-        mc:Ignorable="d" Height="1080" Width="1920">
+        mc:Ignorable="d" d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid x:Name="Grids">
         <Grid.Resources>
             <Style TargetType="Image" x:Key="RotateStyle">

@@ -18,7 +18,7 @@ namespace Bayraktar
     /// <summary>
     /// Логика взаимодействия для RatingWindow.xaml
     /// </summary>
-    public partial class RatingWindow : Window
+    public partial class RatingWindow : UserControl
     {
         public List<User> users { get; set; } = new List<User>();
         public RatingWindow(List<User> users)

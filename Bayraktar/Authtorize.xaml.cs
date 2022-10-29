@@ -24,6 +24,7 @@ namespace Bayraktar
         public Authorize()
         {
             InitializeComponent();
+            Focus();
             try
             {
                 _init();
@@ -97,6 +98,16 @@ namespace Bayraktar
         private void Registration_Click(object sender, RoutedEventArgs e)
         {
             //todo
+        }
+
+        private void Authorize_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    Application.Current.Shutdown();
+                    break;
+            }
         }
     }
 }
