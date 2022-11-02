@@ -13,5 +13,6 @@ namespace Bayraktar
     /// </summary>
     public partial class App : Application
     {
+        //gdsgkdso
     }
 }
