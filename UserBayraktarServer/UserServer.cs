@@ -78,11 +78,12 @@ namespace UserBayraktarServer
             var clientConnection = new UserConnection(client);
             var auth = clientConnection.Authorize();
             if (auth == null) clientConnection.Close();
-            if (!_authorize(auth))
+            var result = _authorize(auth);
+            clientConnection.Send(new MessageBool(result));
+            if (!result)
             {
                 clientConnection.Close();
             }
-
         }
 
         private bool _authorize(MessageAuthorize auth)

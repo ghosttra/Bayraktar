@@ -18,24 +18,25 @@ namespace UserGameClient
             get => _user;
             set
             {
-                if(IsConnected!=true)
+                if (IsConnected != true)
                     _user = value;
                 else
                 {
                     throw new InvalidOperationException("User is connected and can't be changed");
                 }
-            } }
+            }
+        }
         private IPAddress _serverIp;
         private int _serverPort;
         private TcpClient _client;
-        private NetworkStream _stream=> _client.GetStream();
+        private NetworkStream _stream => _client.GetStream();
         public bool? IsConnected => _client?.Connected;
-        public UserClient(string serverIp, int serverPort, User user) :this(serverIp, serverPort)
+        public UserClient(string serverIp, int serverPort, User user) : this(serverIp, serverPort)
         {
-            User= user;
+            User = user;
         }
 
-        public UserClient(string serverIp, int serverPort) : this(IPAddress.Parse(serverIp),serverPort)
+        public UserClient(string serverIp, int serverPort) : this(IPAddress.Parse(serverIp), serverPort)
         {
         }
 
@@ -47,8 +48,7 @@ namespace UserGameClient
         }
 
         public event Action<string> Info;
-        public event Action Connected;
-        public event Action Disconnected;
+        public event Action<bool> Connected;
 
         public Task ConnectAsync() => Task.Factory.StartNew(Connect);
         public async void Connect()
@@ -58,29 +58,35 @@ namespace UserGameClient
                 if (User == null)
                     throw new ArgumentNullException("No user to authtorize");
                 await _client.ConnectAsync(_serverIp, _serverPort);
-                if (!_authorize())
+                bool auth = _authorize();
+                Connected?.Invoke(auth);
+                if (!auth)
                 {
                     Close();
-                    throw new ArgumentException("Authorize error");
+                    _client = new TcpClient();
+                    return;
                 }
-                Connected?.Invoke();
+
             }
             catch (Exception e)
             {
-                Info?.Invoke(e.Message);
+                Connected?.Invoke(false);
+                Info?.Invoke(e.Message
+                );
             }
         }
 
         public void Close()
         {
             _client.Close();
-            Disconnected?.Invoke();
+            Connected?.Invoke(false);
         }
         private bool _authorize()
         {
             MessageAuthorize authorize = new MessageAuthorize(AuthorizeMode.Login)
             {
-                Login = User.Login, Password = User.PassWord
+                Login = User.Login,
+                Password = User.PassWord
             };
             Send(authorize);
             if (_read() is MessageBool response)
@@ -97,6 +103,8 @@ namespace UserGameClient
             {
                 _stream.Read(buffer, 0, buffer.Length);
             } while (_stream.DataAvailable);
+
+            var v = MessagePacket.FromBytes(buffer);
             return MessagePacket.FromBytes(buffer);
         }
         public void Receive()
@@ -115,6 +123,11 @@ namespace UserGameClient
         {
             var buffer = message.ToBytes();
             _stream.Write(buffer, 0, buffer.Length);
+        }
+
+        public void Refresh()
+        {
+            _client = new TcpClient();
         }
     }
 }

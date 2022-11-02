@@ -16,10 +16,28 @@ namespace GameServerInterface
         {
             InitializeComponent();
         }
+        
 
-        private void dbButtons1_Load(object sender, EventArgs e)
+        private void dbButtons_Load(object sender, EventArgs e)
+        {
+            dbButtons.delBtn.Click += DelBtn_Click;
+            dbButtons.updBtn.Click += UpdBtn_Click;
+            dbButtons.addBtn.Click += AddBtn_Click;
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void UpdBtn_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DelBtn_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -28,44 +28,108 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dbButtons1 = new GameServerInterface.DbButtons();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.usersDgv = new System.Windows.Forms.DataGridView();
+            this.dbButtons = new GameServerInterface.DbButtons();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.loginBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.usersDgv)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // usersDgv
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(454, 291);
-            this.dataGridView1.TabIndex = 0;
+            this.usersDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.usersDgv.Dock = System.Windows.Forms.DockStyle.Top;
+            this.usersDgv.Location = new System.Drawing.Point(0, 0);
+            this.usersDgv.Name = "usersDgv";
+            this.usersDgv.Size = new System.Drawing.Size(776, 291);
+            this.usersDgv.TabIndex = 0;
             // 
-            // dbButtons1
+            // dbButtons
             // 
-            this.dbButtons1.BackColor = System.Drawing.Color.Transparent;
-            this.dbButtons1.Location = new System.Drawing.Point(12, 309);
-            this.dbButtons1.Name = "dbButtons1";
-            this.dbButtons1.Size = new System.Drawing.Size(249, 38);
-            this.dbButtons1.TabIndex = 1;
+            this.dbButtons.BackColor = System.Drawing.Color.Transparent;
+            this.dbButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dbButtons.Location = new System.Drawing.Point(0, 291);
+            this.dbButtons.Name = "dbButtons";
+            this.dbButtons.Size = new System.Drawing.Size(776, 38);
+            this.dbButtons.TabIndex = 1;
+            this.dbButtons.Load += new System.EventHandler(this.dbButtons_Load);
+            // 
+            // passwordBox
+            // 
+            this.passwordBox.Location = new System.Drawing.Point(68, 38);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.Size = new System.Drawing.Size(159, 20);
+            this.passwordBox.TabIndex = 7;
+            // 
+            // loginBox
+            // 
+            this.loginBox.Location = new System.Drawing.Point(68, 13);
+            this.loginBox.Name = "loginBox";
+            this.loginBox.Size = new System.Drawing.Size(159, 20);
+            this.loginBox.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 45);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Password";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Login";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.passwordBox);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.loginBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 329);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(776, 61);
+            this.panel1.TabIndex = 8;
             // 
             // UsersControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dbButtons1);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(776, 406);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.dbButtons);
+            this.Controls.Add(this.usersDgv);
+            this.MinimumSize = new System.Drawing.Size(275, 435);
             this.Name = "UsersControl";
             this.Text = "UserControl";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.usersDgv)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private DbButtons dbButtons1;
+        private System.Windows.Forms.DataGridView usersDgv;
+        private DbButtons dbButtons;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.TextBox loginBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

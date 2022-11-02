@@ -90,6 +90,7 @@ namespace Bayraktar
             }
             catch (Exception exception)
             {
+                _userClient.Refresh();
                 new MessageBox(exception.Message).ShowDialog();
             }
 
