@@ -39,20 +39,16 @@
             this.coolDownNum = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.addBtn = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.updBtn = new System.Windows.Forms.Button();
-            this.delBtn = new System.Windows.Forms.Button();
             this.tip = new System.Windows.Forms.ToolTip(this.components);
             this.unitsDGV = new System.Windows.Forms.DataGridView();
             this.NameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PriceCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CoolDownCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbButtons = new GameServerInterface.DbButtons();
             ((System.ComponentModel.ISupportInitialize)(this.normalPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.destroyedPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolDownNum)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -144,48 +140,6 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Cooldown";
             // 
-            // addBtn
-            // 
-            this.addBtn.Location = new System.Drawing.Point(3, 3);
-            this.addBtn.Name = "addBtn";
-            this.addBtn.Size = new System.Drawing.Size(75, 23);
-            this.addBtn.TabIndex = 11;
-            this.addBtn.Text = "Add";
-            this.addBtn.UseVisualStyleBackColor = true;
-            this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this.addBtn);
-            this.flowLayoutPanel1.Controls.Add(this.updBtn);
-            this.flowLayoutPanel1.Controls.Add(this.delBtn);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(15, 418);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(243, 29);
-            this.flowLayoutPanel1.TabIndex = 12;
-            // 
-            // updBtn
-            // 
-            this.updBtn.Location = new System.Drawing.Point(84, 3);
-            this.updBtn.Name = "updBtn";
-            this.updBtn.Size = new System.Drawing.Size(75, 23);
-            this.updBtn.TabIndex = 12;
-            this.updBtn.Text = "Upd";
-            this.updBtn.UseVisualStyleBackColor = true;
-            this.updBtn.Click += new System.EventHandler(this.updBtn_Click);
-            // 
-            // delBtn
-            // 
-            this.delBtn.Location = new System.Drawing.Point(165, 3);
-            this.delBtn.Name = "delBtn";
-            this.delBtn.Size = new System.Drawing.Size(75, 23);
-            this.delBtn.TabIndex = 13;
-            this.delBtn.Text = "Del";
-            this.delBtn.UseVisualStyleBackColor = true;
-            this.delBtn.Click += new System.EventHandler(this.delBtn_Click);
-            // 
             // unitsDGV
             // 
             this.unitsDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -222,13 +176,21 @@
             this.CoolDownCol.Name = "CoolDownCol";
             this.CoolDownCol.ReadOnly = true;
             // 
+            // dbButtons
+            // 
+            this.dbButtons.BackColor = System.Drawing.Color.Transparent;
+            this.dbButtons.Location = new System.Drawing.Point(12, 418);
+            this.dbButtons.Name = "dbButtons";
+            this.dbButtons.Size = new System.Drawing.Size(249, 38);
+            this.dbButtons.TabIndex = 14;
+            // 
             // UnitsEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(855, 455);
+            this.Controls.Add(this.dbButtons);
             this.Controls.Add(this.unitsDGV);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.coolDownNum);
@@ -240,12 +202,12 @@
             this.Controls.Add(this.destroyedPic);
             this.Controls.Add(this.normalPic);
             this.Name = "UnitsEdit";
-            this.Text = "Form1";
+            this.Text = "Unit Editor";
+            this.Load += new System.EventHandler(this.UnitsEdit_Load);
             ((System.ComponentModel.ISupportInitialize)(this.normalPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.destroyedPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.priceNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolDownNum)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.unitsDGV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -263,15 +225,12 @@
         private System.Windows.Forms.NumericUpDown coolDownNum;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button addBtn;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button updBtn;
-        private System.Windows.Forms.Button delBtn;
         private System.Windows.Forms.ToolTip tip;
         private System.Windows.Forms.DataGridView unitsDGV;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn PriceCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn CoolDownCol;
+        private GameServerInterface.DbButtons dbButtons;
     }
 }
 

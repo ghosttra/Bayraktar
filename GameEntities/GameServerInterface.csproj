@@ -58,6 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbButtons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbButtons.Designer.cs">
+      <DependentUpon>DbButtons.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditUnit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,15 @@
     <Compile Include="Server.Designer.cs">
       <DependentUpon>Server.cs</DependentUpon>
     </Compile>
+    <Compile Include="UsersControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersControl.Designer.cs">
+      <DependentUpon>UsersControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DbButtons.resx">
+      <DependentUpon>DbButtons.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditUnit.resx">
       <DependentUpon>EditUnit.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +102,9 @@
     </Compile>
     <EmbeddedResource Include="Server.resx">
       <DependentUpon>Server.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersControl.resx">
+      <DependentUpon>UsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

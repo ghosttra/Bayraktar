@@ -18,13 +18,32 @@ namespace GameEntities
         public UnitsEdit()
         {
             InitializeComponent();
+        }
+
+
+        private void _init()
+        {
+            dbButtons.delBtn.Click += delBtn_Click;
+            dbButtons.addBtn.Click += addBtn_Click;
+            dbButtons.updBtn.Click += updBtn_Click;
+
             unitsDGV.AutoGenerateColumns = false;
             unitsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             _updateDgv();
+
         }
 
         private GameContext _dataBase = new GameContext();
 
+        private Task _updateDgvAsync() => Task.Factory.StartNew(() =>
+        {
+            if (InvokeRequired)
+                Invoke(new Action(_updateDgv));
+            else
+            {
+                _updateDgv();
+            }
+        });
         private void _updateDgv()
         {
             unitsDGV.DataSource = _dataBase.Units.ToList();
@@ -65,7 +84,7 @@ namespace GameEntities
             if (!_check())
                 return;
             _addNewUnit();
-            _updateDgv();
+            _updateDgvAsync();
         }
 
         private void _addNewUnit()
@@ -136,7 +155,7 @@ namespace GameEntities
             if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
             _fillUnit(unit);
             _dataBase.SaveChanges();
-            _updateDgv();
+            _updateDgvAsync();
         }
 
         private void _fillUnit(Unit unit)
@@ -158,7 +177,7 @@ namespace GameEntities
             if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
             _dataBase.Units.Remove(unit);
             _dataBase.SaveChanges();
-            _updateDgv();
+            _updateDgvAsync();
         }
 
         private void unitsDGV_SelectionChanged(object sender, EventArgs e)
@@ -186,6 +205,19 @@ namespace GameEntities
             {
                 box.Image = Image.FromStream(stream);
             }
+        }
+
+        private void UnitsEdit_Load(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                if (InvokeRequired)
+                    Invoke(new Action(_init));
+                else
+                {
+                    _init();
+                }
+            });
         }
     }
 }

@@ -65,5 +65,10 @@ namespace GameEntities
             (startBtn.Enabled, stopBtn.Enabled) = (stopBtn.Enabled, startBtn.Enabled);
             configPanel.Enabled =!configPanel.Enabled;
         }
+
+        private void userControlBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

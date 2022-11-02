@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using BayraktarGame;
 using Message;
 
-namespace UserBayraktarClient
+namespace UserGameClient
 {
     public class UserClient
     {

@@ -147,6 +147,7 @@
             this.userControlBtn.TabIndex = 14;
             this.userControlBtn.Text = "User Control";
             this.userControlBtn.UseVisualStyleBackColor = true;
+            this.userControlBtn.Click += new System.EventHandler(this.userControlBtn_Click);
             // 
             // ServerInterface
             // 

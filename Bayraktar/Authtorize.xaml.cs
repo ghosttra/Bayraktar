@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BayraktarGame;
 using dotenv.net;
-using UserBayraktarClient;
+using UserGameClient;
 
 namespace Bayraktar
 {
