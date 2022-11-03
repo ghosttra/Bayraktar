@@ -71,7 +71,7 @@ namespace Bayraktar
 
         }
 
-        private async void Login_OnClick(object sender, RoutedEventArgs e)
+        private async void _connect(bool isLogin)
         {
             if (!_check())
                 return;
@@ -81,14 +81,27 @@ namespace Bayraktar
             LoginBtn.IsEnabled = false;
             try
             {
-                await _userClient.ConnectAsync();
+                if (isLogin)
+                    await _userClient.ConnectAsync();
+                else
+                    await _userClient.ConnectAsyncR();
             }
             catch (Exception exception)
             {
                 _userClient.Refresh();
                 new MessageBox(exception.Message).ShowDialog();
             }
+        }
 
+        private async void Registration_Click(object sender, RoutedEventArgs e)
+        {
+            _connect(false);
+        }
+
+        private async void Login_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            _connect(true);
         }
 
         private User _getUserData() => new User
@@ -119,27 +132,6 @@ namespace Bayraktar
             LoginBox.BorderBrush = Brushes.AliceBlue;
             PassWordBox.BorderBrush = Brushes.AliceBlue;
 
-        }
-
-        private async void Registration_Click(object sender, RoutedEventArgs e)
-        {
-            //todo
-            if (!_check())
-            {
-                new MessageBox("Incorrect Data");
-                return;
-            }
-
-            _userClient.User = _getUserData();
-            RegistrationBtn.IsEnabled = false;
-            try
-            {
-                await _userClient.ConnectAsyncR();
-            }
-            catch (Exception exception)
-            {
-                new MessageBox(exception.Message).ShowDialog();
-            }
         }
 
         private void Authorize_OnKeyDown(object sender, KeyEventArgs e)
