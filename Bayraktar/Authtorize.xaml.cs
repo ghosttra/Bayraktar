@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BayraktarGame;
 using dotenv.net;
 using UserGameClient;
@@ -73,7 +65,7 @@ namespace Bayraktar
 
         private void _userClient_Connected(bool connect)
         {
-            _invoke(() => { Login.IsEnabled = true; });
+            _invoke(() => { LoginBtn.IsEnabled = true; });
             if (!connect) return;
             _unsubscribe();
             _invoke(() => ((Window)Parent).Content = new MainMenu());
@@ -86,7 +78,8 @@ namespace Bayraktar
                 return;
             _boxReset();
             _userClient.User = _getUserData();
-            Login.IsEnabled = false;
+            
+            LoginBtn.IsEnabled = false;
             try
             {
                 await _userClient.ConnectAsync();

@@ -42,7 +42,7 @@
             </UniformGrid>
         
         <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button VerticalAlignment="Bottom" Name="Login" Content="Login" Click="Login_OnClick"/>
+            <Button VerticalAlignment="Bottom" Name="LoginBtn" Content="Login" Click="Login_OnClick"/>
             <Button VerticalAlignment="Bottom" Name="Registration" Content="Registration" Click="Registration_Click"/>
         </StackPanel>
     </Grid>
