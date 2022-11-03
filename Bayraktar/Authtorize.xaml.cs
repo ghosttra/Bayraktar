@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BayraktarGame;
-using dotenv.net;
 using UserGameClient;
 
 namespace Bayraktar
@@ -59,10 +57,7 @@ namespace Bayraktar
             _invoke(() => new MessageBox(info) { Owner = Parent as Window }.ShowDialog());
         }
 
-        private void _userClient_Disconnected()
-        {
-        }
-
+        
         private void _userClient_Connected(bool connect)
         {
             _invoke(() => { LoginBtn.IsEnabled = true; });
@@ -122,17 +117,24 @@ namespace Bayraktar
 
         }
 
-        private void Registration_Click(object sender, RoutedEventArgs e)
+        private async void Registration_Click(object sender, RoutedEventArgs e)
         {
             //todo
             if (!_check())
             {
-                new MessageBox("Registration failed");
+                new MessageBox("Incorrect Data");
                 return;
             }
 
             User user = _getUserData();
-
+            try
+            {
+                await _userClient.ConnectAsyncR();
+            }
+            catch (Exception exception)
+            {
+                new MessageBox(exception.Message). ShowDialog();
+            }
         }
 
         private void Authorize_OnKeyDown(object sender, KeyEventArgs e)
@@ -142,35 +144,6 @@ namespace Bayraktar
                 case Key.Escape:
                     Application.Current.Shutdown();
                     break;
-            }
-        }
-    }
-
-    public class CurrentClient
-    {
-        public UserClient Client { get; private set; }
-
-        private CurrentClient()
-        {
-        }
-
-        private static CurrentClient _instance;
-
-        public static CurrentClient Instance => _instance ?? (_instance = new CurrentClient());
-
-        public void Init()
-        {
-            try
-            {
-
-                var env = DotEnv.Read();
-                var ip = IPAddress.Parse(env["SERVER_IP"].Trim());
-                var port = Int32.Parse(env["SERVER_PORT"]);
-                Client = new UserClient(ip, port);
-            }
-            catch
-            {
-                // ignored
             }
         }
     }

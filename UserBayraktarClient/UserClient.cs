@@ -50,40 +50,51 @@ namespace UserGameClient
         public event Action<string> Info;
         public event Action<bool> Connected;
 
-        public Task ConnectAsync() => Task.Factory.StartNew(Connect);
-        public async void Connect()
+        private async void _connect(Func<bool> authorization)
         {
             try
             {
                 if (User == null)
                     throw new ArgumentNullException("No user to authtorize");
                 await _client.ConnectAsync(_serverIp, _serverPort);
-                bool auth = _authorize();
-                Connected?.Invoke(auth);
-                if (!auth)
-                {
-                    Close();
-                    _client = new TcpClient();
-                    return;
-                }
-
+              
+                    var auth = authorization();
+                    Connected?.Invoke(auth);
+                    if (!auth)
+                    {
+                        Close();
+                        _client = new TcpClient();
+                    }
             }
             catch (Exception e)
             {
                 Connected?.Invoke(false);
-                Info?.Invoke(e.Message
-                );
+                Info?.Invoke(e.Message);
             }
         }
+
+        public Task ConnectAsync() => Task.Factory.StartNew(Connect);
+        public void Connect()
+        {
+            _connect(()=>_authorize(true));
+        }
+
+        //R = Registration
+        public void ConnectR()
+        {
+            _connect(() => _authorize(false));
+        }
+        public Task ConnectAsyncR()=> Task.Factory.StartNew(ConnectR);
 
         public void Close()
         {
             _client.Close();
             Connected?.Invoke(false);
         }
-        private bool _authorize()
+        private bool _authorize(bool isLogin)
         {
-            MessageAuthorize authorize = new MessageAuthorize(AuthorizeMode.Login)
+            AuthorizeMode mode = isLogin ? AuthorizeMode.Login : AuthorizeMode.Registration;
+            MessageAuthorize authorize = new MessageAuthorize(mode)
             {
                 Login = User.Login,
                 Password = User.PassWord
@@ -129,5 +140,6 @@ namespace UserGameClient
         {
             _client = new TcpClient();
         }
+
     }
 }

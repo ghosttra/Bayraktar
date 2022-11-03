@@ -148,6 +148,7 @@
     <Compile Include="Authtorize.xaml.cs">
       <DependentUpon>Authtorize.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CurrentClient.cs" />
     <Compile Include="MainWin.xaml.cs">
       <DependentUpon>MainWin.xaml</DependentUpon>
     </Compile>
