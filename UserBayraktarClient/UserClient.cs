@@ -93,8 +93,8 @@ namespace UserGameClient
         }
         private bool _authorize(bool isLogin)
         {
-            AuthorizeMode mode = isLogin ? AuthorizeMode.Login : AuthorizeMode.Registration;
-            MessageAuthorize authorize = new MessageAuthorize(mode)
+            var mode = isLogin ? AuthorizeMode.Login : AuthorizeMode.Registration;
+            var authorize = new MessageAuthorize(mode)
             {
                 Login = User.Login,
                 Password = User.PassWord

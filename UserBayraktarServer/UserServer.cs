@@ -8,6 +8,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BayraktarGame;
 using GameEntities;
 using Message;
 
@@ -88,8 +89,24 @@ namespace UserBayraktarServer
 
         private bool _authorize(MessageAuthorize auth)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Login.Equals(auth.Login));
-            return user != null && user.PassWord.Equals(auth.Password);
+            switch (auth.Mode)
+            {
+                case AuthorizeMode.Registration:
+                    var us = _context.Users.ToList();
+                    if (_context.Users.Any(u => u.Login.Equals(auth.Login)))
+                        return false;
+                    _context.Users.Add(new User()
+                    {
+                        Login = auth.Login, PassWord = auth.Password
+                    });
+                    _context.SaveChangesAsync(_token);
+                    return true;
+                case AuthorizeMode.Login:
+                    var user = _context.Users.FirstOrDefault(u => u.Login.Equals(auth.Login));
+                    return user != null && user.PassWord.Equals(auth.Password);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -57,10 +57,14 @@ namespace Bayraktar
             _invoke(() => new MessageBox(info) { Owner = Parent as Window }.ShowDialog());
         }
 
-        
+
         private void _userClient_Connected(bool connect)
         {
-            _invoke(() => { LoginBtn.IsEnabled = true; });
+            _invoke(() =>
+            {
+                LoginBtn.IsEnabled = true;
+                RegistrationBtn.IsEnabled = true;
+            });
             if (!connect) return;
             _unsubscribe();
             _invoke(() => ((Window)Parent).Content = new MainMenu());
@@ -73,7 +77,7 @@ namespace Bayraktar
                 return;
             _boxReset();
             _userClient.User = _getUserData();
-            
+
             LoginBtn.IsEnabled = false;
             try
             {
@@ -126,14 +130,15 @@ namespace Bayraktar
                 return;
             }
 
-            User user = _getUserData();
+            _userClient.User = _getUserData();
+            RegistrationBtn.IsEnabled = false;
             try
             {
                 await _userClient.ConnectAsyncR();
             }
             catch (Exception exception)
             {
-                new MessageBox(exception.Message). ShowDialog();
+                new MessageBox(exception.Message).ShowDialog();
             }
         }
 
