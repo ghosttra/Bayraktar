@@ -22,6 +22,15 @@ namespace Bayraktar
         public MainWin()
         {
             InitializeComponent();
+            try
+            {
+                CurrentClient.Instance.Init();
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message);
+                return;
+            }
             Content = new Authorize();
         }
     }

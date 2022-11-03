@@ -10,9 +10,6 @@ namespace Bayraktar
 {
     partial class Game
     {
-      
-
-        
         void clockTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Dispatcher.BeginInvoke(new Action(UpdateCurrentDateTime));
