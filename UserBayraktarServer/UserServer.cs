@@ -104,12 +104,14 @@ namespace UserBayraktarServer
             }
         }
 
+        #region Commands
+
         private void _getRating(UserConnection user)
         {
             var rating = new MessageDataContent();
             try
             {
-                var stats = _context.Statistics.ToList();
+                var stats = _context.Statistics.Include("User").ToList();
                 using (MemoryStream stream = new MemoryStream())
                 {
                     BinaryFormatter form = new BinaryFormatter();
@@ -123,6 +125,8 @@ namespace UserBayraktarServer
             }
             user.Send(rating);
         }
+
+        #endregion
 
         private bool _authorize(MessageAuthorize auth)
         {

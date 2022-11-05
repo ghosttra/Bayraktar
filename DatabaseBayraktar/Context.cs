@@ -13,6 +13,7 @@ namespace GameEntities
         public GameContext() : base("BayraktarDataBase")
         {
             Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Statistic> Statistics { get; set; }

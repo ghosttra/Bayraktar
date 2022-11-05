@@ -121,14 +121,6 @@ namespace UserGameClient
                 return MessagePacket.FromBytes(stream.ToArray());
             }
 
-            //var buffer = new byte[1024];
-
-            //do
-            //{
-            //    _stream.Read(buffer, 0, buffer.Length);
-            //} while (_stream.DataAvailable);
-
-            //return MessagePacket.FromBytes(buffer);
         }
         public MessagePacket Receive()=>_read();
             
