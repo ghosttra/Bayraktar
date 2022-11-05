@@ -269,6 +269,10 @@
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
       <Name>BayraktarGameData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MessagePacket\MessagePacket.csproj">
+      <Project>{0EB1AC98-6065-45EE-B83E-332E43BE9DF8}</Project>
+      <Name>MessagePacket</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserBayraktarClient\UserBayraktarClient.csproj">
       <Project>{c68a7cd3-abc6-4202-84a8-e9945a338c2e}</Project>
       <Name>UserBayraktarClient</Name>

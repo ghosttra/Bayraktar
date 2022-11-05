@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
+using System.Windows.Forms;
 using dotenv.net;
+using Message;
 using UserGameClient;
 
 namespace Bayraktar
@@ -16,6 +18,12 @@ namespace Bayraktar
         private static CurrentClient _instance;
 
         public static CurrentClient Instance => _instance ?? (_instance = new CurrentClient());
+
+        public void Send(MessagePacket message)
+        {
+            Client?.Send(message);
+        }
+        public MessagePacket Receive()=> Client.Receive();
 
         public void Init()
         {

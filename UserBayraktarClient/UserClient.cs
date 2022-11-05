@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -109,27 +110,28 @@ namespace UserGameClient
 
         private MessagePacket _read()
         {
-            var buffer = new byte[1024];
-            do
+            var buffer = new byte[2048];
+            using (var stream = new MemoryStream())
             {
-                _stream.Read(buffer, 0, buffer.Length);
-            } while (_stream.DataAvailable);
-
-            var v = MessagePacket.FromBytes(buffer);
-            return MessagePacket.FromBytes(buffer);
-        }
-        public void Receive()
-        {
-            var message = _read();
-            switch (message)
-            {
-                case MessageCommand command:
-
-                    break;
-                case null:
-                    throw new NullReferenceException("Can't read message");
+                do
+                {
+                    var bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                    stream.Write(buffer, 0, bytesRead);
+                } while (_stream.DataAvailable);
+                return MessagePacket.FromBytes(stream.ToArray());
             }
+
+            //var buffer = new byte[1024];
+
+            //do
+            //{
+            //    _stream.Read(buffer, 0, buffer.Length);
+            //} while (_stream.DataAvailable);
+
+            //return MessagePacket.FromBytes(buffer);
         }
+        public MessagePacket Receive()=>_read();
+            
         public void Send(MessagePacket message)
         {
             var buffer = message.ToBytes();

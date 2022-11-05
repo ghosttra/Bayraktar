@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
@@ -85,6 +87,58 @@ namespace UserBayraktarServer
             {
                 clientConnection.Close();
             }
+            clientConnection.Query += Query;
+            clientConnection.RunAsync();
+        }
+
+        private void Query(UserConnection user, MessagePacket message)
+        {
+            if (message is MessageCommand command)
+            {
+                switch (command.Command)
+                {
+                    case "RATING":
+                        _getRating(user);
+                        break;
+                }
+            }
+        }
+
+        private void _getRating(UserConnection user)
+        {
+            var rating = new MessageDataContent();
+            List<Statistic> stats = new List<Statistic>();
+            for (int i = 0; i < 5; i++)
+            {
+                stats.Add(new Statistic
+                {
+                    User = new User()
+                    {
+                        Login = "Mark"
+                    },
+                    Score = 1000
+                });
+            }
+
+            stats.Add(new Statistic
+            {
+                Score = 10
+            });
+
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BinaryFormatter form = new BinaryFormatter();
+                    form.Serialize(stream, stats);
+                    rating.Content = stream.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                user.Send(new MessageNull());
+            }
+            user.Send(rating);
         }
 
         private bool _authorize(MessageAuthorize auth)
@@ -97,7 +151,8 @@ namespace UserBayraktarServer
                         return false;
                     _context.Users.Add(new User()
                     {
-                        Login = auth.Login, PassWord = auth.Password
+                        Login = auth.Login,
+                        PassWord = auth.Password
                     });
                     _context.SaveChangesAsync(_token);
                     return true;

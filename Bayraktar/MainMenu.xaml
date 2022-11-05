@@ -29,7 +29,7 @@
                             <Setter Property="Height" Value="50"></Setter>
                         </Style>
                     </StackPanel.Resources>
-                    <Button Click="MenuButton_Click" x:Name = "Rating" Content="Рейтинг" IsEnabled="False"/>
+                    <Button Click="MenuButton_Click" x:Name = "Rating" Content="Рейтинг" IsEnabled="True"/>
                     <Button Click="MenuButton_Click" x:Name = "Start" Content="Розпочати" />
                     <Button Click="MenuButton_Click" x:Name = "StartMultiplayer" Content="Мультiплеер" IsEnabled="False" />
                     <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід"  />

@@ -11,16 +11,18 @@ namespace Message
 {
     public enum MessageType
     {
-        Data, Command
+        Data, Command,
+        Null
     }
+
     [Serializable]
     public abstract class MessagePacket
     {
-        private MessageType _type;
+        public MessageType Type { get; }
 
         protected MessagePacket(MessageType type)
         {
-            _type = type;
+            Type = type;
         }
 
         public static MessagePacket FromBytes(byte[] messageArray)
@@ -43,6 +45,22 @@ namespace Message
                 return stream.ToArray();
             }
         }
+    }
+
+    [Serializable]
+    public class MessageNull : MessagePacket
+    {
+        public MessageNull() : base(MessageType.Null)
+        {
+        }
+    }
+    [Serializable]
+    public class MessageDataContent : MessagePacket
+    {
+        public MessageDataContent() : base(MessageType.Data)
+        {
+        }
+        public byte[] Content { get; set; }
     }
     [Serializable]
     public class MessageCommand : MessagePacket

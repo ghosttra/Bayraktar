@@ -1,4 +1,6 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.IO;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Message;
@@ -27,8 +29,16 @@ namespace UserBayraktarServer
         {
             while (_isRun)
             {
-
+                Receive();
             }
+        }
+
+        public Action<UserConnection, MessagePacket> Query;
+        private void Receive()
+        {
+            var message = _read();
+            if (message == null) return;
+            Query?.Invoke(this, message);
         }
 
         public void Close()
@@ -43,12 +53,17 @@ namespace UserBayraktarServer
 
         private MessagePacket _read()
         {
-            var buffer = new byte[1024];
-            do
+
+            var buffer = new byte[2048];
+            using (var stream = new MemoryStream())
             {
-                _stream.Read(buffer, 0, buffer.Length);
-            } while (_stream.DataAvailable);
-            return MessagePacket.FromBytes(buffer);
+                do
+                {
+                    var bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                    stream.Write(buffer, 0, bytesRead);
+                } while (_stream.DataAvailable);
+                return MessagePacket.FromBytes(stream.ToArray());
+            }
         }
 
         public void Send(MessagePacket message)
@@ -62,7 +77,6 @@ namespace UserBayraktarServer
             {
                 return authorize;
             }
-
             return null;
         }
     }

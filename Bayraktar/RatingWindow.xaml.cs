@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,34 +14,68 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BayraktarGame;
+using Message;
 
 namespace Bayraktar
 {
-    /// <summary>
-    /// Логика взаимодействия для RatingWindow.xaml
-    /// </summary>
     public partial class RatingWindow : UserControl
     {
-        public List<User> users { get; set; } = new List<User>();
-        public RatingWindow(List<User> users)
+        public RatingWindow()
         {
             InitializeComponent();
-            RatingsLB.ItemsSource = users;
-            this.users = users;
+            _init();
+        }
+
+        private void _init()
+        {
+            RatingsLB.ItemsSource = _getStats().ToList();
+        }
+
+        private IEnumerable<Statistic> _getStats()
+        {
+            var message = new MessageCommand
+            {
+                Command = "RATING"
+            };
+            CurrentClient.Instance.Send(message);
+            try
+            {
+                var ratings = CurrentClient.Instance.Receive();
+                if (ratings is MessageDataContent data)
+                {
+                    return _loadRating(data.Content);
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        private List<Statistic> _loadRating(byte[] dataContent)
+        {
+            using (MemoryStream stream = new MemoryStream(dataContent))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                if (formatter.Deserialize(stream) is List<Statistic> statistics)
+                {
+                    return statistics;
+                }
+                return null;
+            }
         }
 
         private void SortByScoreBtn_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-           // users.Sort((x, y) => y.Score.CompareTo(x.Score));
-            RatingsLB.ItemsSource = users;
+            RatingsLB.ItemsSource = _getStats().OrderBy(s => s.Score);
         }
 
         private void SortByDateBtn_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-           // users.Sort((x, y) => y.TimeOf_AtteptEnd.CompareTo(x.TimeOf_AtteptEnd));
-            RatingsLB.ItemsSource = users;
+            RatingsLB.ItemsSource = _getStats().OrderBy(s => s.User.Login);
         }
     }
 }

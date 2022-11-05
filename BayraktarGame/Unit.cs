@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BayraktarGame
 {
+    [Serializable]
     public class Unit
     {
         public int Id { get; set; }

@@ -120,8 +120,7 @@ namespace Bayraktar
                 switch (button.Name)
                 {
                     case "Rating":
-                        //RatingWindow ratingWindow = new RatingWindow();
-                        //ratingWindow.ShowDialog();
+                        ((Window)Parent).Content= new RatingWindow();
                         break;
                     case "Start":
 
