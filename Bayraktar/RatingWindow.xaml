@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bayraktar"
+        xmlns:local="clr-namespace:Bayraktar" Focusable="True" KeyDown="RatingWindow_OnKeyDown"
         mc:Ignorable="d"
         d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid Background="DarkSlateGray">
@@ -12,7 +12,7 @@
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
+        <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50" Click="Exit" x:Name="ExitBtn"></Button>
         <DockPanel Grid.Column="0" LastChildFill="False">
             <Button DockPanel.Dock="Top" Content="По очкам" x:Name="SortByScoreBtn" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
             <Button DockPanel.Dock="Top" Content="Мої ігри" x:Name="ShowMyStatistic" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>

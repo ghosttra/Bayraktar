@@ -75,7 +75,23 @@ namespace Bayraktar
         private void ShowMy_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-            RatingsLB.ItemsSource = _getStats().Select(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login));
+            RatingsLB.ItemsSource = _getStats().Where(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login)==true);
+        }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            _exit();
+        }
+
+        private void RatingWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                _exit();
+        }
+
+        private void _exit()
+        {
+            ((Window)Parent).Content = new MainMenu();
         }
     }
 }

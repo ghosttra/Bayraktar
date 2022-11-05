@@ -107,31 +107,9 @@ namespace UserBayraktarServer
         private void _getRating(UserConnection user)
         {
             var rating = new MessageDataContent();
-            List<Statistic> stats = new List<Statistic>();
-
-            stats.Add(new Statistic
-            {
-                Score = 50
-            });
-            for (int i = 0; i < 5; i++)
-            {
-                stats.Add(new Statistic
-                {
-                    User = new User()
-                    {
-                        Login = "Mark"
-                    },
-                    Score = 1000
-                });
-            }
-
-            stats.Add(new Statistic
-            {
-                Score = 10
-            });
-
             try
             {
+                var stats = _context.Statistics.ToList();
                 using (MemoryStream stream = new MemoryStream())
                 {
                     BinaryFormatter form = new BinaryFormatter();

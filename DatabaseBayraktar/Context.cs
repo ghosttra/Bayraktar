@@ -10,9 +10,9 @@ namespace GameEntities
 {
     public class GameContext:DbContext
     {
-        public GameContext() : base("BayraktarData")
+        public GameContext() : base("BayraktarDataBase")
         {
-
+            Configuration.ProxyCreationEnabled = false;
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Statistic> Statistics { get; set; }
