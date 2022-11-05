@@ -15,7 +15,7 @@
         <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
         <DockPanel Grid.Column="0" LastChildFill="False">
             <Button DockPanel.Dock="Top" Content="По очкам" x:Name="SortByScoreBtn" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
-            <Button DockPanel.Dock="Top" Content="По даті" x:Name="SortByDateBtn" Click="SortByDateBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
+            <Button DockPanel.Dock="Top" Content="Мої ігри" x:Name="ShowMyStatistic" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
         </DockPanel>
         <ListBox Background="SlateGray" Grid.Column="1"
             HorizontalContentAlignment="Stretch"
@@ -37,7 +37,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Foreground="White"
+                            <TextBlock Text="{Binding Path=User.Login}" FontSize="24" FontWeight="Bold" Foreground="White"
                                        HorizontalAlignment="Center"/>
 
                             <TextBlock Grid.Row="1" Foreground="White" Text="{ Binding Score, StringFormat='{}Score: {0}'}" 

@@ -72,10 +72,10 @@ namespace Bayraktar
             RatingsLB.ItemsSource = _getStats().OrderBy(s => s.Score);
         }
 
-        private void SortByDateBtn_Click(object sender, RoutedEventArgs e)
+        private void ShowMy_Click(object sender, RoutedEventArgs e)
         {
             RatingsLB.ItemsSource = null;
-            RatingsLB.ItemsSource = _getStats().OrderBy(s => s.User.Login);
+            RatingsLB.ItemsSource = _getStats().Select(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login));
         }
     }
 }

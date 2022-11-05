@@ -1,4 +1,4 @@
-﻿namespace GameEntities.Migrations
+﻿namespace DatabaseBayraktar.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -10,7 +10,6 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "GameEntities.GameContext";
         }
 
         protected override void Seed(GameEntities.GameContext context)

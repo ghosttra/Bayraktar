@@ -108,6 +108,11 @@ namespace UserBayraktarServer
         {
             var rating = new MessageDataContent();
             List<Statistic> stats = new List<Statistic>();
+
+            stats.Add(new Statistic
+            {
+                Score = 50
+            });
             for (int i = 0; i < 5; i++)
             {
                 stats.Add(new Statistic

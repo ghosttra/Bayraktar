@@ -1,9 +1,9 @@
-﻿namespace GameEntities.Migrations
+﻿namespace DatabaseBayraktar.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -14,6 +14,7 @@
                         Id = c.Int(nullable: false, identity: true),
                         Score = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
+                        Date = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
@@ -36,6 +37,7 @@
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Image = c.Binary(),
+                        ImageDestroyed = c.Binary(),
                         CoolDown = c.Int(nullable: false),
                         Price = c.Int(nullable: false),
                     })

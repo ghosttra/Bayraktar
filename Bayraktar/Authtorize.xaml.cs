@@ -62,8 +62,7 @@ namespace Bayraktar
         {
             _invoke(() =>
             {
-                LoginBtn.IsEnabled = true;
-                RegistrationBtn.IsEnabled = true;
+                ButtonPanel.IsEnabled = true;
             });
             if (!connect) return;
             _unsubscribe();
@@ -78,7 +77,7 @@ namespace Bayraktar
             _boxReset();
             _userClient.User = _getUserData();
 
-            LoginBtn.IsEnabled = false;
+            ButtonPanel.IsEnabled = false;
             try
             {
                 if (isLogin)

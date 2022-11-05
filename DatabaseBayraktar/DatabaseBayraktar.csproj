@@ -52,13 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
-    <Compile Include="Migrations\202210191200107_InitialCreate.cs" />
-    <Compile Include="Migrations\202210191200107_InitialCreate.Designer.cs">
-      <DependentUpon>202210191200107_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202210191218168_DestroyedImage.cs" />
-    <Compile Include="Migrations\202210191218168_DestroyedImage.Designer.cs">
-      <DependentUpon>202210191218168_DestroyedImage.cs</DependentUpon>
+    <Compile Include="Migrations\202211051318045_init.cs" />
+    <Compile Include="Migrations\202211051318045_init.designer.cs">
+      <DependentUpon>202211051318045_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,18 +64,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202210191200107_InitialCreate.resx">
-      <DependentUpon>202210191200107_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210191218168_DestroyedImage.resx">
-      <DependentUpon>202210191218168_DestroyedImage.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BayraktarGame\BayraktarGameData.csproj">
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
       <Name>BayraktarGameData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202211051318045_init.resx">
+      <DependentUpon>202211051318045_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
