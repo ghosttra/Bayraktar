@@ -22,9 +22,11 @@ namespace Bayraktar {
         List<Unit> MilitaryUnits;
         public AttackerWin() {
             InitializeComponent();
-            List<Unit> MilitaryUnits = new List<Unit>();
-            MilitaryUnits.Add(new Unit() { Id = 0, CoolDown = 500, Name = "ArtZ", Price = 100 });
-            MilitaryUnits.Add(new Unit() { Id = 1, CoolDown = 400, Name = "BTR", Price = 400 });
+
+            //List<Unit> MilitaryUnits = new List<Unit>();
+            //MilitaryUnits.Add(new Unit() { Id = 0, CoolDown = 500, Name = "ArtZ", Price = 100 });
+            //MilitaryUnits.Add(new Unit() { Id = 1, CoolDown = 400, Name = "BTR", Price = 100 });
+
             MilitaryUnitsLists.ItemsSource = MilitaryUnits; //подвязать существующих юнитов в список
 
             //MilitaryUnitsLists.Width = 550;
