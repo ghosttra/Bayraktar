@@ -145,6 +145,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AttackerWin.xaml.cs">
+      <DependentUpon>AttackerWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Authtorize.xaml.cs">
       <DependentUpon>Authtorize.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
       <DependentUpon>SaveResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
+    <Page Include="AttackerWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Authtorize.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
