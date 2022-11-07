@@ -66,18 +66,25 @@ namespace Bayraktar
             }
         }
 
-        private void SortByScoreBtn_Click(object sender, RoutedEventArgs e)
+        private void _setStats(IEnumerable<Statistic> statistics)
         {
             RatingsLB.ItemsSource = null;
-            RatingsLB.ItemsSource = _getStats().OrderBy(s => s.Score);
+            RatingsLB.ItemsSource = statistics;
+        }
+        private void SortByScoreBtn_Click(object sender, RoutedEventArgs e)
+        {
+           _setStats(_getStats().OrderBy(s => s.Score));
         }
 
         private void ShowMy_Click(object sender, RoutedEventArgs e)
         {
-            RatingsLB.ItemsSource = null;
-            RatingsLB.ItemsSource = _getStats().Where(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login)==true);
+            _setStats( _getStats().Where(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login)==true));
         }
 
+        private void ShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            _setStats(_getStats());
+        }
         private void Exit(object sender, RoutedEventArgs e)
         {
             _exit();
@@ -93,5 +100,6 @@ namespace Bayraktar
         {
             ((Window)Parent).Content = new MainMenu();
         }
+
     }
 }

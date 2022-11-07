@@ -128,6 +128,7 @@ namespace Bayraktar
                         break;
                     case "StartMultiplayer":
                         //todo
+
                         ((Window)Parent).Content = new Game(GameMode.Multiplayer, GameRole.Attack);
                         break;
 

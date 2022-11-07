@@ -78,6 +78,12 @@ namespace UserBayraktarServer
         {
             var client = _server.AcceptTcpClient();
             Inform?.Invoke("Accept connection");
+            Task.Factory.StartNew(() => _verify(client), _token);
+
+        }
+
+        private void _verify(TcpClient client)
+        {
             var clientConnection = new UserConnection(client);
             var auth = clientConnection.Authorize();
             if (auth == null) clientConnection.Close();
@@ -100,8 +106,19 @@ namespace UserBayraktarServer
                     case "RATING":
                         _getRating(user);
                         break;
+                    case "SINGLE":
+                        _getServer(user, false);
+                        break;
+                    case "MULTI":
+                        _getServer(user, true);
+                        break;
                 }
             }
+        }
+
+        private void _getServer(UserConnection user, bool p1)
+        {
+            
         }
 
         #region Commands

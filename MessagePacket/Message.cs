@@ -12,7 +12,8 @@ namespace Message
     public enum MessageType
     {
         Data, Command,
-        Null
+        Null,
+        Text
     }
 
     [Serializable]
@@ -45,6 +46,15 @@ namespace Message
                 return stream.ToArray();
             }
         }
+    }
+
+    [Serializable]
+    public class MessageText : MessagePacket
+    {
+        public MessageText() : base(MessageType.Text)
+        {
+        }
+        public string Text { get; set; }
     }
 
     [Serializable]
