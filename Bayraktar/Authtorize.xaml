@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Bayraktar"
         mc:Ignorable="d"
         d:DesignHeight="1080" d:DesignWidth="1920"
-        KeyDown="Authorize_OnKeyDown" Focusable="True"
-        >
+        KeyDown="Authorize_OnKeyDown" Focusable="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

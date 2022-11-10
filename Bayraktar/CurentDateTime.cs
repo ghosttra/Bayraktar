@@ -15,8 +15,6 @@ namespace Bayraktar
             Dispatcher.BeginInvoke(new Action(UpdateCurrentDateTime));
         }
 
-
-
         public string CurrentDateTime
         {
             get => (string)GetValue(CurrentDateTimeProperty);

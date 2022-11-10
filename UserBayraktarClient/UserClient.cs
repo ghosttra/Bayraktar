@@ -63,6 +63,7 @@ namespace UserGameClient
                     Connected?.Invoke(auth);
                     if (!auth)
                     {
+                        Info?.Invoke("Authorization false");
                         Close();
                         _client = new TcpClient();
                     }
@@ -89,7 +90,8 @@ namespace UserGameClient
 
         public void Close()
         {
-            _client.Close();
+            Send(new MessageCommand { Command = "DISCONNECTED" });
+            _client?.Close();
             Connected?.Invoke(false);
         }
         private bool _authorize(bool isLogin)

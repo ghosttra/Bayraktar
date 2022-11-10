@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,11 @@ namespace Bayraktar
                 return;
             }
             Content = new Authorize();
+        }
+
+        private void MainWin_OnClosing(object sender, CancelEventArgs e)
+        {
+            CurrentClient.Instance.Client.Close();
         }
     }
 }

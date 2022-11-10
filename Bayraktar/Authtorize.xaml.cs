@@ -130,7 +130,6 @@ namespace Bayraktar
         {
             LoginBox.BorderBrush = Brushes.AliceBlue;
             PassWordBox.BorderBrush = Brushes.AliceBlue;
-
         }
 
         private void Authorize_OnKeyDown(object sender, KeyEventArgs e)

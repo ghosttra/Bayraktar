@@ -19,6 +19,9 @@ namespace Bayraktar
     public partial class Game : UserControl
     {
 
+
+        //qq
+
         public Game(GameMode gameMode, GameRole gameRole) : this()
         {
             _gameMode = gameMode;

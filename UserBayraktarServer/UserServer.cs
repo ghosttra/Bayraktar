@@ -78,6 +78,14 @@ namespace UserBayraktarServer
         {
             var client = _server.AcceptTcpClient();
             Inform?.Invoke("Accept connection");
+            Task.Factory.StartNew(() => _verify(client), _token);
+
+        }
+
+        private List<UserConnection> _users = new List<UserConnection>();
+        private List<UserConnection> _waitingUsers = new List<UserConnection>();
+        private void _verify(TcpClient client)
+        {
             var clientConnection = new UserConnection(client);
             var auth = clientConnection.Authorize();
             if (auth == null) clientConnection.Close();
@@ -85,10 +93,49 @@ namespace UserBayraktarServer
             clientConnection.Send(new MessageBool(result));
             if (!result)
             {
+                Inform?.Invoke($"Authorization failed");
                 clientConnection.Close();
             }
+            Inform?.Invoke($"User started connection");
             clientConnection.Query += Query;
+            clientConnection.InQueueEvent+= InQueueEvent;
+            clientConnection.CloseConnection+=CloseConnection;
             clientConnection.RunAsync();
+            _users.Add(clientConnection);
+        }
+
+        private void InQueueEvent(UserConnection user, bool inQueue)
+        {
+            if(inQueue)
+            {
+                _waitingUsers.Add(user);
+                if (_waitingUsers.Count >= 2)
+                {
+                    var attack =_waitingUsers[0];
+                    var defense =_waitingUsers[1];
+                    _waitingUsers.Remove(attack);
+                    _waitingUsers.Remove(defense);
+                    _startMultiGame(attack, defense);
+                }
+            }
+            else
+                _waitingUsers.Remove(user);
+        }
+
+        private void _startMultiGame(UserConnection attack, UserConnection defense)
+        {
+            
+        }
+
+        private void _startSingleGame(UserConnection defense)
+        {
+
+        }
+
+        private void CloseConnection(UserConnection user)
+        {
+            _users.Remove(user);
+            Inform?.Invoke($"User closed connection");
         }
 
         private void Query(UserConnection user, MessagePacket message)
@@ -100,11 +147,32 @@ namespace UserBayraktarServer
                     case "RATING":
                         _getRating(user);
                         break;
+                    case "DISCONNECTED":
+                        user.Close();
+                        break;
+                    case "SINGLE":
+                        _getServerSingle(user);
+                        break;
+                    case "MULTI":
+                        _getServerMulti(user);
+                        break;
                 }
             }
         }
 
+
         #region Commands
+
+        private void _getServerMulti(UserConnection user)
+        {
+            user.WaitingForMultiplayer();
+        }
+
+        private void _getServerSingle(UserConnection user)
+        {
+            _startSingleGame(user);
+        }
+
 
         private void _getRating(UserConnection user)
         {
@@ -142,6 +210,7 @@ namespace UserBayraktarServer
                         PassWord = auth.Password
                     });
                     _context.SaveChangesAsync(_token);
+                    Inform?.Invoke($"New user was registered");
                     return true;
                 case AuthorizeMode.Login:
                     var user = _context.Users.FirstOrDefault(u => u.Login.Equals(auth.Login));

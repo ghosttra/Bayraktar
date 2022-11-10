@@ -11,7 +11,27 @@ namespace UserBayraktarServer
     {
         private TcpClient _client;
         private NetworkStream _stream => _client.GetStream();
+        public Action<UserConnection, bool> InQueueEvent;
+        private bool _inQueue = false;
+        public bool InQueue
+        {
+            get => _inQueue;
+            private set
+            {
+                _inQueue = value;
+                InQueueEvent?.Invoke(this, value);
+            }
+        } //wait for multiplayer game
 
+        public void WaitingForMultiplayer()
+        {
+            InQueue = true;
+        }
+
+        public void CancelWaitingForMultiplayer()
+        {
+            InQueue = false;
+        }
         private readonly CancellationTokenSource _cts;
         private readonly CancellationToken _token;
         public UserConnection(TcpClient client)
@@ -23,7 +43,7 @@ namespace UserBayraktarServer
         }
 
         private bool _isRun;
-        public Task RunAsync()=>Task.Factory.StartNew(Run, _token);
+        public Task RunAsync() => Task.Factory.StartNew(Run, _token);
 
         public void Run()
         {
@@ -34,6 +54,7 @@ namespace UserBayraktarServer
         }
 
         public Action<UserConnection, MessagePacket> Query;
+        public Action<UserConnection> CloseConnection;
         private void Receive()
         {
             var message = _read();
@@ -43,12 +64,15 @@ namespace UserBayraktarServer
 
         public void Close()
         {
-            MessageCommand command= new MessageCommand();
-            command.Command = "Disconnect";
+            MessageCommand command = new MessageCommand
+            {
+                Command = "Disconnect"
+            };
             Send(command);
             _cts.Cancel();
             _isRun = false;
             _client.Close();
+            CloseConnection?.Invoke(this);
         }
 
         private MessagePacket _read()
@@ -79,5 +103,6 @@ namespace UserBayraktarServer
             }
             return null;
         }
+
     }
 }
