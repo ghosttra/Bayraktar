@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.usersDgv = new System.Windows.Forms.DataGridView();
-            this.dbButtons = new GameServerInterface.DbButtons();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.loginBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tip = new System.Windows.Forms.ToolTip(this.components);
+            this.dbButtons = new GameServerInterface.DbButtons();
+            this.loginCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.passwordCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.usersDgv)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -42,21 +46,17 @@
             // usersDgv
             // 
             this.usersDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.usersDgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.loginCol,
+            this.passwordCol});
             this.usersDgv.Dock = System.Windows.Forms.DockStyle.Top;
             this.usersDgv.Location = new System.Drawing.Point(0, 0);
             this.usersDgv.Name = "usersDgv";
+            this.usersDgv.ReadOnly = true;
+            this.usersDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.usersDgv.Size = new System.Drawing.Size(776, 291);
             this.usersDgv.TabIndex = 0;
-            // 
-            // dbButtons
-            // 
-            this.dbButtons.BackColor = System.Drawing.Color.Transparent;
-            this.dbButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dbButtons.Location = new System.Drawing.Point(0, 291);
-            this.dbButtons.Name = "dbButtons";
-            this.dbButtons.Size = new System.Drawing.Size(776, 38);
-            this.dbButtons.TabIndex = 1;
-            this.dbButtons.Load += new System.EventHandler(this.dbButtons_Load);
+            this.usersDgv.SelectionChanged += new System.EventHandler(this.usersDgv_SelectionChanged);
             // 
             // passwordBox
             // 
@@ -103,6 +103,30 @@
             this.panel1.Size = new System.Drawing.Size(776, 61);
             this.panel1.TabIndex = 8;
             // 
+            // dbButtons
+            // 
+            this.dbButtons.BackColor = System.Drawing.Color.Transparent;
+            this.dbButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dbButtons.Location = new System.Drawing.Point(0, 291);
+            this.dbButtons.Name = "dbButtons";
+            this.dbButtons.Size = new System.Drawing.Size(776, 38);
+            this.dbButtons.TabIndex = 1;
+            this.dbButtons.Load += new System.EventHandler(this.dbButtons_Load);
+            // 
+            // loginCol
+            // 
+            this.loginCol.DataPropertyName = "Login";
+            this.loginCol.HeaderText = "Login";
+            this.loginCol.Name = "loginCol";
+            this.loginCol.ReadOnly = true;
+            // 
+            // passwordCol
+            // 
+            this.passwordCol.DataPropertyName = "Password";
+            this.passwordCol.HeaderText = "Password";
+            this.passwordCol.Name = "passwordCol";
+            this.passwordCol.ReadOnly = true;
+            // 
             // UsersControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -131,5 +155,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolTip tip;
+        private System.Windows.Forms.DataGridViewTextBoxColumn loginCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn passwordCol;
     }
 }

@@ -148,7 +148,7 @@ namespace UserBayraktarServer
                         _getRating(user);
                         break;
                     case "DISCONNECTED":
-                        user.Close();
+                        user.Disconnect();
                         break;
                     case "SINGLE":
                         _getServerSingle(user);

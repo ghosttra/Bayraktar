@@ -57,22 +57,34 @@ namespace UserBayraktarServer
         public Action<UserConnection> CloseConnection;
         private void Receive()
         {
-            var message = _read();
-            if (message == null) return;
-            Query?.Invoke(this, message);
+            try
+            {
+                var message = _read();
+                if (message == null) return;
+                Query?.Invoke(this, message);
+            }
+            catch (Exception)
+            {
+                Close();
+            }
         }
 
         public void Close()
+        {
+            _cts.Cancel();
+            _isRun = false;
+            _client.Close();
+            CloseConnection?.Invoke(this);
+        }
+
+        public void Disconnect()
         {
             MessageCommand command = new MessageCommand
             {
                 Command = "Disconnect"
             };
             Send(command);
-            _cts.Cancel();
-            _isRun = false;
-            _client.Close();
-            CloseConnection?.Invoke(this);
+            Close();
         }
 
         private MessagePacket _read()

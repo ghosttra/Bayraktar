@@ -10,8 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BayraktarGame;
+using GameEntities;
 
-namespace GameEntities
+namespace GameServerInterface
 {
     public partial class UnitsEdit : Form
     {
@@ -23,10 +24,6 @@ namespace GameEntities
 
         private void _init()
         {
-            dbButtons.delBtn.Click += delBtn_Click;
-            dbButtons.addBtn.Click += addBtn_Click;
-            dbButtons.updBtn.Click += updBtn_Click;
-
             unitsDGV.AutoGenerateColumns = false;
             unitsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             _updateDgv();
@@ -218,6 +215,13 @@ namespace GameEntities
                     _init();
                 }
             });
+        }
+
+        private void dbButtons_Load(object sender, EventArgs e)
+        {
+            dbButtons.delBtn.Click += delBtn_Click;
+            dbButtons.addBtn.Click += addBtn_Click;
+            dbButtons.updBtn.Click += updBtn_Click;
         }
     }
 }

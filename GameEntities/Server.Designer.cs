@@ -1,4 +1,4 @@
-﻿namespace GameEntities
+﻿namespace GameServerInterface
 {
     partial class ServerInterface
     {
@@ -54,8 +54,8 @@
             // 
             // logBox
             // 
-            this.logBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.logBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logBox.FormattingEnabled = true;
             this.logBox.Location = new System.Drawing.Point(0, 145);
@@ -163,6 +163,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 500);
             this.Name = "ServerInterface";
             this.Text = "Server";
+            this.Load += new System.EventHandler(this.ServerInterface_Load);
             this.configPanel.ResumeLayout(false);
             this.configPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.portBox)).EndInit();

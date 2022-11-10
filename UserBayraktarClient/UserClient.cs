@@ -11,7 +11,7 @@ using Message;
 
 namespace UserGameClient
 {
-    public class UserClient
+    public class UserClient : IDisposable
     {
         private User _user;
         public User User
@@ -30,7 +30,7 @@ namespace UserGameClient
         private IPAddress _serverIp;
         private int _serverPort;
         private TcpClient _client;
-        private NetworkStream _stream => _client.GetStream();
+        private NetworkStream _stream => _client?.GetStream();
         public bool? IsConnected => _client?.Connected;
         public UserClient(string serverIp, int serverPort, User user) : this(serverIp, serverPort)
         {
@@ -53,6 +53,8 @@ namespace UserGameClient
 
         private async void _connect(Func<bool> authorization)
         {
+            if (_client == null)
+                _client = new TcpClient();
             try
             {
                 if (User == null)
@@ -90,9 +92,18 @@ namespace UserGameClient
 
         public void Close()
         {
-            Send(new MessageCommand { Command = "DISCONNECTED" });
-            _client?.Close();
-            Connected?.Invoke(false);
+            if(IsConnected != true)
+                return;
+            try
+            {
+                Send(new MessageCommand { Command = "DISCONNECTED" });
+            }
+            finally
+            {
+                _client?.Close();
+                
+                Connected?.Invoke(false);
+            }
         }
         private bool _authorize(bool isLogin)
         {
@@ -137,5 +148,9 @@ namespace UserGameClient
             _client = new TcpClient();
         }
 
+        public void Dispose()
+        {
+            _client?.Dispose();
+        }
     }
 }

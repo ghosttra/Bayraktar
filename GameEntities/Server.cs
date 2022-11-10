@@ -8,9 +8,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GameServerInterface;
 using UserBayraktarServer;
 
-namespace GameEntities
+namespace GameServerInterface
 {
     public partial class ServerInterface : Form
     {
@@ -68,7 +69,12 @@ namespace GameEntities
 
         private void userControlBtn_Click(object sender, EventArgs e)
         {
+            new UsersControl().ShowDialog();
+        }
 
+        private void ServerInterface_Load(object sender, EventArgs e)
+        {
+            startBtn.PerformClick();
         }
     }
 }

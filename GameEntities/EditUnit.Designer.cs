@@ -1,4 +1,4 @@
-﻿namespace GameEntities
+﻿namespace GameServerInterface
 {
     partial class UnitsEdit
     {
@@ -183,6 +183,7 @@
             this.dbButtons.Name = "dbButtons";
             this.dbButtons.Size = new System.Drawing.Size(249, 38);
             this.dbButtons.TabIndex = 14;
+            this.dbButtons.Load += new System.EventHandler(this.dbButtons_Load);
             // 
             // UnitsEdit
             // 
