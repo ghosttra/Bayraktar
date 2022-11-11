@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using BayraktarGame;
 using GameEntities;
 using Message;
+using GServer;
 
 namespace UserBayraktarServer
 {
@@ -121,14 +122,38 @@ namespace UserBayraktarServer
             else
                 _waitingUsers.Remove(user);
         }
-
+        private List<IPAddress> _games = new List<IPAddress>();
         private void _startMultiGame(UserConnection attack, UserConnection defense)
         {
-            
+            var ip = _createNewGame();
+            var server = new GameServer(ip);
+        }
+
+        private IPEndPoint _createNewGame()
+        {
+
+            var ip = new IPEndPoint(_generateIp(),1000);
+            return ip;
+        }
+
+        private IPAddress _generateIp()
+        {
+            //224.0. 0.0 through 239.255. 255.255.
+            //if (_games.Count == 0 || _games[_games.Count - 1].Equals(IPAddress.Parse("239.255.255.255")))
+            //{
+            //    return IPAddress.Parse("224.0.0.0");
+            //}
+
+            //var ip = _games[_games.Count - 1];
+            var ip = IPAddress.Parse("224.255.255.255");
+
+       
+            return ip;
         }
 
         private void _startSingleGame(UserConnection defense)
         {
+            var ip = _createNewGame();
 
         }
 
@@ -218,6 +243,17 @@ namespace UserBayraktarServer
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+    }
+
+    internal static class Extension
+    {
+        public static IPAddress GetNext(this IPAddress ipAddress, uint increment=1)
+        {
+            byte[] addressBytes = ipAddress.GetAddressBytes().Reverse().ToArray();
+            uint ipAsUint = BitConverter.ToUInt32(addressBytes, 0);
+            var nextAddress = BitConverter.GetBytes(ipAsUint + increment);
+           return IPAddress.Parse(String.Join(".", nextAddress.Reverse()));
         }
     }
 }

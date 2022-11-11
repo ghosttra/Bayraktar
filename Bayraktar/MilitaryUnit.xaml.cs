@@ -16,7 +16,7 @@ namespace Bayraktar
         {
             this.Unit = unit;
             InitializeComponent();
-            _setImageSource(MU.Source, unit.Image);
+            //_setImageSource(MU.Source, unit.Image);
             //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + unit + ".png") as ImageSource;
         }
 

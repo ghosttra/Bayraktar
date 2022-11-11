@@ -15,6 +15,14 @@ namespace Bayraktar
         {
         }
 
+        public void SendCommand(string command)
+        {
+            var message = new MessageCommand
+            {
+                Command = command
+            };
+            Send(message);
+        }
         private static CurrentClient _instance;
 
         public static CurrentClient Instance => _instance ?? (_instance = new CurrentClient());

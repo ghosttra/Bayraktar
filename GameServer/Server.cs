@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Message;
 
-namespace GameServer
+namespace GServer
 {
-    public class Server
+    public class GameServer
     {
         private readonly IPEndPoint _serverEndPoint;
-        public Server(IPEndPoint endPoint)
+        public GameServer(IPEndPoint endPoint)
         {
             _serverEndPoint = endPoint;
         }
