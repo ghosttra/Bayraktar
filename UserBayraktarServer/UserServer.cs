@@ -122,7 +122,7 @@ namespace UserBayraktarServer
             else
                 _waitingUsers.Remove(user);
         }
-        private List<IPAddress> _games = new List<IPAddress>();
+        private List<IPEndPoint> _games = new List<IPEndPoint>();
         private void _startMultiGame(UserConnection attack, UserConnection defense)
         {
             var ip = _createNewGame();
@@ -131,30 +131,27 @@ namespace UserBayraktarServer
 
         private IPEndPoint _createNewGame()
         {
-
-            var ip = new IPEndPoint(_generateIp(),1000);
-            return ip;
+            var ipAddress = _generateIp();
+            var gameServer = new IPEndPoint(ipAddress,1000);
+            _games.Add(gameServer);
+            return gameServer;
         }
 
         private IPAddress _generateIp()
         {
             //224.0. 0.0 through 239.255. 255.255.
-            //if (_games.Count == 0 || _games[_games.Count - 1].Equals(IPAddress.Parse("239.255.255.255")))
-            //{
-            //    return IPAddress.Parse("224.0.0.0");
-            //}
-
-            //var ip = _games[_games.Count - 1];
-            var ip = IPAddress.Parse("224.255.255.255");
-
-       
-            return ip;
+            _games.Add(IPAddress.Parse("239.255.255.255"));
+            if (_games.Count == 0 || _games[_games.Count - 1].Address.Equals(IPAddress.Parse("239.255.255.255")))
+            {
+                return IPAddress.Parse("224.0.0.0");
+            }
+            return _games[_games.Count - 1].GetNext();
         }
 
         private void _startSingleGame(UserConnection defense)
         {
             var ip = _createNewGame();
-
+            
         }
 
         private void CloseConnection(UserConnection user)
