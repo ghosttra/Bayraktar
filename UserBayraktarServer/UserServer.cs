@@ -140,12 +140,11 @@ namespace UserBayraktarServer
         private IPAddress _generateIp()
         {
             //224.0. 0.0 through 239.255. 255.255.
-            _games.Add(IPAddress.Parse("239.255.255.255"));
             if (_games.Count == 0 || _games[_games.Count - 1].Address.Equals(IPAddress.Parse("239.255.255.255")))
             {
                 return IPAddress.Parse("224.0.0.0");
             }
-            return _games[_games.Count - 1].GetNext();
+            return _games[_games.Count - 1].Address.GetNext();
         }
 
         private void _startSingleGame(UserConnection defense)
