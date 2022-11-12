@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using BayraktarGame;
 using Message;
 
 namespace UserBayraktarServer
@@ -34,6 +35,7 @@ namespace UserBayraktarServer
         }
         private readonly CancellationTokenSource _cts;
         private readonly CancellationToken _token;
+        public User User { get; set; }
         public UserConnection(TcpClient client)
         {
             _client = client;
@@ -116,5 +118,14 @@ namespace UserBayraktarServer
             return null;
         }
 
+        public string CheckVersion()
+        {
+            Send(new MessageCommand{Command = "VERSION"});
+            if (_read() is MessageText version)
+            {
+                return version.Text;
+            }
+            return null;
+        }
     }
 }

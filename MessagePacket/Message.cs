@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,14 +65,48 @@ namespace Message
         {
         }
     }
+
+    [Serializable]
+    public class MessageGameData : MessagePacket
+    {
+        public IPEndPoint Server { get; set; }
+        public GameRole GameRole { get; set; }
+
+        public MessageGameData() : base(MessageType.Data)
+        {
+        }
+    }
     [Serializable]
     public class MessageDataContent : MessagePacket
     {
         public MessageDataContent() : base(MessageType.Data)
         {
         }
+
+        public MessageDataContent(object content) : this()
+        {
+            SetContent(content);
+        }
         public byte[] Content { get; set; }
+
+        public void SetContent(object content)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BinaryFormatter form = new BinaryFormatter();
+                    form.Serialize(stream, content);
+                    Content = stream.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                Content = null;
+            }
+        }
     }
+
     [Serializable]
     public class MessageCommand : MessagePacket
     {

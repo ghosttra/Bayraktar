@@ -9,19 +9,32 @@ using Message;
 
 namespace GServer
 {
-    public class GameServer
+    public class GameServer:IDisposable
     {
-        private readonly IPEndPoint _serverEndPoint;
+        public  IPEndPoint ServerEndPoint { get; }
+
+        public IPAddress ServerAddress => ServerEndPoint.Address;
+
+        public Action<GameServer> StartGame;
+        public Action<GameServer> EndGame;
         public GameServer(IPEndPoint endPoint)
         {
-            _serverEndPoint = endPoint;
+            ServerEndPoint = endPoint;
         }
         public Task SendMessageAsync(MessagePacket message) => Task.Factory.StartNew(() => SendMessage(message));
         public void SendMessage(MessagePacket message)
         {
             var buffer = message.ToBytes();
-            new UdpClient().Send(buffer, buffer.Length, _serverEndPoint);
+            new UdpClient().Send(buffer, buffer.Length, ServerEndPoint);
         }
 
+        public void End()
+        {
+            EndGame?.Invoke(this);
+        }
+        public void Dispose()
+        {
+            End();
+        }
     }
 }
