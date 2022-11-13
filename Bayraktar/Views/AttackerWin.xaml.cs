@@ -1,6 +1,7 @@
 ﻿using BayraktarGame;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +18,15 @@ namespace Bayraktar {
     /// <summary>
     /// Interaction logic for AttackerWin.xaml
     /// </summary>
-    public partial class AttackerWin : Window {
+    public partial class AttackerWin : Window 
+    {
 
-        List<Unit> MilitaryUnits;
-        public AttackerWin() {
+        ObservableCollection<Unit> MilitaryUnits;
+        public AttackerWin() 
+        {
             InitializeComponent();
 
-            List<Unit> MilitaryUnits = new List<Unit>();
+            ObservableCollection<Unit> MilitaryUnits = new ObservableCollection<Unit>();
             MilitaryUnits.Add(new Unit() { Id = 0, CoolDown = 500, Name = "ArtZ", Price = 100 });
             MilitaryUnits.Add(new Unit() { Id = 1, CoolDown = 400, Name = "BTR", Price = 100 });
 
@@ -35,11 +38,13 @@ namespace Bayraktar {
             //}
         }
 
-        private void AttackerMenu_MouseEnter(object sender, MouseEventArgs e) {
+        private void AttackerMenu_MouseEnter(object sender, MouseEventArgs e) 
+        {
             AttackerMenuCanvas.Margin = new Thickness(40,0,0,0);
         }
 
-        private void AttackerMenu_MouseLeave(object sender, MouseEventArgs e) {
+        private void AttackerMenu_MouseLeave(object sender, MouseEventArgs e) 
+        {
             AttackerMenuCanvas.Margin = new Thickness(590, 0, 0, 0);
         }
     }

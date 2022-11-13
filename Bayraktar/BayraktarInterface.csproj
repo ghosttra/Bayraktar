@@ -145,39 +145,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AttackerWin.xaml.cs">
+    <Compile Include="Views\AttackerWin.xaml.cs">
       <DependentUpon>AttackerWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Authtorize.xaml.cs">
+    <Compile Include="Views\Authtorize.xaml.cs">
       <DependentUpon>Authtorize.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CurrentClient.cs" />
-    <Compile Include="MainWin.xaml.cs">
+    <Compile Include="Models\CurrentClient.cs" />
+    <Compile Include="Views\MainWin.xaml.cs">
       <DependentUpon>MainWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBox.xaml.cs">
+    <Compile Include="Views\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RatingWindow.xaml.cs">
+    <Compile Include="Views\RatingWindow.xaml.cs">
       <DependentUpon>RatingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SaveResult.xaml.cs">
+    <Compile Include="Views\SaveResult.xaml.cs">
       <DependentUpon>SaveResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
-    <Page Include="AttackerWin.xaml">
+    <Compile Include="Models\User.cs" />
+    <Page Include="Views\AttackerWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Authtorize.xaml">
+    <Page Include="Views\Authtorize.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Game.xaml">
+    <Page Include="Views\Game.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainMenu.xaml">
+    <Page Include="Views\MainMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -185,35 +185,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CurentDateTime.cs" />
-    <Compile Include="Game.xaml.cs">
+    <Compile Include="Models\CurentDateTime.cs" />
+    <Compile Include="Views\Game.xaml.cs">
       <DependentUpon>Game.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainMenu.xaml.cs">
+    <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MainWin.xaml">
+    <Page Include="Views\MainWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBox.xaml">
+    <Page Include="Views\MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MilitaryUnit.xaml">
+    <Page Include="Views\MilitaryUnit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PauseWindow.xaml">
+    <Page Include="Views\PauseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RatingWindow.xaml">
+    <Page Include="Views\RatingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SaveResult.xaml">
+    <Page Include="Views\SaveResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,10 +223,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MilitaryUnit.xaml.cs">
+    <Compile Include="Views\MilitaryUnit.xaml.cs">
       <DependentUpon>MilitaryUnit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PauseWindow.xaml.cs">
+    <Compile Include="Views\PauseWindow.xaml.cs">
       <DependentUpon>PauseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -260,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Data\Pictures\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
