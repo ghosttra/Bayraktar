@@ -15,6 +15,14 @@ namespace Bayraktar
         {
         }
 
+        public void SendCommand(string command)
+        {
+            var message = new MessageCommand
+            {
+                Command = command
+            };
+            Send(message);
+        }
         private static CurrentClient _instance;
 
         public static CurrentClient Instance => _instance ?? (_instance = new CurrentClient());
@@ -29,7 +37,6 @@ namespace Bayraktar
         {
             try
             {
-
                 var env = DotEnv.Read();
                 var ip = IPAddress.Parse(env["SERVER_IP"].Trim());
                 var port = Int32.Parse(env["SERVER_PORT"]);

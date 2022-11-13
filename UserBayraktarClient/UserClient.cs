@@ -69,11 +69,54 @@ namespace UserGameClient
                         Close();
                         _client = new TcpClient();
                     }
+
+                    _checkVersion();
             }
             catch (Exception e)
             {
                 Connected?.Invoke(false);
                 Info?.Invoke(e.Message);
+            }
+        }
+
+        private void _checkVersion()
+        {
+            MessagePacket message;
+            do
+            {
+                message = _read();
+            }while (!(message is MessageCommand));
+
+            if ((message as MessageCommand).Command.Equals("VERSION"))
+            {
+                Send(new MessageText
+                {
+                    Text = Version
+                });
+            }
+        }
+
+        private string _versionPath => "GameVersion.ver";
+        
+        public string Version
+        {
+            get
+            {
+                if (File.Exists(_versionPath))
+                {
+                    using (var stream = new StreamReader(_versionPath))
+                    {
+                        return stream.ReadToEnd();
+                    }
+                }
+                return null;
+            }
+            private set
+            {
+                using (var stream = new StreamWriter(_versionPath, false))
+                {
+                    stream.Write(value);
+                }
             }
         }
 

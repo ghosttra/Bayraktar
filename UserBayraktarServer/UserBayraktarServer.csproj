@@ -64,6 +64,10 @@
       <Project>{8dcc2eac-2a59-42df-8819-1fcd8b5c947b}</Project>
       <Name>DatabaseBayraktar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameServer\GameServer.csproj">
+      <Project>{7d95b883-f419-4041-93d0-911a44afd714}</Project>
+      <Name>GameServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessagePacket\MessagePacket.csproj">
       <Project>{0eb1ac98-6065-45ee-b83e-332e43be9df8}</Project>
       <Name>MessagePacket</Name>

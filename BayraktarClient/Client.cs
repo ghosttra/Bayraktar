@@ -14,18 +14,23 @@ namespace BayraktarClient
     public class GameClient
     {
         private IPEndPoint _server;
+        private UdpClient _client;
         private int _localPort;
         public User User { get; }
         private CancellationTokenSource _cts;
         private CancellationToken _token;
-        public short MaxSpeed { get; set; } = 5;
-        public short MinSpeed { get; set; } = 15;
-        public int HealthPoints { get; set; }
+
+        //public short MaxSpeed { get; set; } = 5;
+        //public short MinSpeed { get; set; } = 15;
+        //public int HealthPoints { get; set; }
+
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
             _localPort = localPort;
             _server = server;
+            _client = new UdpClient(localPort);
+            _client.JoinMulticastGroup(_server.Address, 15);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             Task.Factory.StartNew(_start, _token);
