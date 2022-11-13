@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -30,7 +31,7 @@ namespace Bayraktar
             InitializeComponent();
 
             _load();
-            
+            Focus();
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
         }
@@ -133,12 +134,17 @@ namespace Bayraktar
                         break;
 
                     default:
-                        Application.Current.Shutdown();
+                        _exit();
                         break;
                 }
                 setClouds();
             }
 
+        }
+
+        private void _exit()
+        {
+            Application.Current.Shutdown();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -180,6 +186,12 @@ namespace Bayraktar
             //catch (Exception)
             //{
             //}
+        }
+
+        private void MainMenu_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape)
+                _exit();
         }
     }
 }

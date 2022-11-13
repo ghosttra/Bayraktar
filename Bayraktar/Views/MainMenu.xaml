@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bayraktar"
+        xmlns:local="clr-namespace:Bayraktar" Focusable="True" KeyDown="MainMenu_OnKeyDown"
         mc:Ignorable="d" d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid x:Name="Grids">
         <Grid.Resources>
@@ -35,17 +35,17 @@
                     <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід"  />
 
                 </StackPanel>
-                <Image Grid.Row="1" x:Name="Bayraktar" Margin="30,0,30,0" Source="Pictures/Bayraktar.png"/>
+                <Image Grid.Row="1" x:Name="Bayraktar" Margin="30,0,30,0" Source="../Pictures/Bayraktar.png"/>
                 <Border Grid.Row="0" Background="DarkGray">
-                    <Image x:Name="Logo" Source="Pictures/logo.png"/>
+                    <Image x:Name="Logo" Source="../Pictures/logo.png"/>
                 </Border>
             </Grid>
         </Border>
         <Canvas Grid.Column="0"  Background="LightBlue">
-            <Image Style="{StaticResource RotateStyle}"  x:Name="CloudLeft" Source="Pictures/cloud.png" Height="313" Width="262" Canvas.Left="19" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="0"/>
+            <Image Style="{StaticResource RotateStyle}"  x:Name="CloudLeft" Source="../Pictures/cloud.png" Height="313" Width="262" Canvas.Left="19" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="0"/>
         </Canvas>
         <Canvas Grid.Column="2"  Background="LightBlue">
-            <Image Style="{StaticResource RotateStyle}" x:Name="CloudRight" Source="Pictures/cloud.png" Height="313" Width="262" Canvas.Left="19" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="0">
+            <Image Style="{StaticResource RotateStyle}" x:Name="CloudRight" Source="../Pictures/cloud.png" Height="313" Width="262" Canvas.Left="19" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="0">
 
             </Image>
         </Canvas>
