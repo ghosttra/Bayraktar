@@ -25,7 +25,7 @@
                     <Setter.Value>
                         <VisualBrush>
                             <VisualBrush.Visual>
-                                <Image Source ="Pictures\Levels\Road.png"/>
+                                <Image Source ="..\Pictures\Levels\Road.png"/>
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Setter.Value>

@@ -15,7 +15,7 @@
         <Grid.Background>
             <VisualBrush>
                 <VisualBrush.Visual>
-                    <Image Source="Pictures/background.jpg"/>
+                    <Image Source="../Pictures/background.jpg"/>
                 </VisualBrush.Visual>
             </VisualBrush>
         </Grid.Background>
