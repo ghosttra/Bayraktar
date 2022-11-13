@@ -37,7 +37,6 @@ namespace Bayraktar
         {
             try
             {
-
                 var env = DotEnv.Read();
                 var ip = IPAddress.Parse(env["SERVER_IP"].Trim());
                 var port = Int32.Parse(env["SERVER_PORT"]);

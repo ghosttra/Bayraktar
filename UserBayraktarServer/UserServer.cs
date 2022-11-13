@@ -79,13 +79,13 @@ namespace UserBayraktarServer
         {
             var client = _server.AcceptTcpClient();
             Inform?.Invoke("Accept connection");
-            Task.Factory.StartNew(() => _verify(client), _token);
+            Task.Factory.StartNew(() => _connect(client), _token);
 
         }
 
         private List<UserConnection> _users = new List<UserConnection>();
         private List<UserConnection> _waitingUsers = new List<UserConnection>();
-        private void _verify(TcpClient client)
+        private void _connect(TcpClient client)
         {
             var clientConnection = new UserConnection(client);
             var auth = clientConnection.Authorize();
@@ -99,18 +99,34 @@ namespace UserBayraktarServer
                 clientConnection.Close();
             }
             Inform?.Invoke($"User started connection");
-            //_checkData(clientConnection);
             clientConnection.User = user;
+            _users.Add(clientConnection);
             clientConnection.Query += Query;
             clientConnection.InQueueEvent += InQueueEvent;
             clientConnection.CloseConnection += CloseConnection;
-            clientConnection.RunAsync();
-            _users.Add(clientConnection);
+
+            Task.Factory.StartNew(()=>_checkData(clientConnection), _token)
+                .ContinueWith(t =>
+                {
+                    clientConnection.RunAsync();
+                }, _token);
         }
 
+        public string ActualVersion;
         private void _checkData(UserConnection client)
         {
             string version = client.CheckVersion();
+            if (version == null || !version.Equals(ActualVersion))
+            {
+                _updateClient(client);
+            }
+        }
+
+        private void _updateClient(UserConnection client)
+        {
+            client.Send(new MessageCommand{Command = "UPDATE"});
+            client.Send(_getUnits());
+            
         }
 
         private void InQueueEvent(UserConnection user, bool inQueue)
