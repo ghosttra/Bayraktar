@@ -21,7 +21,7 @@
                     <Setter.Value>
                         <VisualBrush>
                             <VisualBrush.Visual>
-                                <Image Source ="Pictures\Levels\Road.png"/>
+                                <Image Source ="\Pictures\Levels\Road.png"/>
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Setter.Value>
@@ -38,7 +38,7 @@
             <Canvas/>
         </Border>
         <Canvas x:Name="AttackerMenuCanvas" MouseLeave="AttackerMenu_MouseLeave" MouseDown="AttackerMenu_MouseEnter" Background="DarkGreen" Grid.Column="2" Margin="590,0,0,0">
-            <ListBox Background="DarkOliveGreen" x:Name="MilitaryUnitsLists" Margin="50,0,0,0" Height="1080" Width="550"
+            <ListBox SelectionMode="Single" MouseDoubleClick="MilitaryUnitsLists_MouseDoubleClick" Background="DarkOliveGreen" x:Name="MilitaryUnitsLists" Margin="50,0,0,0" Height="1080" Width="550"
             HorizontalContentAlignment="Stretch">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
