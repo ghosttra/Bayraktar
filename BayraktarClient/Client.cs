@@ -66,9 +66,6 @@ namespace BayraktarClient
             IPEndPoint endPoint = null;
             var buffer = _client.Receive(ref endPoint);
             _handle(buffer);
-
-            //var receive = new UdpClient(_localPort).ReceiveAsync();
-            //_handle(receive.Result);
         }
 
         private void _handle(byte[] buffer)
