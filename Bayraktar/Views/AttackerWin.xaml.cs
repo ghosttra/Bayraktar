@@ -47,5 +47,11 @@ namespace Bayraktar {
         {
             AttackerMenuCanvas.Margin = new Thickness(590, 0, 0, 0);
         }
+
+        private void MilitaryUnitsLists_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+           if (MilitaryUnitsLists.SelectedItem != null) {
+                System.Windows.Forms.MessageBox.Show("Test");
+            }
+        }
     }
 }

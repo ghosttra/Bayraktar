@@ -286,24 +286,6 @@
       <Name>UserBayraktarClient</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\Bayraktar.png" />
-    <Resource Include="Pictures\cloud.png" />
-    <Resource Include="Pictures\curOfBayraktar.cur" />
-    <Resource Include="Pictures\icon.ico" />
-    <Resource Include="Pictures\Levels\Road.png" />
-    <Resource Include="Pictures\logo.png" />
-    <Resource Include="Pictures\MilitaryUnits\APC-Z.png" />
-    <Resource Include="Pictures\MilitaryUnits\APC-Z_Destroyed.png" />
-    <Resource Include="Pictures\MilitaryUnits\Grad.png" />
-    <Resource Include="Pictures\MilitaryUnits\Grad_Destroyed.png" />
-    <Resource Include="Pictures\MilitaryUnits\T-90.png" />
-    <Resource Include="Pictures\MilitaryUnits\T-90_Destroyed.png" />
-    <Resource Include="Pictures\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\background.jpg" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
