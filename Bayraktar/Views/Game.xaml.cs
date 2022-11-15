@@ -39,15 +39,15 @@ namespace Bayraktar
                     break;
             }
 
-            dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
-            dispatcherTimer.Tick += (sender, args) =>
-            {
-                for (int r = 0; r < rnd.Next(3, 9); r++)
-                {
-                    AddMilitaryUnit();
-                }
-            };
-            dispatcherTimer.Start();
+            //dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
+            //dispatcherTimer.Tick += (sender, args) =>
+            //{
+            //    for (int r = 0; r < rnd.Next(3, 9); r++)
+            //    {
+            //        AddMilitaryUnit();
+            //    }
+            //};
+            //dispatcherTimer.Start();
 
         }
         private Game()

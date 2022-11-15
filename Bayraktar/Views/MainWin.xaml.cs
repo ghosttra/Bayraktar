@@ -29,6 +29,7 @@ namespace Bayraktar
             {
                 CurrentClient.Instance.Init();
                 CurrentClient.Instance.StartGame+=  StartGame;
+                CurrentClient.Instance.WaitForGame+= WaitForGame;
             }
             catch (Exception e)
             {
@@ -38,9 +39,47 @@ namespace Bayraktar
             Content = new Authorize();
         }
 
+        private void _initWaitingBox()
+        {
+            var cancel = new Button
+            {
+                Content = "Cancel"
+            };
+            cancel.Click += (sender, args) =>
+            {
+                _waitingBox.DialogResult = false;
+                _waitingBox.Result = System.Windows.Forms.DialogResult.Cancel;
+            };
+            _waitingBox = new MessageBox("Wait for game", new List<Button> { cancel }){Owner = this};
+        }
+
+        private MessageBox _waitingBox;
+        private void WaitForGame(bool isWait)   
+        {
+            if (isWait)
+            {
+                _invoke(() =>
+                {
+                    _initWaitingBox();
+                    _waitingBox.ShowDialog();
+                });
+            }
+            else
+            {
+                _invoke(()=>_waitingBox.Close());
+            }
+        }
+        private void _invoke(Action action)
+        {
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(action);
+            else
+                action();
+        }
+
         private void StartGame(GameClient client, GameRole role)
         {
-            Content = new Game(client,role);
+           _invoke(()=> Content = new Game(client,role));
         }
         
         private void MainWin_OnClosing(object sender, CancelEventArgs e)

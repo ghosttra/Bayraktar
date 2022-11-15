@@ -242,6 +242,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Views\Pictures\background.jpg" />
+    <Resource Include="Views\Pictures\Bayraktar.png" />
+    <Resource Include="Views\Pictures\cloud.png" />
+    <Resource Include="Views\Pictures\curOfBayraktar.cur" />
+    <Resource Include="Views\Pictures\icon.ico" />
+    <Resource Include="Views\Pictures\Levels\Road.png" />
+    <Resource Include="Views\Pictures\logo.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\APC-Z.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\APC-Z_Destroyed.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\Grad.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\Grad_Destroyed.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\T-90.png" />
+    <Resource Include="Views\Pictures\MilitaryUnits\T-90_Destroyed.png" />
+    <Resource Include="Views\Pictures\pause.png" />
     <Resource Include="Properties\DIGIT.TTF" />
     <Content Include=".env">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using BayraktarClient;
@@ -52,26 +53,31 @@ namespace Bayraktar
 
         public GameClient GameConnection;
         public Action<GameClient, GameRole> StartGame;
-        public void StartSingleGame()
+        public Action<bool> WaitForGame;
+        public async void StartSingleGame()
         {
             Client.SendCommand("SINGLE");
-            var game  =Client.Receive();
-            if (game is MessageGameData data)
-            {
-                GameConnection = new GameClient(Client.User, 1000, data.Server);
-                StartGame?.Invoke(GameConnection, data.GameRole);
-            }
+            await Task.Run(_waitForGameServer);
         }
 
-        public void StartMultiGame()
+        public async  void StartMultiGame()
         {
             Client.SendCommand("MULTI");
+            await Task.Run(_waitForGameServer);
+        }
+
+        private void _waitForGameServer()
+        {
+
+            WaitForGame?.Invoke(true);
             var game = Client.Receive();
             if (game is MessageGameData data)
             {
                 GameConnection = new GameClient(Client.User, 1000, data.Server);
+                WaitForGame?.Invoke(false);
                 StartGame?.Invoke(GameConnection, data.GameRole);
             }
         }
+            
     }
 }

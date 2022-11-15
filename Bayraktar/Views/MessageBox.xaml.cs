@@ -20,11 +20,25 @@ namespace Bayraktar
     {
         private Dictionary<string, Button> _buttons = new Dictionary<string, Button>();
         public DialogResult Result;
-        public MessageBox(string info, MessageBoxButton buttons)
+
+        public MessageBox(string info, List<Button> buttons)
         {
-            InitializeComponent();
             _init();
             InfoLabel.Text = info;
+            foreach (var button in buttons)
+            {
+                ButtonPanel.Children.Add(button);
+            }
+        }
+        public MessageBox(string info, MessageBoxButton buttons)
+        {
+            _init();
+            InfoLabel.Text = info;
+            _setBtn(buttons);
+        }
+
+        private List<Button> _setBtn(MessageBoxButton buttons)
+        {
             List<Button> buttonsList = new List<Button>();
             switch (buttons)
             {
@@ -47,15 +61,14 @@ namespace Bayraktar
                     buttonsList.Add(_buttons["Cancel"]);
                     break;
             }
+            return buttonsList;
 
-            foreach (var button in buttonsList)
-            {
-                ButtonPanel.Children.Add(button);
-            }
         }
 
         private void _init()
         {
+            InitializeComponent();
+
             var ok = new Button
             {
                 Tag = "Ok", Content = "Ok",
