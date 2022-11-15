@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BayraktarGame;
 using Message;
@@ -47,7 +49,6 @@ namespace UserGameClient
             _serverIp = serverIp;
             _serverPort = serverPort;
         }
-
         public event Action<string> Info;
         public event Action<bool> Connected;
 
@@ -55,22 +56,27 @@ namespace UserGameClient
         {
             if (_client == null)
                 _client = new TcpClient();
+            if(IsConnected==true)
+                return;
+            
             try
             {
                 if (User == null)
                     throw new ArgumentNullException("No user to authtorize");
                 await _client.ConnectAsync(_serverIp, _serverPort);
-              
-                    var auth = authorization();
-                    Connected?.Invoke(auth);
-                    if (!auth)
-                    {
-                        Info?.Invoke("Authorization false");
-                        Close();
-                        _client = new TcpClient();
-                    }
 
-                    _checkVersion();
+                var auth = authorization();
+                Connected?.Invoke(auth);
+                if (!auth)
+                {
+                    Info?.Invoke("Authorization false");
+                    Close();
+                    _client = new TcpClient();
+                }
+                //else
+                //    _ = StartAsync();
+
+                // _checkVersion();
             }
             catch (Exception e)
             {
@@ -85,7 +91,7 @@ namespace UserGameClient
             do
             {
                 message = _read();
-            }while (!(message is MessageCommand));
+            } while (!(message is MessageCommand));
 
             if ((message as MessageCommand).Command.Equals("VERSION"))
             {
@@ -97,7 +103,7 @@ namespace UserGameClient
         }
 
         private string _versionPath => "GameVersion.ver";
-        
+
         public string Version
         {
             get
@@ -123,7 +129,7 @@ namespace UserGameClient
         public Task ConnectAsync() => Task.Factory.StartNew(Connect);
         public void Connect()
         {
-            _connect(()=>_authorize(true));
+            _connect(() => _authorize(true));
         }
 
         //R = Registration
@@ -131,11 +137,11 @@ namespace UserGameClient
         {
             _connect(() => _authorize(false));
         }
-        public Task ConnectAsyncR()=> Task.Factory.StartNew(ConnectR);
-
+        public Task ConnectAsyncR() => Task.Factory.StartNew(ConnectR);
+  
         public void Close()
         {
-            if(IsConnected != true)
+            if (IsConnected != true)
                 return;
             try
             {
@@ -144,7 +150,7 @@ namespace UserGameClient
             finally
             {
                 _client?.Close();
-                
+
                 Connected?.Invoke(false);
             }
         }
@@ -178,14 +184,27 @@ namespace UserGameClient
             }
 
         }
-        public MessagePacket Receive()=>_read();
-            
+
+        public MessagePacket Receive()
+        {
+            return _read();
+        }
+        
+
+      
         public void Send(MessagePacket message)
         {
             var buffer = message.ToBytes();
             _stream.Write(buffer, 0, buffer.Length);
         }
-
+        public void SendCommand(string command)
+        {
+            var message = new MessageCommand
+            {
+                Command = command
+            };
+            Send(message);
+        }
         public void Refresh()
         {
             _client = new TcpClient();
@@ -194,6 +213,11 @@ namespace UserGameClient
         public void Dispose()
         {
             _client?.Dispose();
+        }
+
+        public void GetRating()
+        {
+            SendCommand("RATING");
         }
     }
 }

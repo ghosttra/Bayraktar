@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BayraktarClient;
+using BayraktarGame;
 
 namespace Bayraktar
 {
@@ -26,6 +28,7 @@ namespace Bayraktar
             try
             {
                 CurrentClient.Instance.Init();
+                CurrentClient.Instance.StartGame+=  StartGame;
             }
             catch (Exception e)
             {
@@ -35,6 +38,11 @@ namespace Bayraktar
             Content = new Authorize();
         }
 
+        private void StartGame(GameClient client, GameRole role)
+        {
+            Content = new Game(client,role);
+        }
+        
         private void MainWin_OnClosing(object sender, CancelEventArgs e)
         {
             CurrentClient.Instance.Client.Close();

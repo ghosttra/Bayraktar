@@ -124,13 +124,11 @@ namespace Bayraktar
                         ((Window)Parent).Content= new RatingWindow();
                         break;
                     case "Start":
-                        CurrentClient.Instance.SendCommand("SINGLE");
-                       // ((Window)Parent).Content = new Game(GameMode.Singleplayer, GameRole.Attack);
+                        CurrentClient.Instance.StartSingleGame();
                         break;
                     case "StartMultiplayer":
-                        //todo
+                        CurrentClient.Instance.StartMultiGame();
 
-                        ((Window)Parent).Content = new Game(GameMode.Multiplayer, GameRole.Attack);
                         break;
 
                     default:

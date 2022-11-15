@@ -16,7 +16,7 @@
         <DockPanel Grid.Column="0" LastChildFill="False">
             <Button DockPanel.Dock="Top" Content="Всi" Click="ShowAll_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
             <Button DockPanel.Dock="Top" Content="Мої ігри" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
-            <Button DockPanel.Dock="Top" Content="По очкам" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
+            <!--<Button DockPanel.Dock="Top" Content="По очкам" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>-->
 
         </DockPanel>
         <ListBox Background="SlateGray" Grid.Column="1"

@@ -97,6 +97,7 @@ namespace UserBayraktarServer
             {
                 Inform?.Invoke($"Authorization failed");
                 clientConnection.Close();
+                return;
             }
             Inform?.Invoke($"User started connection");
             clientConnection.User = user;
@@ -115,11 +116,11 @@ namespace UserBayraktarServer
         public string ActualVersion;
         private void _checkData(UserConnection client)
         {
-            string version = client.CheckVersion();
-            if (version == null || !version.Equals(ActualVersion))
-            {
-                _updateClient(client);
-            }
+            //string version = client.CheckVersion();
+            //if (version == null || !version.Equals(ActualVersion))
+            //{
+            //    _updateClient(client);
+            //}
         }
 
         private void _updateClient(UserConnection client)
@@ -154,7 +155,17 @@ namespace UserBayraktarServer
             attack.Send(new MessageGameData { GameRole = GameRole.Attack, Server = gameServer.ServerEndPoint });
             defense.Send(new MessageGameData { GameRole = GameRole.Defense, Server = gameServer.ServerEndPoint });
         }
+        private void _getServerMulti(UserConnection user)
+        {
+            user.WaitingForMultiplayer();
+        }
 
+        private void _getServerSingle(UserConnection user)
+        {
+            var gameServer = _createNewGame();
+            user.Send(new MessageGameData { Server = gameServer.ServerEndPoint, GameRole = GameRole.Defense});
+
+        }
         private GameServer _createNewGame()
         {
             var ipAddress = _generateIp();
@@ -191,6 +202,7 @@ namespace UserBayraktarServer
                 {
                     case "RATING":
                         var rating = _getRating();
+                        rating.Description = command.Command;
                         if (rating != null)
                             user.Send(rating);
                         else
@@ -212,16 +224,7 @@ namespace UserBayraktarServer
 
         #region Commands
 
-        private void _getServerMulti(UserConnection user)
-        {
-            user.WaitingForMultiplayer();
-        }
 
-        private void _getServerSingle(UserConnection user)
-        {
-            var ip = _createNewGame();
-
-        }
 
         private MessageDataContent _getRating()
         {

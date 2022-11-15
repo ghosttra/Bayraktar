@@ -87,6 +87,7 @@ namespace Message
         {
             SetContent(content);
         }
+        public string Description { get; set; }
         public byte[] Content { get; set; }
 
         public void SetContent(object content)

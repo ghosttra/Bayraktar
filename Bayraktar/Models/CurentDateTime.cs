@@ -10,24 +10,24 @@ namespace Bayraktar
 {
     partial class Game
     {
-        void clockTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Dispatcher.BeginInvoke(new Action(UpdateCurrentDateTime));
-        }
+        //void clockTimer_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    Dispatcher.BeginInvoke(new Action(UpdateCurrentDateTime));
+        //}
 
-        public string CurrentDateTime
-        {
-            get => (string)GetValue(CurrentDateTimeProperty);
-            set => SetValue(CurrentDateTimeProperty, value);
-        }
+        //public string CurrentDateTime
+        //{
+        //    get => (string)GetValue(CurrentDateTimeProperty);
+        //    set => SetValue(CurrentDateTimeProperty, value);
+        //}
 
-        public static readonly DependencyProperty CurrentDateTimeProperty =
-            DependencyProperty.Register("CurrentDateTime", typeof(string), typeof(Game), new UIPropertyMetadata(string.Empty));
+        //public static readonly DependencyProperty CurrentDateTimeProperty =
+        //    DependencyProperty.Register("CurrentDateTime", typeof(string), typeof(Game), new UIPropertyMetadata(string.Empty));
 
-        private void UpdateCurrentDateTime()
-        {
-            CurrentDateTime = DateTime.Now.ToString("MM/dd/yyyy      HH:mm:ss");
-        }
+        //private void UpdateCurrentDateTime()
+        //{
+        //    CurrentDateTime = DateTime.Now.ToString("MM/dd/yyyy      HH:mm:ss");
+        //}
     }
 
 }

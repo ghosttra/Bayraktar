@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using BayraktarClient;
 using BayraktarGame;
 
 namespace Bayraktar
@@ -19,12 +20,12 @@ namespace Bayraktar
     public partial class Game : UserControl
     {
 
-
-        //qq
-
-        public Game(GameMode gameMode, GameRole gameRole) : this()
+        //Attack or Defense
+        private GameRole _gameRole;
+        private GameClient _client;
+        public Game(GameClient client,GameRole gameRole) : this()
         {
-            _gameMode = gameMode;
+            _client = client;
             _gameRole = gameRole;
             switch (gameRole)
             {
@@ -38,24 +39,16 @@ namespace Bayraktar
                     break;
             }
 
-            switch (gameMode)
+            dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
+            dispatcherTimer.Tick += (sender, args) =>
             {
-                case GameMode.Singleplayer:
-                    dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
-                    dispatcherTimer.Tick += (sender, args) =>
-                    {
-                        for (int r = 0; r < rnd.Next(3, 9); r++)
-                        {
-                            AddMilitaryUnit();
-                        }
-                    };
-                    dispatcherTimer.Start();
-                    break;
-                case GameMode.Multiplayer:
-                    //todo
-                    //настройка времени игровой сессии, за которое атакующая сторона должна выиграть
-                    break;
-            }
+                for (int r = 0; r < rnd.Next(3, 9); r++)
+                {
+                    AddMilitaryUnit();
+                }
+            };
+            dispatcherTimer.Start();
+
         }
         private Game()
         {
@@ -73,69 +66,66 @@ namespace Bayraktar
             //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
         }
 
-        //Attack or Defense
-        private GameRole _gameRole;
-        //Single or Multi
-        private GameMode _gameMode;
+ 
         public User User { get; set; }
-      
+
         public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
         private void AddMilitaryUnit()
         {
-            DoubleAnimation DA = new DoubleAnimation
-            {
-                From = -300,
-                To = SystemParameters.PrimaryScreenHeight + 250,
-            };
-
-            //if (MinSpeed >= 10)
-            //    MinSpeed -= (short)rnd.Next(1, 3);
-            //if (MaxSpeed >= 5)
-            //    MaxSpeed -= (short)rnd.Next(1, 3);
-
-            //if (MinSpeed > MaxSpeed)
+            //DoubleAnimation DA = new DoubleAnimation
             //{
-            //    (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
+            //    From = -300,
+            //    To = SystemParameters.PrimaryScreenHeight + 250,
+            //};
+
+            ////if (MinSpeed >= 10)
+            ////    MinSpeed -= (short)rnd.Next(1, 3);
+            ////if (MaxSpeed >= 5)
+            ////    MaxSpeed -= (short)rnd.Next(1, 3);
+
+            ////if (MinSpeed > MaxSpeed)
+            ////{
+            ////    (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
+            ////}
+
+            ////short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
+
+            ////  DA.Duration = TimeSpan.FromSeconds(seconds);
+            //short left = (short)rnd.Next(-50, 50);
+
+            ////todo
+
+            //MilitaryUnit militaryU = new MilitaryUnit(_newUnit());
+            //Canvas.SetLeft(militaryU, left);
+            //Canvas.SetTop(militaryU, -300);
+            //militaryU.Width = Road.Width / 3;
+            //militaryU.Height = Road.Width / 3;
+            //AnimationClock clock;
+            //DA.Completed += (s, e) =>
+            //{
+            //    //HealthPoints--;
+            //    //if (HealthPoints == 0)
+            //    //{
+            //    //    PauseFunc("Поразка", true);
+            //    //}
+            //    //if (HealthPoints <= 5)
+            //    //{
+            //    //    HealthText.Content = "Health: " + HealthPoints.ToString();
+            //    //}
+
+            //};
+            //clock = DA.CreateClock();
+            //clocks.Add(clock);
+            //militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
+            //militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
+            //int temp = rnd.Next(0, CMUs.Children.Count);
+            //while (!(CMUs.Children[temp] is Border))
+            //{
+            //    temp = rnd.Next(0, 3);
             //}
-
-            //short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
-
-            //  DA.Duration = TimeSpan.FromSeconds(seconds);
-            short left = (short)rnd.Next(-50, 50);
-
-            //todo
-            
-            MilitaryUnit militaryU = new MilitaryUnit(_newUnit());
-            Canvas.SetLeft(militaryU, left);
-            Canvas.SetTop(militaryU, -300);
-            militaryU.Width = Road.Width / 3;
-            militaryU.Height = Road.Width / 3;
-            AnimationClock clock;
-            DA.Completed += (s, e) =>
-            {
-                //HealthPoints--;
-                //if (HealthPoints == 0)
-                //{
-                //    PauseFunc("Поразка", true);
-                //}
-                //if (HealthPoints <= 5)
-                //{
-                //    HealthText.Content = "Health: " + HealthPoints.ToString();
-                //}
-
-            };
-            clock = DA.CreateClock();
-            clocks.Add(clock);
-            militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
-            militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
-            int temp = rnd.Next(0, CMUs.Children.Count);
-            while (!(CMUs.Children[temp] is Border))
-            {
-                temp = rnd.Next(0, 3);
-            }
-            var this_ = (CMUs.Children[temp] as Border).Child;
-            (this_ as Canvas).Children.Add(militaryU);
+            //var this_ = (CMUs.Children[temp] as Border).Child;
+            //(this_ as Canvas).Children.Add(militaryU);
 
         }
 

@@ -33,7 +33,7 @@ namespace Bayraktar
 
         private IEnumerable<Statistic> _getStats()
         {
-            CurrentClient.Instance.SendCommand("RATING");
+            CurrentClient.Instance.GetRating();
             try
             {
                 var ratings = CurrentClient.Instance.Receive();

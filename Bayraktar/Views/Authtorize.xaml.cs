@@ -10,8 +10,7 @@ namespace Bayraktar
 {
     public partial class Authorize : UserControl
     {
-        private UserClient _userClient;
-
+        private readonly UserClient _userClient= CurrentClient.Instance.Client;
         public Authorize()
         {
             InitializeComponent();
@@ -28,7 +27,6 @@ namespace Bayraktar
 
         private void _init()
         {
-            _userClient = CurrentClient.Instance.Client;
             _userClient.Info += _userClient_Info;
             _subscribe();
         }
