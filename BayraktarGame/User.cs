@@ -24,6 +24,5 @@ namespace BayraktarGame
             }
         }
     }
-    public class ComputerUser : User { }
 
 }

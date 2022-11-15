@@ -105,10 +105,10 @@ namespace BayraktarClient
         }
     }
 
-    public class AutomaticGameClient: GameClient
-    {
-        public AutomaticGameClient(IPEndPoint server) : base(new ComputerUser(), 1000, server)
-        {
-        }
-    }
+    //public class AutomaticGameClient: GameClient
+    //{
+    //    public AutomaticGameClient(IPEndPoint server) : base(new ComputerUser(), 1000, server)
+    //    {
+    //    }
+    //}
 }

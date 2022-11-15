@@ -243,7 +243,6 @@ namespace UserBayraktarServer
             switch (auth.Mode)
             {
                 case AuthorizeMode.Registration:
-                    var us = _context.Users.ToList();
                     if (_context.Users.Any(u => u.Login.Equals(auth.Login)))
                         return null;
                     var registration = new User()
