@@ -71,7 +71,7 @@ namespace Message
     {
         public IPEndPoint Server { get; set; }
         public GameRole GameRole { get; set; }
-
+        public List<Unit> Units { get; set; }
         public MessageGameData() : base(MessageType.Data)
         {
         }
@@ -169,8 +169,11 @@ namespace Message
 
         public MessageCoords(int x, int y) : this()
         {
-            Coords.X = x;
-            Coords.Y = y;
+            Coords = new Coords
+            {
+                X = x,
+                Y = y
+            };
         }
 
         protected MessageCoords(Coords coords) : this()

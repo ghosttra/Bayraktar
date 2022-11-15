@@ -75,12 +75,11 @@ namespace UserGameClient
 
         private void _waitForGameServer()
         {
-
             WaitForGame?.Invoke(true);
             var game = Receive();
             if (game is MessageGameData data)
             {
-                GameConnection = new GameClient(User, 1000, data.Server);
+                GameConnection = new GameClient(User, 1000, data.Server) { Units = data.Units };
                 WaitForGame?.Invoke(false);
                 StartGame?.Invoke(GameConnection, data.GameRole);
             }

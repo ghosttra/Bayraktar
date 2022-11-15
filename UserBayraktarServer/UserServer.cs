@@ -148,12 +148,21 @@ namespace UserBayraktarServer
                 _waitingUsers.Remove(user);
         }
         private List<GameServer> _games = new List<GameServer>();
+
+        private MessageGameData _createGameDataMessage(GameRole role, IPEndPoint server)
+        {
+            var unitData = _context.Units.ToList();
+            return new MessageGameData
+            {
+                Units = unitData, GameRole = role, Server = server
+            };
+        }
+
         private void _startMultiGame(UserConnection attack, UserConnection defense)
         {
             var gameServer = _createNewGame();
-
-            attack.Send(new MessageGameData { GameRole = GameRole.Attack, Server = gameServer.ServerEndPoint });
-            defense.Send(new MessageGameData { GameRole = GameRole.Defense, Server = gameServer.ServerEndPoint });
+            attack.Send(_createGameDataMessage(GameRole.Attack, gameServer.ServerEndPoint));
+            defense.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
         }
         private void _getServerMulti(UserConnection user)
         {
@@ -163,7 +172,7 @@ namespace UserBayraktarServer
         private void _getServerSingle(UserConnection user)
         {
             var gameServer = _createNewGame();
-            user.Send(new MessageGameData { Server = gameServer.ServerEndPoint, GameRole = GameRole.Defense});
+            user.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
 
         }
         private GameServer _createNewGame()

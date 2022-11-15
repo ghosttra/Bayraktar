@@ -19,6 +19,7 @@ namespace BayraktarClient
         private CancellationTokenSource _cts;
         private CancellationToken _token;
 
+        public List<Unit> Units;
         //public short MaxSpeed { get; set; } = 5;
         //public short MinSpeed { get; set; } = 15;
 
@@ -37,7 +38,20 @@ namespace BayraktarClient
             }
         }
 
+        private int _score = 0;
+        public int Score
+        {
+            get => _score;
+            set
+            {
+                _score = value;
+                ScoreChanged?.Invoke(value);
+            }
+        }
+
+
         public Action<int> HealthChanged;
+        public Action<int> ScoreChanged;
         public Action<bool> GameOver;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
@@ -91,6 +105,7 @@ namespace BayraktarClient
             _handle(buffer);
         }
 
+        public Action<MessageUnit> SetUnitAction;
         private void _handle(byte[] buffer)
         {
             if(buffer == null)
@@ -99,6 +114,10 @@ namespace BayraktarClient
             //пример обработки
             switch (message)
             {
+
+                case MessageUnit unitCommand:
+                    SetUnitAction?.Invoke(unitCommand);
+                    break;
                 case MessageCommand command:
                     if (command.Command == "SHOOT")
                         HealthPoints--;
@@ -122,7 +141,8 @@ namespace BayraktarClient
 
         public void SetUnit(Unit unit, int x, int y)
         {
-
+            MessageUnit command = new MessageUnit(unit, x, y);
+            Send(command);
         }
     }
 

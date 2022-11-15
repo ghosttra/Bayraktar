@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using BayraktarClient;
 using BayraktarGame;
+using Message;
 
 namespace Bayraktar
 {
@@ -23,11 +24,16 @@ namespace Bayraktar
         //Attack or Defense
         private GameRole _gameRole;
         private GameClient _client;
-        public Game(GameClient client,GameRole gameRole) : this()
+
+        public User User { get; set; }
+
+        public Game(GameClient client, GameRole gameRole) : this()
         {
             _client = client;
-            _client.HealthChanged+=  HealthChanged;
-            _client.GameOver+=GameOver;
+            _client.HealthChanged += HealthChanged;
+            _client.ScoreChanged += ScoreChanged;
+            _client.GameOver += GameOver;
+            _client.SetUnitAction += SetUnitAction;
             _gameRole = gameRole;
             switch (gameRole)
             {
@@ -53,23 +59,79 @@ namespace Bayraktar
 
         }
 
+        private void SetUnitAction(MessageUnit unitData)
+        {
+            _invoke(()=>_setUnit(unitData));
+        }
+
+        private void _setUnit(MessageUnit unitData)
+        {
+            ///////////////////////////////////////////////
+            ///
+            ///установить юнита на игровое поле и запустить анимацию
+            ///
+            ///
+            
+            DoubleAnimation DA = new DoubleAnimation
+            {
+                From = -300,
+                To = SystemParameters.PrimaryScreenHeight + 250,
+            };
+            MilitaryUnit militaryU = new MilitaryUnit(unitData.Unit);
+            Canvas.SetLeft(militaryU, unitData.Coords.X);
+            Canvas.SetTop(militaryU, -300);
+            militaryU.Width = Road.Width / 3;
+            militaryU.Height = Road.Width / 3;
+            AnimationClock clock;
+            DA.Completed += (s, e) =>
+            {
+                //HealthPoints--;
+                //if (HealthPoints == 0)
+                //{
+                //    PauseFunc("Поразка", true);
+                //}
+                //if (HealthPoints <= 5)
+                //{
+                //    HealthText.Content = "Health: " + HealthPoints.ToString();
+                //}
+            };
+            clock = DA.CreateClock();
+            clocks.Add(clock);
+            militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
+            militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
+            int temp = rnd.Next(0, CMUs.Children.Count);
+            while (!(CMUs.Children[temp] is Border))
+            {
+                temp = rnd.Next(0, 3);
+            }
+            var this_ = (CMUs.Children[temp] as Border).Child;
+            (this_ as Canvas).Children.Add(militaryU);
+        }
+        private void ScoreChanged(int score)
+        {
+            //пример
+
+            _invoke(() => lblScore.Content = score);
+        }
+        private void HealthChanged(int hp)
+        {
+            //пример
+            _invoke(() => HealthText.Content = hp);
+        }
+
         private void GameOver(bool win)
         {
             string result = win ? "You win" : "You loose";
             _invoke(() =>
             {
-                new MessageBox(result){Owner = Parent as Window}.ShowDialog();
+                new MessageBox(result) { Owner = Parent as Window }.ShowDialog();
                 _exit();
             });
-            
-            
-            
+
+
+
         }
 
-        private void HealthChanged(int hp)
-        {
-            _invoke(()=> HealthText.Content = hp);
-        }
 
         private void _invoke(Action action)
         {
@@ -83,6 +145,7 @@ namespace Bayraktar
             InitializeComponent();
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
             Focus();
+
             //_clockTimer = new Timer(1000);
             //_clockTimer.Elapsed += clockTimer_Elapsed;
             //_clockTimer.Start();
@@ -94,10 +157,7 @@ namespace Bayraktar
             //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
         }
 
-        
-        public User User { get; set; }
 
-        public int Score { get; set; } = 0;
         List<AnimationClock> clocks = new List<AnimationClock>();
         private void AddMilitaryUnit()
         {
@@ -176,7 +236,7 @@ namespace Bayraktar
             {
                 var MU = (sender as MilitaryUnit);
                 MU.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(MU) });
-                Score += rnd.Next(50, 200);
+                //Score += rnd.Next(50, 200);
 
                 MU.MouseLeftButtonUp -= MilitaryUnit_MouseLeftButtonUp;
 
@@ -184,7 +244,7 @@ namespace Bayraktar
 
                 //HealthPoints++;
 
-                lblScore.Content = "Score: " + Score.ToString();
+                //lblScore.Content = "Score: " + Score.ToString();
 
                 //await Task.Delay(TimeSpan.FromSeconds(3));
                 // CMU.Children.Remove((UIElement)sender);
@@ -262,6 +322,7 @@ namespace Bayraktar
         {
             var p = e.GetPosition(this);
             _client.Shoot(p.X, p.Y);
+            _client.SetUnit(_client.Units[0], 0, 0);
         }
     }
 }

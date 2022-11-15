@@ -16,22 +16,26 @@ namespace Bayraktar
         {
             this.Unit = unit;
             InitializeComponent();
-            //_setImageSource(MU.Source, unit.Image);
+            _setImageSource(MU, unit.Image);
             //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + unit + ".png") as ImageSource;
         }
 
-        private void _setImageSource(ImageSource target, byte[] source)
+        private void _setImageSource(Image target, byte[] source)
         {
             if(source == null)
                 return;
-            using (MemoryStream stream  = new MemoryStream(source))
+            using (var stream = new MemoryStream(source))
             {
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = stream;
-                image.EndInit();
-                image.Freeze();
+                target.Source = (BitmapSource)new ImageSourceConverter().ConvertFrom(source);
             }
+            //using (MemoryStream stream  = new MemoryStream(source))
+            //{
+            //    var image = new BitmapImage();
+            //    image.BeginInit();
+            //    image.StreamSource = stream;
+            //    image.EndInit();
+            //    image.Freeze();
+            //}
         }
         DispatcherTimer timer;
         private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -40,7 +44,7 @@ namespace Bayraktar
             timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += Timer_Tick;
             timer.Start();
-            _setImageSource(MU.Source, Unit.ImageDestroyed);
+            _setImageSource(MU, Unit.ImageDestroyed);
             //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + Unit + "_Destroyed.png") as ImageSource;
             (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
         }
