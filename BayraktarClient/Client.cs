@@ -22,8 +22,19 @@ namespace BayraktarClient
 
         //public short MaxSpeed { get; set; } = 5;
         //public short MinSpeed { get; set; } = 15;
-        //public int HealthPoints { get; set; }
+        private int _hp = 5;
+        public int HealthPoints
+        {
+            get
+            => _hp;
+            set
+            {
+                _hp = value;
+                HealthChanged?.Invoke(HealthPoints);
+            }
+        }
 
+        public Action<int> HealthChanged;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
@@ -58,10 +69,22 @@ namespace BayraktarClient
 
         private void _receive()
         {
-           var receive =  new UdpClient(_localPort).ReceiveAsync();
-           _handle(receive.Result);
+            IPEndPoint endPoint = null;
+            var buffer = _client.Receive(ref endPoint);
+            _handle(buffer);
+
+            //var receive = new UdpClient(_localPort).ReceiveAsync();
+            //_handle(receive.Result);
         }
 
+        private void _handle(byte[] buffer)
+        {
+            var message = MessagePacket.FromBytes(buffer);
+            if (message is MessageCommand command)
+            {
+                HealthPoints--;
+            }
+        }
         private void _handle(UdpReceiveResult receiveResult)
         {
             var buffer = receiveResult.Buffer;
@@ -78,9 +101,13 @@ namespace BayraktarClient
 
         }
 
-        public void Shoot(int x, int y)
+        public void Shoot(double x, double y)
         {
-
+            MessageCommand command = new MessageCommand
+            {
+                Command = "SHOOT"
+            };
+            Send(command);
         }
 
     }

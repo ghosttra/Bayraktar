@@ -26,6 +26,7 @@ namespace Bayraktar
         public Game(GameClient client,GameRole gameRole) : this()
         {
             _client = client;
+            _client.HealthChanged+=  HealthChanged;
             _gameRole = gameRole;
             switch (gameRole)
             {
@@ -50,11 +51,24 @@ namespace Bayraktar
             //dispatcherTimer.Start();
 
         }
+
+        private void HealthChanged(int hp)
+        {
+            _invoke(()=> HealthText.Content = hp);
+        }
+
+        private void _invoke(Action action)
+        {
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(action);
+            else
+                action();
+        }
         private Game()
         {
             InitializeComponent();
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-
+            Focus();
             //_clockTimer = new Timer(1000);
             //_clockTimer.Elapsed += clockTimer_Elapsed;
             //_clockTimer.Start();
@@ -66,7 +80,7 @@ namespace Bayraktar
             //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
         }
 
- 
+        
         public User User { get; set; }
 
         public int Score { get; set; } = 0;
@@ -224,6 +238,12 @@ namespace Bayraktar
             //this.User = new User() { Name = Environment.UserName, TimeOf_AtteptEnd = DateTime.Now, Score = this.Score };
             //if (!string.IsNullOrWhiteSpace(saveResult.Name))
             //    User.Name = saveResult.Name;
+        }
+
+        private void Game_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var p = e.GetPosition(this);
+            _client.Shoot(p.X, p.Y);
         }
     }
 }
