@@ -76,5 +76,10 @@ namespace GameServerInterface
         {
             startBtn.PerformClick();
         }
+
+        private void stopBtn_Click(object sender, EventArgs e)
+        {
+            _server.Stop();
+        }
     }
 }

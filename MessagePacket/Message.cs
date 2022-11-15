@@ -76,6 +76,17 @@ namespace Message
         {
         }
     }
+
+    [Serializable]
+    public class MessageConnectionGame : MessagePacket
+    {
+        public int LocalPort { get; set; }
+        public GameMode GameMode { get; set; }
+
+        public MessageConnectionGame() : base(MessageType.Command)
+        {
+        }
+    }
     [Serializable]
     public class MessageDataContent : MessagePacket
     {

@@ -264,6 +264,10 @@ namespace UserBayraktarServer
         #endregion
 
 
+        public void Stop()
+        {
+            _stop();
+        }
     }
 
     internal static class Extension

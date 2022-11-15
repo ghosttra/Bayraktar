@@ -63,6 +63,7 @@ namespace Bayraktar
         public async  void StartMultiGame()
         {
             Client.SendCommand("MULTI");
+            //MessageConnectionGame connection  = new MessageConnectionGame{GameMode = GameMode.Multiplayer, LocalPort = Client.}
             await Task.Run(_waitForGameServer);
         }
 

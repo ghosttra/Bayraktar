@@ -32,6 +32,7 @@ namespace UserGameClient
         private IPAddress _serverIp;
         private int _serverPort;
         private TcpClient _client;
+        
         private NetworkStream _stream => _client?.GetStream();
         public bool? IsConnected => _client?.Connected;
         public UserClient(string serverIp, int serverPort, User user) : this(serverIp, serverPort)

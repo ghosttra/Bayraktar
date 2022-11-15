@@ -40,7 +40,14 @@ namespace BayraktarClient
         {
             while (true)
             {
-                _receive();
+                try
+                {
+                    _receive();
+                }
+                catch (SocketException e)
+                {
+                    _localPort++;
+                }
             }
         }
         public void Send(MessagePacket message)

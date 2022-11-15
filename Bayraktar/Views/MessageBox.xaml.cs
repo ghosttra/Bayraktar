@@ -37,7 +37,7 @@ namespace Bayraktar
             _setBtn(buttons);
         }
 
-        private List<Button> _setBtn(MessageBoxButton buttons)
+        private void _setBtn(MessageBoxButton buttons)
         {
             List<Button> buttonsList = new List<Button>();
             switch (buttons)
@@ -61,7 +61,10 @@ namespace Bayraktar
                     buttonsList.Add(_buttons["Cancel"]);
                     break;
             }
-            return buttonsList;
+            foreach (var button in buttonsList)
+            {
+                ButtonPanel.Children.Add(button);
+            }
 
         }
 
