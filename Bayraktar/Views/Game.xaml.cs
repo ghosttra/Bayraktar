@@ -27,6 +27,7 @@ namespace Bayraktar
         {
             _client = client;
             _client.HealthChanged+=  HealthChanged;
+            _client.GameOver+=GameOver;
             _gameRole = gameRole;
             switch (gameRole)
             {
@@ -50,6 +51,19 @@ namespace Bayraktar
             //};
             //dispatcherTimer.Start();
 
+        }
+
+        private void GameOver(bool win)
+        {
+            string result = win ? "You win" : "You loose";
+            _invoke(() =>
+            {
+                new MessageBox(result){Owner = Parent as Window}.ShowDialog();
+                _exit();
+            });
+            
+            
+            
         }
 
         private void HealthChanged(int hp)
@@ -199,21 +213,25 @@ namespace Bayraktar
         private void PauseFunc(string title, bool isDefeat)
         {
             Rect.Visibility = Visibility.Visible;
-            PauseAnimation();
+            //PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
             {
-                (Parent as Window).Content = new MainMenu();
-                
+                _exit();
             }
             else
             {
                 ResumeAnimation();
                 Rect.Visibility = Visibility.Hidden;
-                dispatcherTimer.Start();
+                //dispatcherTimer.Start();
             }
 
+        }
+
+        private void _exit()
+        {
+            (Parent as Window).Content = new MainMenu();
         }
 
         private void _pause()

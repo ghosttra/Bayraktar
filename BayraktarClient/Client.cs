@@ -33,7 +33,7 @@ namespace BayraktarClient
                 HealthChanged?.Invoke(HealthPoints);
 
                 if (value<= 0)
-                    GameOver?.Invoke(false); //проигрыш
+                    GameOver?.Invoke(false); //false - проигрыш, true - победа. Это для мультиплеера
             }
         }
 
@@ -47,15 +47,35 @@ namespace BayraktarClient
             _client.JoinMulticastGroup(_server.Address, 50);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
+            GameOver+=_gameOver;
             Task.Factory.StartNew(_start, _token);
         }
 
+        private void _gameOver(bool obj)
+        {
+            _cts.Cancel();
+            End();
+            _cts.Dispose();
+        }
+
+        public void End()
+        {
+            _client.Close();
+            _client = null;
+
+        }
         private void _start()
         {
             while (true)
             {
-                _receive();
-
+                try
+                {
+                    _receive();
+                }
+                catch (Exception)
+                {
+                    //ignored
+                }
             }
         }
         public void Send(MessagePacket message)
@@ -67,13 +87,14 @@ namespace BayraktarClient
         private void _receive()
         {
             IPEndPoint endPoint = null;
-            var buffer = _client.Receive(ref endPoint);
+            var buffer = _client?.Receive(ref endPoint);
             _handle(buffer);
         }
 
         private void _handle(byte[] buffer)
         {
-
+            if(buffer == null)
+                return;
             var message = MessagePacket.FromBytes(buffer);
             //пример обработки
             switch (message)
