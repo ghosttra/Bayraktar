@@ -76,6 +76,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BayraktarClient\GameClient.csproj">
+      <Project>{5D7908FF-7AC2-468F-B65A-1C2D05315A8B}</Project>
+      <Name>GameClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BayraktarGame\BayraktarGameData.csproj">
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
       <Name>BayraktarGameData</Name>
@@ -87,15 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Units.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Units_log.ldf">
-      <DependentUpon>Units.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

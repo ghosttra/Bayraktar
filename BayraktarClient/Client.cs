@@ -22,6 +22,7 @@ namespace BayraktarClient
 
         //public short MaxSpeed { get; set; } = 5;
         //public short MinSpeed { get; set; } = 15;
+
         private int _hp = 5;
         public int HealthPoints
         {
@@ -31,10 +32,14 @@ namespace BayraktarClient
             {
                 _hp = value;
                 HealthChanged?.Invoke(HealthPoints);
+
+                if (value<= 0)
+                    GameOver?.Invoke(false); //проигрыш
             }
         }
 
         public Action<int> HealthChanged;
+        public Action<bool> GameOver;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
@@ -70,20 +75,25 @@ namespace BayraktarClient
 
         private void _handle(byte[] buffer)
         {
+
             var message = MessagePacket.FromBytes(buffer);
-            if (message is MessageCommand command)
+            //пример обработки
+            switch (message)
             {
-                HealthPoints--;
+                case MessageCommand command:
+                    if (command.Command == "SHOOT")
+                        HealthPoints--;
+                    break;
             }
         }
-        private void _handle(UdpReceiveResult receiveResult)
+        public void Shoot(double x, double y)
         {
-            var buffer = receiveResult.Buffer;
-            var message = MessagePacket.FromBytes(buffer);
-            if (message is MessageCommand command)
+            //Пример функции
+            MessageCommand command = new MessageCommand
             {
-                HealthPoints--;
-            }
+                Command = "SHOOT"
+            };
+            Send(command);
         }
 
         public void GetAllUnits()
@@ -96,14 +106,7 @@ namespace BayraktarClient
 
         }
 
-        public void Shoot(double x, double y)
-        {
-            MessageCommand command = new MessageCommand
-            {
-                Command = "SHOOT"
-            };
-            Send(command);
-        }
+        
 
     }
 }

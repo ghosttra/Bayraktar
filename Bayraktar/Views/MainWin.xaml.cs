@@ -28,8 +28,8 @@ namespace Bayraktar
             try
             {
                 CurrentClient.Instance.Init();
-                CurrentClient.Instance.StartGame+=  StartGame;
-                CurrentClient.Instance.WaitForGame+= WaitForGame;
+                CurrentClient.Instance.Client.StartGame+=  StartGame;
+                CurrentClient.Instance.Client.WaitForGame+= WaitForGame;
             }
             catch (Exception e)
             {
@@ -49,6 +49,8 @@ namespace Bayraktar
             {
                 _waitingBox.DialogResult = false;
                 _waitingBox.Result = System.Windows.Forms.DialogResult.Cancel;
+                CurrentClient.Instance.StopWaitingForGame();
+                _waitingBox.Close();
             };
             _waitingBox = new MessageBox("Wait for game", new List<Button> { cancel }){Owner = this};
         }
@@ -61,7 +63,7 @@ namespace Bayraktar
                 _invoke(() =>
                 {
                     _initWaitingBox();
-                    _waitingBox.ShowDialog();
+                    _waitingBox.Show();
                 });
             }
             else

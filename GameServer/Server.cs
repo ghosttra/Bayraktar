@@ -30,7 +30,6 @@ namespace GServer
         }
         private void _start()
         {
-            new UdpClient(ServerEndPoint).JoinMulticastGroup(ServerAddress, 50);
             while (true)
             {
                 _receive();

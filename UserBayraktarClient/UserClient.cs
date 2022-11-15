@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BayraktarClient;
 using BayraktarGame;
 using Message;
 
@@ -44,15 +45,46 @@ namespace UserGameClient
         {
         }
 
+        private CancellationTokenSource _cts;
+        private CancellationToken _token;
         public UserClient(IPAddress serverIp, int serverPort)
         {
             _client = new TcpClient();
             _serverIp = serverIp;
             _serverPort = serverPort;
+            _cts = new CancellationTokenSource();
+            _token = _cts.Token;
         }
         public event Action<string> Info;
         public event Action<bool> Connected;
 
+        public GameClient GameConnection;
+        public Action<GameClient, GameRole> StartGame;
+        public Action<bool> WaitForGame;
+        public Task StartSingleGame()
+        {
+            SendCommand("SINGLE");
+            return Task.Run(_waitForGameServer, _token);
+        }
+
+        public Task StartMultiGame()
+        {
+            SendCommand("MULTI");
+            return Task.Run(_waitForGameServer, _token);
+        }
+
+        private void _waitForGameServer()
+        {
+
+            WaitForGame?.Invoke(true);
+            var game = Receive();
+            if (game is MessageGameData data)
+            {
+                GameConnection = new GameClient(User, 1000, data.Server);
+                WaitForGame?.Invoke(false);
+                StartGame?.Invoke(GameConnection, data.GameRole);
+            }
+        }
         private async void _connect(Func<bool> authorization)
         {
             if (_client == null)

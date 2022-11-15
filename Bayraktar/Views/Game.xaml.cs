@@ -199,8 +199,8 @@ namespace Bayraktar
         private void PauseFunc(string title, bool isDefeat)
         {
             Rect.Visibility = Visibility.Visible;
-            dispatcherTimer.Stop();
-            PauseAnimation();
+          //  dispatcherTimer.Stop();
+            //PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
