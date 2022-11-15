@@ -41,7 +41,7 @@ namespace BayraktarClient
             _localPort = localPort;
             _server = server;
             _client = new UdpClient(localPort);
-            _client.JoinMulticastGroup(_server.Address, 15);
+            _client.JoinMulticastGroup(_server.Address, 50);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             Task.Factory.StartNew(_start, _token);
@@ -51,14 +51,8 @@ namespace BayraktarClient
         {
             while (true)
             {
-                try
-                {
-                    _receive();
-                }
-                catch (SocketException e)
-                {
-                    _localPort++;
-                }
+                _receive();
+
             }
         }
         public void Send(MessagePacket message)
@@ -88,7 +82,11 @@ namespace BayraktarClient
         private void _handle(UdpReceiveResult receiveResult)
         {
             var buffer = receiveResult.Buffer;
-            
+            var message = MessagePacket.FromBytes(buffer);
+            if (message is MessageCommand command)
+            {
+                HealthPoints--;
+            }
         }
 
         public void GetAllUnits()

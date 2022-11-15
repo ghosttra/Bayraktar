@@ -27,6 +27,8 @@ namespace GServer
             var buffer = message.ToBytes();
             new UdpClient().Send(buffer, buffer.Length, ServerEndPoint);
         }
+      
+
 
         public void End()
         {
