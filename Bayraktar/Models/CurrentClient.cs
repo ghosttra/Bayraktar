@@ -65,6 +65,7 @@ namespace Bayraktar
 
         public void StopWaitingForGame()
         {
+            Client.StopWaitingForGame();
         }
     }
 }

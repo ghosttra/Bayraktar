@@ -15,7 +15,6 @@ namespace BayraktarClient
     {
         private IPEndPoint _server;
         private UdpClient _client;
-        private int _localPort;
         public User User { get; }
         private CancellationTokenSource _cts;
         private CancellationToken _token;
@@ -43,7 +42,6 @@ namespace BayraktarClient
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
-            _localPort = localPort;
             _server = server;
             _client = new UdpClient(localPort);
             _client.JoinMulticastGroup(_server.Address, 50);
@@ -105,8 +103,12 @@ namespace BayraktarClient
         {
 
         }
+    }
 
-        
-
+    public class AutomaticGameClient: GameClient
+    {
+        public AutomaticGameClient(IPEndPoint server) : base(new ComputerUser(), localPort, server)
+        {
+        }
     }
 }

@@ -217,6 +217,9 @@ namespace UserBayraktarServer
                     case "MULTI":
                         _getServerMulti(user);
                         break;
+                    case "STOP_WAITING":
+                        user.StopWaitingFoeMultiplayer();
+                        break;
                 }
             }
         }

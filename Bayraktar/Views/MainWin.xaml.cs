@@ -47,8 +47,6 @@ namespace Bayraktar
             };
             cancel.Click += (sender, args) =>
             {
-                _waitingBox.DialogResult = false;
-                _waitingBox.Result = System.Windows.Forms.DialogResult.Cancel;
                 CurrentClient.Instance.StopWaitingForGame();
                 _waitingBox.Close();
             };

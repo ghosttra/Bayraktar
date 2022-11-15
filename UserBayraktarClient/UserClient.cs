@@ -252,5 +252,10 @@ namespace UserGameClient
         {
             SendCommand("RATING");
         }
+
+        public void StopWaitingForGame()
+        {
+            SendCommand("STOP_WAITING");
+        }
     }
 }

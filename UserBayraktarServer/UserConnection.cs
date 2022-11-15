@@ -29,6 +29,11 @@ namespace UserBayraktarServer
             InQueue = true;
         }
 
+        public void StopWaitingFoeMultiplayer()
+        {
+            InQueue = false;
+        }
+
         public void CancelWaitingForMultiplayer()
         {
             InQueue = false;
@@ -127,6 +132,7 @@ namespace UserBayraktarServer
             }
             return null;
         }
+
         
     }
 }
