@@ -41,8 +41,11 @@
             </UniformGrid>
         
         <StackPanel x:Name="ButtonPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button VerticalAlignment="Bottom" Name="LoginBtn" Content="Login" Click="Login_OnClick"/>
-            <Button VerticalAlignment="Bottom" Name="RegistrationBtn" Content="Registration" Click="Registration_Click"/>
+            <Button Name="LoginBtn" Content="Login" Click="Login_OnClick"/>
+            <Button Name="RegistrationBtn" Content="Registration" Click="Registration_Click"/>
+            <Button  Content="123" Click="test1_Login"/>
+            <Button Content="var" Click="test2_Login"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

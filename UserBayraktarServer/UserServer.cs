@@ -161,8 +161,9 @@ namespace UserBayraktarServer
         private void _startMultiGame(UserConnection attack, UserConnection defense)
         {
             var gameServer = _createNewGame();
-            attack.Send(_createGameDataMessage(GameRole.Attack, gameServer.ServerEndPoint));
             defense.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
+            attack.Send(_createGameDataMessage(GameRole.Attack, gameServer.ServerEndPoint));
+
         }
         private void _getServerMulti(UserConnection user)
         {

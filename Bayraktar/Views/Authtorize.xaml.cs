@@ -70,10 +70,7 @@ namespace Bayraktar
 
         private async void _connect(bool isLogin)
         {
-            if (!_check())
-                return;
-            _boxReset();
-            _userClient.User = _getUserData();
+            
 
             ButtonPanel.IsEnabled = false;
             try
@@ -90,14 +87,23 @@ namespace Bayraktar
             }
         }
 
+        private void _initUser()
+        {
+
+            if (!_check())
+                return;
+            _boxReset();
+            _userClient.User = _getUserData();
+        }
         private async void Registration_Click(object sender, RoutedEventArgs e)
         {
+            _initUser();
             _connect(false);
         }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
-
+            _initUser();
             _connect(true);
         }
 
@@ -138,6 +144,26 @@ namespace Bayraktar
                     Application.Current.Shutdown();
                     break;
             }
+        }
+
+        private void test1_Login(object sender, RoutedEventArgs e)
+        {
+            _userClient.User = new User
+            {
+                Login = "123",
+                PassWord = "123".GetHashCode().ToString()
+            };
+            _connect(true);
+        }
+
+        private void test2_Login(object sender, RoutedEventArgs e)
+        {
+            _userClient.User = new User
+            {
+                Login = "var",
+                PassWord = "var".GetHashCode().ToString()
+            };
+            _connect(true);
         }
     }
 }
