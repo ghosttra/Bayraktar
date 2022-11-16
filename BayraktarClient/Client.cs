@@ -106,12 +106,14 @@ namespace BayraktarClient
         }
 
         public Action<MessageUnit> SetUnitAction;
+
         private void _handle(byte[] buffer)
         {
             if(buffer == null)
                 return;
             var message = MessagePacket.FromBytes(buffer);
-            //пример обработки
+
+            //Пример обработки
             switch (message)
             {
 
@@ -119,7 +121,7 @@ namespace BayraktarClient
                     SetUnitAction?.Invoke(unitCommand);
                     break;
                 case MessageCommand command:
-                    if (command.Command == "SHOOT")
+                    if (command.Command.Equals("SHOOT"))
                         HealthPoints--;
                     break;
             }
@@ -133,17 +135,20 @@ namespace BayraktarClient
             };
             Send(command);
         }
+        public void SetUnit(Unit unit, int x, int y)
+        {
+            MessageUnit command = new MessageUnit(unit, x, y);
+            Send(command);
+        }
+
+
 
         public void GetAllUnits()
         {
 
         }
 
-        public void SetUnit(Unit unit, int x, int y)
-        {
-            MessageUnit command = new MessageUnit(unit, x, y);
-            Send(command);
-        }
+        
     }
 
     //public class AutomaticGameClient: GameClient

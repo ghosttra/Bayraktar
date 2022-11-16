@@ -110,7 +110,7 @@ namespace Bayraktar
         private void ScoreChanged(int score)
         {
             //пример
-
+    
             _invoke(() => lblScore.Content = score);
         }
         private void HealthChanged(int hp)
@@ -322,7 +322,7 @@ namespace Bayraktar
         {
             var p = e.GetPosition(this);
             _client.Shoot(p.X, p.Y);
-            _client.SetUnit(_client.Units[0], 0, 0);
+           // _client.SetUnit(_client.Units[0], 0, 0);
         }
     }
 }
