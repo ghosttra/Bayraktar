@@ -220,6 +220,7 @@ namespace UserGameClient
                     var bytesRead = _stream.Read(buffer, 0, buffer.Length);
                     stream.Write(buffer, 0, bytesRead);
                 } while (_stream.DataAvailable);
+                stream.Position = 0;
                 return MessagePacket.FromBytes(stream.ToArray());
             }
 
