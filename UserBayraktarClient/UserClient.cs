@@ -80,10 +80,18 @@ namespace UserGameClient
             if (game is MessageGameData data)
             {
                 GameConnection = new GameClient(User, 1000, data.Server) { Units = data.Units };
+                GameConnection.GameOver+=GameOver;
                 WaitForGame?.Invoke(false);
                 StartGame?.Invoke(GameConnection, data.GameRole);
             }
         }
+
+        private void GameOver(GameClient client)
+        {
+            MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Score };
+            Send(result);
+        }
+
         private async void _connect(Func<bool> authorization)
         {
             if (_client == null)

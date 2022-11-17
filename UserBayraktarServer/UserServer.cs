@@ -229,8 +229,22 @@ namespace UserBayraktarServer
                     case "STOP_WAITING":
                         user.StopWaitingFoeMultiplayer();
                         break;
+                    case "GAME_OVER":
+                        if (command is MessageGameResult gameResult)
+                        {
+                            _saveResult(gameResult);
+                        }
+                        break;
                 }
             }
+        }
+
+        private void _saveResult(MessageGameResult gameResult)
+        {
+            _context.Statistics.Add(new Statistic
+                { Date = DateTime.Now, User = gameResult.User, Score = gameResult.Score });
+            _context.SaveChanges();
+
         }
 
 

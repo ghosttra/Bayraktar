@@ -59,6 +59,16 @@ namespace Bayraktar
 
         }
 
+        private void GameOver(GameClient obj)
+        {
+            string result = "You loose";
+            _invoke(() =>
+            {
+                new MessageBox(result) { Owner = Parent as Window }.ShowDialog();
+                _exit();
+            });
+        }
+
         private void SetUnitAction(MessageUnit unitData)
         {
             _invoke(()=>_setUnit(unitData));
@@ -118,19 +128,7 @@ namespace Bayraktar
             //пример
             _invoke(() => HealthText.Content = hp);
         }
-
-        private void GameOver(bool win)
-        {
-            string result = win ? "You win" : "You loose";
-            _invoke(() =>
-            {
-                new MessageBox(result) { Owner = Parent as Window }.ShowDialog();
-                _exit();
-            });
-
-
-
-        }
+        
 
 
         private void _invoke(Action action)

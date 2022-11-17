@@ -16,6 +16,7 @@ namespace BayraktarClient
         private IPEndPoint _server;
         private UdpClient _client;
         public User User { get; }
+
         private CancellationTokenSource _cts;
         private CancellationToken _token;
 
@@ -34,7 +35,7 @@ namespace BayraktarClient
                 HealthChanged?.Invoke(HealthPoints);
 
                 if (value<= 0)
-                    GameOver?.Invoke(false); //false - проигрыш, true - победа. Это для мультиплеера
+                    GameOver?.Invoke(this); 
             }
         }
 
@@ -52,7 +53,7 @@ namespace BayraktarClient
 
         public Action<int> HealthChanged;
         public Action<int> ScoreChanged;
-        public Action<bool> GameOver;
+        public Action<GameClient> GameOver;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
@@ -65,7 +66,7 @@ namespace BayraktarClient
             Task.Factory.StartNew(_start, _token);
         }
 
-        private void _gameOver(bool obj)
+        private void _gameOver(GameClient client)
         {
             _cts.Cancel();
             End();

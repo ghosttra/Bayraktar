@@ -67,6 +67,16 @@ namespace Message
     }
 
     [Serializable]
+    public class MessageGameResult: MessageCommand
+    {
+        public MessageGameResult()
+        {
+            Command = "GAME_OVER";
+        }
+        public int Score { get; set; }
+        public User User { get; set; }
+    }
+    [Serializable]
     public class MessageGameData : MessagePacket
     {
         public IPEndPoint Server { get; set; }
