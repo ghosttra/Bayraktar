@@ -24,11 +24,12 @@ namespace Bayraktar
         //Attack or Defense
         private GameRole _gameRole;
         private GameClient _client;
-
+        Window _window => Parent as Window;
         public User User { get; set; }
 
         public Game(GameClient client, GameRole gameRole) : this()
         {
+            Focus();
             _client = client;
             _client.HealthChanged += HealthChanged;
             _client.ScoreChanged += ScoreChanged;
@@ -87,36 +88,34 @@ namespace Bayraktar
                 From = -300,
                 To = SystemParameters.PrimaryScreenHeight + 250,
             };
-            MilitaryUnit militaryU = new MilitaryUnit(unitData.Unit);
-            Canvas.SetLeft(militaryU, unitData.Coords.X);
-            Canvas.SetTop(militaryU, -300);
-            militaryU.Width = Road.Width / 3;
-            militaryU.Height = Road.Width / 3;
-            AnimationClock clock;
+            DA.Duration = TimeSpan.FromSeconds(unitData.Speed);
+            MilitaryUnit unit = new MilitaryUnit(unitData.Unit);
+            Canvas.SetLeft(unit, unitData.Coords.X);
+            Canvas.SetTop(unit, -300);
+            unit.Width = Road.Width / 3;
+            unit.Height = Road.Width / 3;
             DA.Completed += (s, e) =>
             {
-                //HealthPoints--;
-                //if (HealthPoints == 0)
-                //{
-                //    PauseFunc("Поразка", true);
-                //}
-                //if (HealthPoints <= 5)
-                //{
-                //    HealthText.Content = "Health: " + HealthPoints.ToString();
-                //}
+                _hit(unit);
             };
-            clock = DA.CreateClock();
+            var clock = DA.CreateClock();
             clocks.Add(clock);
-            militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
-            militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
+            unit.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
+            unit.ApplyAnimationClock(Canvas.TopProperty, clock);
             int temp = rnd.Next(0, CMUs.Children.Count);
             while (!(CMUs.Children[temp] is Border))
             {
                 temp = rnd.Next(0, 3);
             }
             var this_ = (CMUs.Children[temp] as Border).Child;
-            (this_ as Canvas).Children.Add(militaryU);
+            cnv.Children.Add(unit);
         }
+
+        private void _hit(MilitaryUnit unit)
+        {
+            cnv.Children.Remove(unit);
+        }
+
         private void ScoreChanged(int score)
         {
             //пример
@@ -215,17 +214,10 @@ namespace Bayraktar
 
         }
 
-        private Unit _newUnit()
-        {
-            return null;
-        }
-
 
         Random rnd = new Random();
         DispatcherTimer dispatcherTimer;
         //private Timer _clockTimer;
-
-
 
 
         private async void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -276,7 +268,7 @@ namespace Bayraktar
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
             {
-                _exit();
+                _client.Exit();
             }
             else
             {
@@ -289,10 +281,10 @@ namespace Bayraktar
 
         private void _exit()
         {
-            _client.Exit();
+
             try
             {
-                ((Window)Parent).Content = new MainMenu();
+                _window.Content = new MainMenu();
 
             }
             catch (Exception e)
@@ -329,9 +321,10 @@ namespace Bayraktar
 
         private void Game_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var p = e.GetPosition(this);
-            _client.Shoot(p.X, p.Y);
-           // _client.SetUnit(_client.Units[0], 0, 0);
+            var p = e.GetPosition(this); 
+           // _client.Shoot(p.X, p.Y);
+            _client.SetUnit((int)p.X);
+          // _client.SetUnit(_client.Units[0], 0, 0);
         }
     }
 }

@@ -190,7 +190,6 @@ namespace UserBayraktarServer
             var ipAddress = _generateIp();
             var endPoint = new IPEndPoint(ipAddress, 1000);
             var game = new GameServer(endPoint);
-
             game.EndGame += (gameServer) => { _games.Remove(gameServer); };
             _games.Add(game);
             return game;

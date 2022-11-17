@@ -11,48 +11,31 @@ namespace Bayraktar
 {
     public partial class MilitaryUnit : UserControl
     {
-        private Unit Unit;
+        private readonly Unit _unit;
         public MilitaryUnit(Unit unit)
         {
-            this.Unit = unit;
+            this._unit = unit;
             InitializeComponent();
-            _setImageSource(MU, unit.Image);
-            //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + unit + ".png") as ImageSource;
+            _setImageSource(UnitImg, _unit.Image);
         }
 
         private void _setImageSource(Image target, byte[] source)
         {
-            if(source == null)
+            if (source == null)
                 return;
-            using (var stream = new MemoryStream(source))
-            {
-                target.Source = (BitmapSource)new ImageSourceConverter().ConvertFrom(source);
-            }
-            //using (MemoryStream stream  = new MemoryStream(source))
-            //{
-            //    var image = new BitmapImage();
-            //    image.BeginInit();
-            //    image.StreamSource = stream;
-            //    image.EndInit();
-            //    image.Freeze();
-            //}
+            target.Source = (BitmapSource)new ImageSourceConverter().ConvertFrom(source);
         }
-        DispatcherTimer timer;
         private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(5);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-            _setImageSource(MU, Unit.ImageDestroyed);
-            //MU.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\MilitaryUnits\" + Unit + "_Destroyed.png") as ImageSource;
-            (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
+            Destroy();
+            ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        public Action IsDestroyed;
+        public void Destroy()
         {
-            MUGrid.Children.Remove(MU);
-            timer.Stop();
+            _setImageSource(UnitImg, _unit.ImageDestroyed);
+            IsDestroyed?.Invoke();
         }
     }
 }

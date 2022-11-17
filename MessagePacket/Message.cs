@@ -205,6 +205,7 @@ namespace Message
         {
             Unit = unit;
         }
-        public Unit Unit { get; set; } 
+        public Unit Unit { get; set; }
+        public int Speed { get; set; } = 5;
     }
 }

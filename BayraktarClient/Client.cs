@@ -13,7 +13,7 @@ namespace BayraktarClient
 {
     public class GameClient
     {
-        private IPEndPoint _server;
+        public IPEndPoint Server { get; }
         private UdpClient _client;
         public User User { get; }
 
@@ -21,8 +21,9 @@ namespace BayraktarClient
         private CancellationToken _token;
 
         public List<Unit> Units;
-        //public short MaxSpeed { get; set; } = 5;
-        //public short MinSpeed { get; set; } = 15;
+        private const short _maxSpeed = 15;
+        private const short _minSpeed = 5;
+        public int MaxWidth = 300;
 
         private int _hp = 5;
         public int HealthPoints
@@ -57,9 +58,9 @@ namespace BayraktarClient
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
-            _server = server;
+            Server = server;
             _client = new UdpClient(localPort);
-            _client.JoinMulticastGroup(_server.Address, 50);
+            _client.JoinMulticastGroup(Server.Address, 50);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             GameOver += _gameOver;
@@ -104,7 +105,7 @@ namespace BayraktarClient
         public void Send(MessagePacket message)
         {
             var buffer = message.ToBytes();
-            new UdpClient().Send(buffer, buffer.Length, _server);
+            new UdpClient().Send(buffer, buffer.Length, Server);
         }
 
         private void _receive()
@@ -121,8 +122,7 @@ namespace BayraktarClient
             if (buffer == null)
                 return;
             var message = MessagePacket.FromBytes(buffer);
-
-            //Пример обработки
+            
             switch (message)
             {
 
@@ -137,7 +137,6 @@ namespace BayraktarClient
         }
         public void Shoot(double x, double y)
         {
-            //Пример функции
             MessageCommand command = new MessageCommand
             {
                 Command = "SHOOT"
@@ -150,7 +149,15 @@ namespace BayraktarClient
             Send(command);
         }
 
-
+        protected Random _random = new Random();
+        public void SetUnit(int x)
+        {
+            MessageUnit messageUnit = new MessageUnit(Units[_random.Next(Units.Count)], x, 0)
+            {
+                Speed = _random.Next(_minSpeed, _maxSpeed)
+            };
+            Send(messageUnit);
+        }
 
         public void GetAllUnits()
         {
@@ -176,12 +183,39 @@ namespace BayraktarClient
             Info?.Invoke($"User {User.Login} has leaved");
             End();
         }
+
     }
 
-    //public class AutomaticGameClient: GameClient
-    //{
-    //    public AutomaticGameClient(IPEndPoint server) : base(new ComputerUser(), 1000, server)
-    //    {
-    //    }
-    //}
+    public class AutomaticGameClient : GameClient
+    {
+        public AutomaticGameClient(IPEndPoint server) : base(new User{Login = "BOT"}, 1000, server)
+        {
+        }
+
+        private bool _isRun;
+        private CancellationToken _token;
+        private CancellationTokenSource _cts;
+        public void Start()
+        {
+            _cts = new CancellationTokenSource();
+            _token = _cts.Token;
+            _isRun = true;
+            while (_isRun)
+            {
+                _attack();
+            }
+        }
+
+        private void _attack()
+        {
+            SetUnit(_random.Next());
+        }
+
+        public void Stop()
+        {
+            _isRun = false;
+            _cts.Cancel();
+        }
+        public Task StartAsync()=> Task.Run(Start, _token);
+    }
 }
