@@ -34,8 +34,8 @@ namespace BayraktarClient
                 _hp = value;
                 HealthChanged?.Invoke(HealthPoints);
 
-                if (value<= 0)
-                    GameOver?.Invoke(this); 
+                if (value <= 0)
+                    GameOver?.Invoke(this);
             }
         }
 
@@ -62,15 +62,23 @@ namespace BayraktarClient
             _client.JoinMulticastGroup(_server.Address, 50);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
-            GameOver+=_gameOver;
+            GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
 
         private void _gameOver(GameClient client)
         {
-            _cts.Cancel();
-            End();
-            _cts.Dispose();
+            try
+            {
+
+                _cts?.Cancel();
+                _cts?.Dispose();
+            }
+            finally
+            {
+                End();
+
+            }
         }
 
         public void End()
@@ -110,7 +118,7 @@ namespace BayraktarClient
 
         private void _handle(byte[] buffer)
         {
-            if(buffer == null)
+            if (buffer == null)
                 return;
             var message = MessagePacket.FromBytes(buffer);
 
