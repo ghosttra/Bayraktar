@@ -40,7 +40,7 @@ namespace Bayraktar
             {
                 case GameRole.Attack:
                     //todo
-                    MouseUp+= Game_OnMouseUp
+                    MouseUp += Game_OnMouseUp;
                     break;
                 case GameRole.Defense:
                     //todo
