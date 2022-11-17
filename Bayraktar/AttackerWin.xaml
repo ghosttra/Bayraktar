@@ -15,8 +15,19 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property ="FontFamily" Value="./Properties/#DS-Digital"/>
+                <Setter Property ="Foreground" Value="Tomato"/>
+                <Setter Property ="FontSize" Value="40"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius ="15" ShadowDepth ="0"  Direction="300" Color="Black" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="Border">
                 <Setter Property="Margin" Value="100,0,100,0"/>
+
                 <Setter Property="Background">
                     <Setter.Value>
                         <VisualBrush>
@@ -28,6 +39,12 @@
                 </Setter>
             </Style>
         </Grid.Resources>
+        <Border Panel.ZIndex="1" BorderThickness="4" Background="#4CF0FFFF" CornerRadius="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" BorderBrush="Tomato">
+            <StackPanel>
+
+                <Label x:Name="lblMoney" Content="Money: 0" Canvas.Top="113" Margin="10" Canvas.Left="10" />
+            </StackPanel>
+        </Border>
         <Border   Grid.Column="0" Panel.ZIndex="0" x:Name="Road">
             <Canvas/>
         </Border>
@@ -38,7 +55,7 @@
             <Canvas/>
         </Border>
         <Canvas x:Name="AttackerMenuCanvas" MouseLeave="AttackerMenu_MouseLeave" MouseDown="AttackerMenu_MouseEnter" Background="DarkGreen" Grid.Column="2" Margin="590,0,0,0">
-            <ListBox Background="DarkOliveGreen" x:Name="MilitaryUnitsLists" Margin="50,0,0,0" Height="1080" Width="550"
+            <ListBox PreviewMouseDoubleClick="MilitaryUnitsLists_MouseDoubleClick" Background="DarkOliveGreen" x:Name="MilitaryUnitsLists" Margin="50,0,0,0" Height="1080" Width="350"
             HorizontalContentAlignment="Stretch">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
@@ -57,12 +74,9 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="{Binding Path=Name}" FontSize="24" FontWeight="Bold" Foreground="White"
+                                <TextBlock Grid.Column="1" Text="{Binding Path=Name}" FontSize="34" FontWeight="Bold" Foreground="White"
                                        HorizontalAlignment="Center"/>
-
-                                <TextBlock Grid.Row="1" Foreground="White" Text="{ Binding CoolDown, StringFormat='{}Cool down: {0}'}"
-                                       HorizontalAlignment="Center"/>
-                                <TextBlock Grid.Row="2" Foreground="White" Text="{ Binding Price, StringFormat='{}Price: {0}'}"
+                                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="24" Foreground="White" Text="{ Binding Price, StringFormat='{}Price: {0}'}"
                                        HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>

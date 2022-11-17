@@ -19,22 +19,18 @@ namespace Bayraktar
     public partial class Game : UserControl
     {
 
-
-        //qq
-
         public Game(GameMode gameMode, GameRole gameRole) : this()
         {
+            Content = new AttackerWin();
             _gameMode = gameMode;
             _gameRole = gameRole;
             switch (gameRole)
             {
                 case GameRole.Attack:
-                    //todo
-                    //интерфейс атаки
+                    Content = new AttackerWin();
                     break;
                 case GameRole.Defense:
-                    //todo
-                    //интерфейс обороны
+                    Content = new Game();
                     break;
             }
 

@@ -1,19 +1,23 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace BayraktarGame
-{
+namespace BayraktarGame {
     [Serializable]
-    public class Unit
-    {
+    public class Unit {
         public int Id { get; set; }
         public string Name { get; set; }
         public byte[] Image { get; set; }
         public byte[] ImageDestroyed { get; set; }
         public int CoolDown { get; set; }
         public int Price { get; set; }
+        public short Line { get; set; }
+
+       
     }
+   
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bayraktar"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"  AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
         Title="MessageBox" MinHeight="250" MinWidth="400"  MaxHeight="400" MaxWidth="500" Background="Transparent"
 >
     <Window.Resources>
