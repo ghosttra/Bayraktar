@@ -40,7 +40,7 @@ namespace Bayraktar
             {
                 case GameRole.Attack:
                     //todo
-                    //интерфейс атаки
+                    MouseUp+= Game_OnMouseUp
                     break;
                 case GameRole.Defense:
                     //todo
@@ -286,10 +286,8 @@ namespace Bayraktar
 
         private void Game_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            //  var p = e.GetPosition(this); 
-            // _client.Shoot(p.X, p.Y);
-            // _client.SetUnit((int)p.X);
-            // _client.SetUnit(_client.Units[0], 0, 0);
+            var p = e.GetPosition(this);
+            _client.SetUnit((int)p.X);
         }
     }
 }
