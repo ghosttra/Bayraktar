@@ -289,6 +289,7 @@ namespace Bayraktar
 
         private void _exit()
         {
+            _client.Exit();
             (Parent as Window).Content = new MainMenu();
         }
 

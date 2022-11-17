@@ -149,7 +149,14 @@ namespace BayraktarClient
 
         }
 
-        
+        public Action<string> Info;
+        public bool Win { get; set; } = false;
+
+        public void Exit()
+        {
+            Info?.Invoke($"User {User.Login} has leaved");
+            GameOver?.Invoke(this);
+        }
     }
 
     //public class AutomaticGameClient: GameClient
