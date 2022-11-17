@@ -34,15 +34,20 @@ namespace UserBayraktarServer
 
             _context = new GameContext();
         }
+
+        private bool _isRun;
         public Task StartAsync() => Task.Factory.StartNew(Start, _token);
         public async void Start()
         {
+            _cts = new CancellationTokenSource();
+            _token = _cts.Token;
+            _isRun = true;
             try
             {
                 Inform?.Invoke("Starting server");
                 _server.Start();
                 Inform?.Invoke("Wait for connection");
-                while (true)
+                while (_isRun)
                 {
                     try
                     {
@@ -71,6 +76,11 @@ namespace UserBayraktarServer
 
         private void _stop()
         {
+            if(!_isRun)
+                return;
+            
+            _isRun = false;
+            _cts.Cancel();
             _server.Stop();
             Stopped?.Invoke();
         }
