@@ -6,8 +6,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using BayraktarGame;
 using Message;
+using Timer = System.Timers.Timer;
 
 namespace BayraktarClient
 {
@@ -135,7 +137,7 @@ namespace BayraktarClient
                     break;
             }
         }
-        public void Shoot(double x, double y)
+        public void Shoot()
         {
             MessageCommand command = new MessageCommand
             {
@@ -183,39 +185,50 @@ namespace BayraktarClient
             Info?.Invoke($"User {User.Login} has leaved");
             End();
         }
+        
 
+        public void GetHit()
+        {
+            HealthPoints--;
+        }
     }
 
-    public class AutomaticGameClient : GameClient
+    public class AutomaticGameClient : GameClient, IDisposable
     {
-        public AutomaticGameClient(IPEndPoint server) : base(new User{Login = "BOT"}, 1000, server)
+        public AutomaticGameClient(IPEndPoint server) : base(new User{Login = "BOT"}, 4093, server)
         {
+            _timer.Interval = 2000;
+            _timer.Elapsed += Timer_Elapsed;
         }
+        
+        private Timer _timer = new Timer();
 
-        private bool _isRun;
-        private CancellationToken _token;
-        private CancellationTokenSource _cts;
         public void Start()
         {
-            _cts = new CancellationTokenSource();
-            _token = _cts.Token;
-            _isRun = true;
-            while (_isRun)
-            {
-                _attack();
-            }
+            _timer.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _attack();
         }
 
         private void _attack()
         {
-            SetUnit(_random.Next());
+            SetUnit(_random.Next(2000));
+            if(_random.Next(2)==0)
+                _attack();
         }
 
         public void Stop()
         {
-            _isRun = false;
-            _cts.Cancel();
+            _timer.Stop();
         }
-        public Task StartAsync()=> Task.Run(Start, _token);
+
+        public void Dispose()
+        {
+            End();
+            _timer?.Dispose();
+        }
     }
 }

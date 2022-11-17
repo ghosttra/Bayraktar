@@ -58,7 +58,7 @@
             this.normalPic.Location = new System.Drawing.Point(406, 2);
             this.normalPic.Name = "normalPic";
             this.normalPic.Size = new System.Drawing.Size(200, 200);
-            this.normalPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.normalPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.normalPic.TabIndex = 1;
             this.normalPic.TabStop = false;
             // 
@@ -68,7 +68,7 @@
             this.destroyedPic.Location = new System.Drawing.Point(628, 2);
             this.destroyedPic.Name = "destroyedPic";
             this.destroyedPic.Size = new System.Drawing.Size(200, 200);
-            this.destroyedPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.destroyedPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.destroyedPic.TabIndex = 2;
             this.destroyedPic.TabStop = false;
             // 

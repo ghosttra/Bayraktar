@@ -56,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BayraktarClient\GameClient.csproj">
+      <Project>{5d7908ff-7ac2-468f-b65a-1c2d05315a8b}</Project>
+      <Name>GameClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BayraktarGame\BayraktarGameData.csproj">
       <Project>{21df819d-8806-4e30-a8dd-bc37d14832ad}</Project>
       <Name>BayraktarGameData</Name>

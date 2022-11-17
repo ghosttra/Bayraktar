@@ -19,6 +19,8 @@ namespace Bayraktar
             _setImageSource(UnitImg, _unit.Image);
         }
 
+        public double X =>UnitImg.Width;
+        public double Y =>UnitImg.Height;
         private void _setImageSource(Image target, byte[] source)
         {
             if (source == null)

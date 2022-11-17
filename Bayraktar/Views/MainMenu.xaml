@@ -31,7 +31,7 @@
                     </StackPanel.Resources>
                     <Button Click="MenuButton_Click" x:Name = "Rating" Content="Рейтинг" IsEnabled="True"/>
                     <Button Click="MenuButton_Click" x:Name = "Start" Content="Розпочати" />
-                    <Button Click="MenuButton_Click" x:Name = "StartMultiplayer" Content="Мультiплеер" IsEnabled="True" />
+                    <Button Click="MenuButton_Click" x:Name = "StartMultiplayer" Content="Мультiплеер" IsEnabled="false"/>
                     <Button Click="MenuButton_Click" x:Name = "Exit" Content="Вихід"  />
 
                 </StackPanel>

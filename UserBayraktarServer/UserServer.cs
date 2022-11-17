@@ -10,6 +10,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BayraktarClient;
 using BayraktarGame;
 using GameEntities;
 using Message;
@@ -123,9 +124,13 @@ namespace UserBayraktarServer
                 }, _token);
         }
 
+        #region Version
+
         public string ActualVersion;
         private void _checkData(UserConnection client)
         {
+            //todo
+
             //string version = client.CheckVersion();
             //if (version == null || !version.Equals(ActualVersion))
             //{
@@ -137,8 +142,9 @@ namespace UserBayraktarServer
         {
             client.Send(new MessageCommand{Command = "UPDATE"});
             client.Send(_getUnits());
-            
         }
+
+        #endregion
 
         private void InQueueEvent(UserConnection user, bool inQueue)
         {
@@ -183,7 +189,7 @@ namespace UserBayraktarServer
         {
             var gameServer = _createNewGame();
             user.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
-
+            new AutomaticGameClient(gameServer.ServerEndPoint){Units = _context.Units.ToList()}.Start();
         }
         private GameServer _createNewGame()
         {

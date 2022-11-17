@@ -72,28 +72,21 @@ namespace Bayraktar
 
         private void SetUnitAction(MessageUnit unitData)
         {
-            _invoke(()=>_setUnit(unitData));
+            _invoke(() => _setUnit(unitData));
         }
 
         private void _setUnit(MessageUnit unitData)
         {
-            ///////////////////////////////////////////////
-            ///
-            ///установить юнита на игровое поле и запустить анимацию
-            ///
-            ///
-            
+            MilitaryUnit unit = new MilitaryUnit(unitData.Unit);
+
             DoubleAnimation DA = new DoubleAnimation
             {
-                From = -300,
+                From = -unit.Y,
                 To = SystemParameters.PrimaryScreenHeight + 250,
             };
             DA.Duration = TimeSpan.FromSeconds(unitData.Speed);
-            MilitaryUnit unit = new MilitaryUnit(unitData.Unit);
             Canvas.SetLeft(unit, unitData.Coords.X);
-            Canvas.SetTop(unit, -300);
-            unit.Width = Road.Width / 3;
-            unit.Height = Road.Width / 3;
+            Canvas.SetTop(unit, -unit.Y);
             DA.Completed += (s, e) =>
             {
                 _hit(unit);
@@ -102,32 +95,28 @@ namespace Bayraktar
             clocks.Add(clock);
             unit.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
             unit.ApplyAnimationClock(Canvas.TopProperty, clock);
-            int temp = rnd.Next(0, CMUs.Children.Count);
-            while (!(CMUs.Children[temp] is Border))
-            {
-                temp = rnd.Next(0, 3);
-            }
-            var this_ = (CMUs.Children[temp] as Border).Child;
             cnv.Children.Add(unit);
         }
 
         private void _hit(MilitaryUnit unit)
         {
+            _client.Shoot();
             cnv.Children.Remove(unit);
         }
 
         private void ScoreChanged(int score)
         {
             //пример
-    
+            //todo
             _invoke(() => lblScore.Content = score);
         }
         private void HealthChanged(int hp)
         {
             //пример
+            //todo
             _invoke(() => HealthText.Content = hp);
         }
-        
+
 
 
         private void _invoke(Action action)
@@ -220,25 +209,14 @@ namespace Bayraktar
         //private Timer _clockTimer;
 
 
-        private async void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (sender is MilitaryUnit)
             {
                 var MU = (sender as MilitaryUnit);
                 MU.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(MU) });
-                //Score += rnd.Next(50, 200);
-
                 MU.MouseLeftButtonUp -= MilitaryUnit_MouseLeftButtonUp;
-
                 MU.IsHitTestVisible = false;
-
-                //HealthPoints++;
-
-                //lblScore.Content = "Score: " + Score.ToString();
-
-                //await Task.Delay(TimeSpan.FromSeconds(3));
-                // CMU.Children.Remove((UIElement)sender);
-
             }
 
         }
@@ -262,8 +240,8 @@ namespace Bayraktar
 
         private void PauseFunc(string title, bool isDefeat)
         {
-            Rect.Visibility = Visibility.Visible;
-            //PauseAnimation();
+            // Rect.Visibility = Visibility.Visible;
+            PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
@@ -273,7 +251,7 @@ namespace Bayraktar
             else
             {
                 ResumeAnimation();
-                Rect.Visibility = Visibility.Hidden;
+                //   Rect.Visibility = Visibility.Hidden;
                 //dispatcherTimer.Start();
             }
 
@@ -299,10 +277,6 @@ namespace Bayraktar
         {
             PauseFunc("На паузі", false);
         }
-        private void Pause_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            _pause();
-        }
 
         private void Pause_Key(object sender, KeyEventArgs e)
         {
@@ -310,21 +284,12 @@ namespace Bayraktar
                 _pause();
         }
 
-        private void GameWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //SaveResult saveResult = new SaveResult();
-            //saveResult.ShowDialog();
-            //this.User = new User() { Name = Environment.UserName, TimeOf_AtteptEnd = DateTime.Now, Score = this.Score };
-            //if (!string.IsNullOrWhiteSpace(saveResult.Name))
-            //    User.Name = saveResult.Name;
-        }
-
         private void Game_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var p = e.GetPosition(this); 
-           // _client.Shoot(p.X, p.Y);
-            _client.SetUnit((int)p.X);
-          // _client.SetUnit(_client.Units[0], 0, 0);
+            //  var p = e.GetPosition(this); 
+            // _client.Shoot(p.X, p.Y);
+            // _client.SetUnit((int)p.X);
+            // _client.SetUnit(_client.Units[0], 0, 0);
         }
     }
 }

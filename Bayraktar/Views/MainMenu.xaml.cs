@@ -191,5 +191,6 @@ namespace Bayraktar
             if(e.Key == Key.Escape)
                 _exit();
         }
+        
     }
 }

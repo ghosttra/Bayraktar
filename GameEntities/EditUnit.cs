@@ -55,7 +55,7 @@ namespace GameServerInterface
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             try
             {
-                Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
+                Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()));
                 box.Image = b;
             }
             catch (Exception e)
