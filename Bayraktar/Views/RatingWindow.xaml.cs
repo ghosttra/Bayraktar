@@ -28,7 +28,9 @@ namespace Bayraktar
 
         private void _init()
         {
-            RatingsLB.ItemsSource = _getStats().ToList();
+            var rating = _getStats()?.ToList();
+            if (rating != null)
+                RatingsLB.ItemsSource = rating;
         }
 
         private IEnumerable<Statistic> _getStats()
