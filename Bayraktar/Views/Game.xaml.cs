@@ -290,7 +290,17 @@ namespace Bayraktar
         private void _exit()
         {
             _client.Exit();
-            (Parent as Window).Content = new MainMenu();
+            try
+            {
+                ((Window)Parent).Content = new MainMenu();
+
+            }
+            catch (Exception e)
+            {
+
+                new MessageBox("Something went wrong").ShowDialog();
+                Application.Current.Shutdown();
+            }
         }
 
         private void _pause()
