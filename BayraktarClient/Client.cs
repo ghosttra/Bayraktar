@@ -35,7 +35,7 @@ namespace BayraktarClient
                 HealthChanged?.Invoke(HealthPoints);
 
                 if (value <= 0)
-                    GameOver?.Invoke(this);
+                    End();
             }
         }
 
@@ -76,20 +76,20 @@ namespace BayraktarClient
             }
             finally
             {
-                End();
-
+                _client.Close();
+                _client = null;
             }
         }
 
         public void End()
         {
-            _client.Close();
-            _client = null;
-
+            if (IsRun)
+                IsRun = false;
         }
         private void _start()
         {
-            while (true)
+            IsRun= true;
+            while (IsRun)
             {
                 try
                 {
@@ -159,11 +159,22 @@ namespace BayraktarClient
 
         public Action<string> Info;
         public bool Win { get; set; } = false;
+        private bool _isRun;
+        public bool IsRun
+        {
+            get => _isRun;
+            set
+            {
+                _isRun = value;
+                if (!value)
+                    GameOver?.Invoke(this);
+            }
+        }
 
         public void Exit()
         {
             Info?.Invoke($"User {User.Login} has leaved");
-            GameOver?.Invoke(this);
+            End();
         }
     }
 
