@@ -136,6 +136,7 @@ namespace Message
         {
         }
         public string Command { get; set; }
+        public object Additional { get; set; }
 
     }
 
@@ -206,6 +207,7 @@ namespace Message
             Unit = unit;
         }
         public Unit Unit { get; set; }
+        public int Id { get; set; }
         public int Speed { get; set; } = 5;
     }
 }

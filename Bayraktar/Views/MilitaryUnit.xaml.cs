@@ -33,11 +33,11 @@ namespace Bayraktar
             ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
         }
 
-        public Action IsDestroyed;
+        public Action<MilitaryUnit> IsDestroyed;
         public void Destroy()
         {
             _setImageSource(UnitImg, _unit.ImageDestroyed);
-            IsDestroyed?.Invoke();
+            IsDestroyed?.Invoke(this);
         }
     }
 }

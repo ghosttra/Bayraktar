@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
     <Border>
-        <Image x:Name="UnitImg" Height="300" Width="300" MouseLeftButtonUp="MU_MouseLeftButtonUp" />
+        <Image x:Name="UnitImg" Height="300" Width="300" />
     </Border>
 </UserControl>

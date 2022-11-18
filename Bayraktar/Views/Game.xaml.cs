@@ -33,6 +33,7 @@ namespace Bayraktar
             _client = client;
             _client.HealthChanged += HealthChanged;
             _client.ScoreChanged += ScoreChanged;
+            _client.DestroyUnit+=DestroyUnit;
             _client.GameOver += GameOver;
             _client.SetUnitAction += SetUnitAction;
             _gameRole = gameRole;
@@ -60,6 +61,19 @@ namespace Bayraktar
 
         }
 
+        private void DestroyUnit(int tag)
+        {
+            foreach (UserControl control in cnv.Children)
+            {
+                if(!(control is MilitaryUnit unit))
+                    continue;
+                if ((int)unit.Tag == tag)
+                {
+                    unit.Destroy();
+                }
+            }
+        }
+
         private void GameOver(GameClient obj)
         {
             string result = "You loose";
@@ -77,14 +91,21 @@ namespace Bayraktar
 
         private void _setUnit(MessageUnit unitData)
         {
-            MilitaryUnit unit = new MilitaryUnit(unitData.Unit);
-
+            MilitaryUnit unit = new MilitaryUnit(unitData.Unit)
+            {
+                Tag = unitData.Id
+            };
+            unit.IsDestroyed+= IsDestroyed;
+            if (_gameRole == GameRole.Defense)
+            {
+                unit.MouseLeftButtonUp += UnitDestroy_MouseUp;
+            }
             DoubleAnimation DA = new DoubleAnimation
             {
                 From = -unit.Y,
                 To = SystemParameters.PrimaryScreenHeight + 250,
+                Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
-            DA.Duration = TimeSpan.FromSeconds(unitData.Speed);
             Canvas.SetLeft(unit, unitData.Coords.X);
             Canvas.SetTop(unit, -unit.Y);
             DA.Completed += (s, e) =>
@@ -93,9 +114,24 @@ namespace Bayraktar
             };
             var clock = DA.CreateClock();
             clocks.Add(clock);
-            unit.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
+            //unit.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
             unit.ApplyAnimationClock(Canvas.TopProperty, clock);
             cnv.Children.Add(unit);
+        }
+
+        private void IsDestroyed(MilitaryUnit unit)
+        {
+            unit.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(unit) }); 
+            unit.IsHitTestVisible = false;
+        }
+
+        private void UnitDestroy_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is MilitaryUnit unit)
+            {
+                unit.Destroy();
+                _client.UnitDestroy((int)unit.Tag);
+            }
         }
 
         private void _hit(MilitaryUnit unit)
@@ -209,17 +245,6 @@ namespace Bayraktar
         //private Timer _clockTimer;
 
 
-        private void MilitaryUnit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is MilitaryUnit)
-            {
-                var MU = (sender as MilitaryUnit);
-                MU.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(MU) });
-                MU.MouseLeftButtonUp -= MilitaryUnit_MouseLeftButtonUp;
-                MU.IsHitTestVisible = false;
-            }
-
-        }
 
 
 

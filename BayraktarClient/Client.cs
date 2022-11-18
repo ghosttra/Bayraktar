@@ -118,6 +118,7 @@ namespace BayraktarClient
         }
 
         public Action<MessageUnit> SetUnitAction;
+        public Action<int> DestroyUnit;
 
         private void _handle(byte[] buffer)
         {
@@ -132,8 +133,15 @@ namespace BayraktarClient
                     SetUnitAction?.Invoke(unitCommand);
                     break;
                 case MessageCommand command:
-                    if (command.Command.Equals("SHOOT"))
-                        HealthPoints--;
+                    switch (command.Command)
+                    {
+                        case "SHOOT":
+                            HealthPoints--;
+                            break;
+                        case "DESTROY":
+                            DestroyUnit?.Invoke((int)command.Additional);
+                            break;
+                    }
                     break;
             }
         }
@@ -152,13 +160,20 @@ namespace BayraktarClient
         }
 
         protected Random _random = new Random();
+        protected List<int> _unitsOnField = new List<int>();
         public void SetUnit(int x)
         {
             MessageUnit messageUnit = new MessageUnit(Units[_random.Next(Units.Count)], x, 0)
             {
-                Speed = _random.Next(_minSpeed, _maxSpeed)
+                Speed = _random.Next(_minSpeed, _maxSpeed), Id = _generateUnitId()
             };
             Send(messageUnit);
+        }
+
+        private int _generateUnitId()
+        {
+            var count = _unitsOnField.Count;
+            return count == 0 ? 0 : _unitsOnField[count - 1] + 1;
         }
 
         public void GetAllUnits()
@@ -186,10 +201,13 @@ namespace BayraktarClient
             End();
         }
         
-
-        public void GetHit()
+        
+        public void UnitDestroy(int unitTag)
         {
-            HealthPoints--;
+            _unitsOnField.Remove(unitTag);
+            Score += _random.Next(50, 100);
+            HealthPoints++;
+            Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }
     }
 
