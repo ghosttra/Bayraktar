@@ -124,6 +124,7 @@ namespace Bayraktar
             {
                 unit.Destroy();
                 _client.UnitDestroy((int)unit.Tag);
+                unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
             }
         }
 
