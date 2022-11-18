@@ -10,19 +10,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BayraktarGame;
+using GameEntities;
 
-namespace GameEntities
+namespace GameServerInterface
 {
     public partial class UnitsEdit : Form
     {
         public UnitsEdit()
         {
             InitializeComponent();
+        }
+
+
+        private void _init()
+        {
+            unitsDGV.AutoGenerateColumns = false;
+            unitsDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             _updateDgv();
+
         }
 
         private GameContext _dataBase = new GameContext();
 
+        private Task _updateDgvAsync() => Task.Factory.StartNew(() =>
+        {
+            if (InvokeRequired)
+                Invoke(new Action(_updateDgv));
+            else
+            {
+                _updateDgv();
+            }
+        });
         private void _updateDgv()
         {
             unitsDGV.DataSource = _dataBase.Units.ToList();
@@ -37,7 +55,7 @@ namespace GameEntities
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             try
             {
-                Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()), new Size(300, 300));
+                Bitmap b = new Bitmap(Image.FromStream(openFileDialog.OpenFile()));
                 box.Image = b;
             }
             catch (Exception e)
@@ -63,7 +81,7 @@ namespace GameEntities
             if (!_check())
                 return;
             _addNewUnit();
-            _updateDgv();
+            _updateDgvAsync();
         }
 
         private void _addNewUnit()
@@ -129,15 +147,34 @@ namespace GameEntities
         {
             if (!_check())
                 return;
-            _updateDgv();
+            if (unitsDGV.SelectedRows.Count == 0)
+                return;
+            if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
+            _fillUnit(unit);
+            _dataBase.SaveChanges();
+            _updateDgvAsync();
+        }
+
+        private void _fillUnit(Unit unit)
+        {
+            ImageConverter converter = new ImageConverter();
+
+            unit.CoolDown = decimal.ToInt32(coolDownNum.Value);
+            unit.Price = decimal.ToInt32(priceNum.Value);
+            unit.Name = nameBox.Text;
+            unit.Image = (byte[])converter.ConvertTo(normalPic.Image, typeof(byte[]));
+            unit.ImageDestroyed = (byte[])converter.ConvertTo(destroyedPic.Image, typeof(byte[]));
+
         }
 
         private void delBtn_Click(object sender, EventArgs e)
         {
             if (unitsDGV.SelectedRows.Count == 0)
                 return;
-
-            _updateDgv();
+            if (!(unitsDGV.SelectedRows[0].DataBoundItem is Unit unit)) return;
+            _dataBase.Units.Remove(unit);
+            _dataBase.SaveChanges();
+            _updateDgvAsync();
         }
 
         private void unitsDGV_SelectionChanged(object sender, EventArgs e)
@@ -165,6 +202,26 @@ namespace GameEntities
             {
                 box.Image = Image.FromStream(stream);
             }
+        }
+
+        private void UnitsEdit_Load(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                if (InvokeRequired)
+                    Invoke(new Action(_init));
+                else
+                {
+                    _init();
+                }
+            });
+        }
+
+        private void dbButtons_Load(object sender, EventArgs e)
+        {
+            dbButtons.delBtn.Click += delBtn_Click;
+            dbButtons.addBtn.Click += addBtn_Click;
+            dbButtons.updBtn.Click += updBtn_Click;
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿<Window x:Class="Bayraktar.MessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bayraktar"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Title="MessageBox" MinHeight="250" MinWidth="400"  MaxHeight="400" MaxWidth="500" Background="Transparent"
+>
+    <Window.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource Labels}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+            <Setter Property="Background" Value="#FF673131"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Padding" Value="30 0"/>
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="BorderBrush" Value="Azure"/>
+        </Style>
+    </Window.Resources>
+    <Border Background="#CC802727" CornerRadius="20" BorderBrush="Azure" BorderThickness="2">
+       <Grid>
+           <Grid.RowDefinitions>
+               <RowDefinition Height="2*"/>
+               <RowDefinition Height="Auto"/>
+           </Grid.RowDefinitions>
+           <TextBlock x:Name="InfoLabel" TextWrapping="Wrap" Text="Info" TextAlignment="Justify" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" x:Name="ButtonPanel"/>
+
+       </Grid>
+    </Border>
+    
+</Window>

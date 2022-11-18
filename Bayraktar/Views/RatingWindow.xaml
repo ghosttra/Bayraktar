@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Bayraktar.RatingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bayraktar" Focusable="True" KeyDown="RatingWindow_OnKeyDown"
+        mc:Ignorable="d"
+        d:DesignHeight="1080" d:DesignWidth="1920">
+    <Grid Background="DarkSlateGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50" Click="Exit" x:Name="ExitBtn"></Button>
+        <DockPanel Grid.Column="0" LastChildFill="False">
+            <Button DockPanel.Dock="Top" Content="Всi" Click="ShowAll_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
+            <Button DockPanel.Dock="Top" Content="Мої ігри" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
+            <!--<Button DockPanel.Dock="Top" Content="По очкам" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>-->
+
+        </DockPanel>
+        <ListBox Background="SlateGray" Grid.Column="1"
+            HorizontalContentAlignment="Stretch"
+                x:Name="RatingsLB">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="3"/>
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="2" Background="Gray"
+                            CornerRadius="3" Padding="5 2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding Path=User.Login}" FontSize="24" FontWeight="Bold" Foreground="White"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBlock Grid.Row="1" Foreground="White" Text="{ Binding Score, StringFormat='{}Score: {0}'}" 
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Foreground="White" Text="{ Binding TimeOf_AtteptEnd, StringFormat='{}{0:dd/MM/yyyy | H:mm}'}" 
+                                       HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных со сборкой.
-[assembly: AssemblyTitle("GameEntities")]
+[assembly: AssemblyTitle("GameServerInterface")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("GameEntities")]
+[assembly: AssemblyProduct("GameServerInterface")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
