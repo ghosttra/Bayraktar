@@ -33,7 +33,7 @@ namespace Bayraktar
             _client = client;
             _client.HealthChanged += HealthChanged;
             _client.ScoreChanged += ScoreChanged;
-            _client.DestroyUnit+=DestroyUnit;
+            _client.DestroyUnit += DestroyUnit;
             _client.GameOver += GameOver;
             _client.SetUnitAction += SetUnitAction;
             _gameRole = gameRole;
@@ -41,31 +41,20 @@ namespace Bayraktar
             {
                 case GameRole.Attack:
                     //todo
-                    MouseUp += Game_OnMouseUp;
+                    MouseUp += AddUnit;
                     break;
                 case GameRole.Defense:
                     //todo
                     //интерфейс обороны
                     break;
             }
-
-            //dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
-            //dispatcherTimer.Tick += (sender, args) =>
-            //{
-            //    for (int r = 0; r < rnd.Next(3, 9); r++)
-            //    {
-            //        AddMilitaryUnit();
-            //    }
-            //};
-            //dispatcherTimer.Start();
-
         }
 
         private void DestroyUnit(int tag)
         {
             foreach (UserControl control in cnv.Children)
             {
-                if(!(control is MilitaryUnit unit))
+                if (!(control is MilitaryUnit unit))
                     continue;
                 if ((int)unit.Tag == tag)
                 {
@@ -74,9 +63,10 @@ namespace Bayraktar
             }
         }
 
-        private void GameOver(GameClient obj)
+        private void GameOver(GameClient client)
         {
-            string result = "You loose";
+            string result = "Game over";
+            
             _invoke(() =>
             {
                 new MessageBox(result) { Owner = Parent as Window }.ShowDialog();
@@ -95,7 +85,7 @@ namespace Bayraktar
             {
                 Tag = unitData.Id
             };
-            unit.IsDestroyed+= IsDestroyed;
+            unit.IsDestroyed += IsDestroyed;
             if (_gameRole == GameRole.Defense)
             {
                 unit.MouseLeftButtonUp += UnitDestroy_MouseUp;
@@ -103,26 +93,29 @@ namespace Bayraktar
             DoubleAnimation DA = new DoubleAnimation
             {
                 From = -unit.Y,
-                To = SystemParameters.PrimaryScreenHeight + 250,
+                To = SystemParameters.PrimaryScreenHeight + unit.Y,
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
-            Canvas.SetLeft(unit, unitData.Coords.X);
+            var x = (unitData.Coords.X > _window.Width - unit.X)? (int)(_window.Width - unit.X): unitData.Coords.X;
+            Canvas.SetLeft(unit, x);
             Canvas.SetTop(unit, -unit.Y);
+
             DA.Completed += (s, e) =>
             {
                 _hit(unit);
             };
+            unit.Animation = DA;
             var clock = DA.CreateClock();
+
             clocks.Add(clock);
-            //unit.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
             unit.ApplyAnimationClock(Canvas.TopProperty, clock);
             cnv.Children.Add(unit);
         }
 
-        private void IsDestroyed(MilitaryUnit unit)
+        private async void IsDestroyed(MilitaryUnit unit)
         {
-            unit.BeginAnimation(Canvas.TopProperty, new DoubleAnimation() { To = Canvas.GetTop(unit) }); 
-            unit.IsHitTestVisible = false;
+            await Task.Delay(3000);
+            cnv.Children.Remove(unit);
         }
 
         private void UnitDestroy_MouseUp(object sender, MouseButtonEventArgs e)
@@ -167,106 +160,31 @@ namespace Bayraktar
             InitializeComponent();
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
             Focus();
-
-            //_clockTimer = new Timer(1000);
-            //_clockTimer.Elapsed += clockTimer_Elapsed;
-            //_clockTimer.Start();
-            //DataContext = this;
-
-            //Pause.Source = new ImageSourceConverter().ConvertFromString(@"..\Data\Pictures\pause.png") as ImageSource;
-
-            //Canvas.SetTop(HealthText, SystemParameters.PrimaryScreenHeight - 50);
-            //Canvas.SetTop(RandomText1, SystemParameters.PrimaryScreenHeight - 50);
         }
 
 
         List<AnimationClock> clocks = new List<AnimationClock>();
-        private void AddMilitaryUnit()
-        {
-            //DoubleAnimation DA = new DoubleAnimation
-            //{
-            //    From = -300,
-            //    To = SystemParameters.PrimaryScreenHeight + 250,
-            //};
-
-            ////if (MinSpeed >= 10)
-            ////    MinSpeed -= (short)rnd.Next(1, 3);
-            ////if (MaxSpeed >= 5)
-            ////    MaxSpeed -= (short)rnd.Next(1, 3);
-
-            ////if (MinSpeed > MaxSpeed)
-            ////{
-            ////    (MinSpeed, MaxSpeed) = (MaxSpeed, MinSpeed);
-            ////}
-
-            ////short seconds = (short)rnd.Next(MinSpeed, MaxSpeed);
-
-            ////  DA.Duration = TimeSpan.FromSeconds(seconds);
-            //short left = (short)rnd.Next(-50, 50);
-
-            ////todo
-
-            //MilitaryUnit militaryU = new MilitaryUnit(_newUnit());
-            //Canvas.SetLeft(militaryU, left);
-            //Canvas.SetTop(militaryU, -300);
-            //militaryU.Width = Road.Width / 3;
-            //militaryU.Height = Road.Width / 3;
-            //AnimationClock clock;
-            //DA.Completed += (s, e) =>
-            //{
-            //    //HealthPoints--;
-            //    //if (HealthPoints == 0)
-            //    //{
-            //    //    PauseFunc("Поразка", true);
-            //    //}
-            //    //if (HealthPoints <= 5)
-            //    //{
-            //    //    HealthText.Content = "Health: " + HealthPoints.ToString();
-            //    //}
-
-            //};
-            //clock = DA.CreateClock();
-            //clocks.Add(clock);
-            //militaryU.MouseLeftButtonUp += MilitaryUnit_MouseLeftButtonUp;
-            //militaryU.ApplyAnimationClock(Canvas.TopProperty, clock);
-            //int temp = rnd.Next(0, CMUs.Children.Count);
-            //while (!(CMUs.Children[temp] is Border))
-            //{
-            //    temp = rnd.Next(0, 3);
-            //}
-            //var this_ = (CMUs.Children[temp] as Border).Child;
-            //(this_ as Canvas).Children.Add(militaryU);
-
-        }
-
-
-        Random rnd = new Random();
-        DispatcherTimer dispatcherTimer;
-        //private Timer _clockTimer;
-
-
-
 
 
         private void PauseAnimation()
         {
             foreach (var clock in clocks)
             {
-                clock.Controller.Pause();
+                clock.Controller?.Pause();
             }
         }
         private void ResumeAnimation()
         {
             foreach (var clock in clocks)
             {
-                clock.Controller.Resume();
+                clock.Controller?.Resume();
             }
         }
 
         private void PauseFunc(string title, bool isDefeat)
         {
-            // Rect.Visibility = Visibility.Visible;
-            PauseAnimation();
+            //Rect.Visibility = Visibility.Visible;
+            //PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
@@ -275,9 +193,7 @@ namespace Bayraktar
             }
             else
             {
-                ResumeAnimation();
-                //   Rect.Visibility = Visibility.Hidden;
-                //dispatcherTimer.Start();
+                //ResumeAnimation();
             }
 
         }
@@ -309,10 +225,20 @@ namespace Bayraktar
                 _pause();
         }
 
-        private void Game_OnMouseUp(object sender, MouseButtonEventArgs e)
+        private bool _onCooldown = false;
+        private void AddUnit(object sender, MouseButtonEventArgs e)
         {
+            if (_onCooldown)
+                return;
             var p = e.GetPosition(this);
             _client.SetUnit((int)p.X);
+            Cooldown();
+        }
+
+        private async void Cooldown()
+        {
+            _onCooldown = true;
+            await Task.Delay(1000);
         }
     }
 }

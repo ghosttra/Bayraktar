@@ -88,7 +88,7 @@ namespace UserGameClient
 
         private void GameOver(GameClient client)
         {
-            MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Score };
+            MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Score , Server = client.Server};
             Send(result);
         }
 

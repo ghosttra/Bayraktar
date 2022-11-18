@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using BayraktarGame;
@@ -19,6 +20,7 @@ namespace Bayraktar
             _setImageSource(UnitImg, _unit.Image);
         }
 
+        public DoubleAnimation Animation;
         public double X =>UnitImg.Width;
         public double Y =>UnitImg.Height;
         private void _setImageSource(Image target, byte[] source)
@@ -37,6 +39,7 @@ namespace Bayraktar
         public void Destroy()
         {
             _setImageSource(UnitImg, _unit.ImageDestroyed);
+            
             IsDestroyed?.Invoke(this);
         }
     }

@@ -75,6 +75,7 @@ namespace Message
         }
         public int Score { get; set; }
         public User User { get; set; }
+        public IPEndPoint Server { get; set; }
     }
     [Serializable]
     public class MessageGameData : MessagePacket

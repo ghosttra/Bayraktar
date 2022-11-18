@@ -87,7 +87,7 @@ namespace BayraktarClient
         public void End()
         {
             if (IsRun)
-                IsRun = false;
+                Send(new MessageCommand() { Command = "GAME_OVER" });
         }
         private void _start()
         {
@@ -141,6 +141,10 @@ namespace BayraktarClient
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
                             break;
+                        case "GAME_OVER":
+                            GameOver?.Invoke(this);
+                            IsRun  = false;
+                            break;
                     }
                     break;
             }
@@ -183,17 +187,7 @@ namespace BayraktarClient
 
         public Action<string> Info;
         public bool Win { get; set; } = false;
-        private bool _isRun;
-        public bool IsRun
-        {
-            get => _isRun;
-            set
-            {
-                _isRun = value;
-                if (!value)
-                    GameOver?.Invoke(this);
-            }
-        }
+        public bool IsRun { get; set; }
 
         public void Exit()
         {
@@ -217,8 +211,15 @@ namespace BayraktarClient
         {
             _timer.Interval = 2000;
             _timer.Elapsed += Timer_Elapsed;
+            GameOver+=EndAutoGame;
         }
-        
+
+        private void EndAutoGame(GameClient client)
+        {
+            Stop();
+            Dispose();
+        }
+
         private Timer _timer = new Timer();
 
         public void Start()

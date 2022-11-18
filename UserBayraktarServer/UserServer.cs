@@ -247,10 +247,20 @@ namespace UserBayraktarServer
                     case "GAME_OVER":
                         if (command is MessageGameResult gameResult)
                         {
+                            _stopServer(gameResult.Server);
                             _saveResult(gameResult);
                         }
                         break;
                 }
+            }
+        }
+
+        private void _stopServer(IPEndPoint gameResultServer)
+        {
+            var games = _games.Where(g => g.ServerEndPoint.Equals(gameResultServer));
+            foreach (var game in games)
+            {
+                game.End();
             }
         }
 
