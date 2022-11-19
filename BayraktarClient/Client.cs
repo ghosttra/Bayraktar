@@ -65,6 +65,7 @@ namespace BayraktarClient
             _client.JoinMulticastGroup(Server.Address, 50);
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
+            HealthPoints = 5;
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }

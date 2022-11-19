@@ -16,8 +16,8 @@ namespace Bayraktar
     }
     public class RatingControl
     {
-        public RatingSort Sort { get; private set; } = RatingSort.Date;
-        public RatingType Type { get; private set;} = RatingType.All;
+        public RatingSort Sort { get; set; } = RatingSort.Date;
+        public RatingType Type { get; set;} = RatingType.All;
 
         private static  RatingControl _instance;
         public static RatingControl Instance => _instance ?? (_instance = new RatingControl());
