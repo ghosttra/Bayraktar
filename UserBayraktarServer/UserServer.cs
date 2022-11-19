@@ -177,8 +177,9 @@ namespace UserBayraktarServer
         {
             var gameServer = _createNewGame();
             user.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
-            
-            var bot =new AutomaticGameClient(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
+            gameServer.StartAutoAttack();
+           // new AutomaticGameClient(gameServer.ServerEndPoint){Units = _context.Units.ToList()};
+            //var bot =new AutomaticGameClient(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
 
         }
         private GameServer _createNewGame()

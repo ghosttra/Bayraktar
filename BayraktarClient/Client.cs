@@ -16,7 +16,7 @@ namespace BayraktarClient
     public class GameClient
     {
         public IPEndPoint Server { get; }
-        private UdpClient _client;
+        protected UdpClient _client;
         public User User { get; }
 
         private CancellationTokenSource _cts;
@@ -68,7 +68,6 @@ namespace BayraktarClient
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
-
         private void _gameOver(GameClient client)
         {
             try
@@ -142,6 +141,9 @@ namespace BayraktarClient
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
                             break;
+                        case "ATTACK":
+                            SetUnit(_random.Next(2000));
+                            break;
                         case "GAME_OVER":
                             GameOver?.Invoke(this);
                             IsRun  = false;
@@ -211,7 +213,7 @@ namespace BayraktarClient
         private GameClient _gameConnection;
         public AutomaticGameClient(MessageGameData data)
         {
-            _gameConnection = new GameClient(new User(){Login = "BOT"}, 4093, data.Server) { Units = data.Units };
+            _gameConnection = new GameClient(new User() { Login = "BOT" }, 4093, data.Server) { Units = data.Units };
             _gameConnection.GameOver += GameOver;
             _timer.Elapsed += Timer_Elapsed;
             _timer.Interval = 2000;
@@ -252,51 +254,5 @@ namespace BayraktarClient
             _timer?.Dispose();
         }
     }
-    public class AutomaticGameClient1 : GameClient, IDisposable
-    {
-        
-        public AutomaticGameClient1(IPEndPoint server) : base(new User{Login = "BOT"}, 4093, server)
-        {
 
-            _timer.Interval = 2000;
-            _timer.Elapsed += Timer_Elapsed;
-            GameOver+=EndAutoGame;
-        }
-
-        private void EndAutoGame(GameClient client)
-        {
-            Stop();
-            Dispose();
-        }
-
-        private Timer _timer = new Timer();
-
-        public void Start()
-        {
-            _timer.Start();
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _attack();
-        }
-
-        private void _attack()
-        {
-            SetUnit(_random.Next(2000));
-            if(_random.Next(2)==0)
-                _attack();
-        }
-
-        public void Stop()
-        {
-            _timer.Stop();
-        }
-
-        public void Dispose()
-        {
-            End();
-            _timer?.Dispose();
-        }
-    }
 }
