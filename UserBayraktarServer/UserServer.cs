@@ -253,8 +253,9 @@ namespace UserBayraktarServer
 
         private void _saveResult(MessageGameResult gameResult)
         {
+            var user = _context.Users.FirstOrDefault(u=>u.Login.Equals(gameResult.User.Login)&& u.PassWord.Equals(gameResult.User.PassWord));
             _context.Statistics.Add(new Statistic
-                { Date = DateTime.Now, User = gameResult.User, Score = gameResult.Score });
+                { Date = DateTime.Now, User = user, Score = gameResult.Score });
             _context.SaveChanges();
 
         }
