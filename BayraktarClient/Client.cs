@@ -66,6 +66,7 @@ namespace BayraktarClient
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             HealthPoints = 5;
+            Send(new MessageNull());
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
@@ -181,7 +182,10 @@ namespace BayraktarClient
         private int _generateUnitId()
         {
             var count = _unitsOnField.Count;
-            return count == 0 ? 0 : _unitsOnField[count - 1] + 1;
+            
+            var id = count == 0 ? 0 : _unitsOnField[count - 1] + 1;
+            _unitsOnField.Add(id);
+            return id;
         }
         
         public Action<string> Info;
