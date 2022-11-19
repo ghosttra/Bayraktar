@@ -158,7 +158,7 @@
     <Compile Include="Views\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RatingControl.cs" />
+    <Compile Include="Models\RatingControl.cs" />
     <Compile Include="Views\RatingWindow.xaml.cs">
       <DependentUpon>RatingWindow.xaml</DependentUpon>
     </Compile>

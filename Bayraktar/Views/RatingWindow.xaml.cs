@@ -31,7 +31,13 @@ namespace Bayraktar
         private void _init()
         {
             RatingControl.Instance.Result+= SetStats;
+            RatingControl.Instance.NoData+=NoData;
             RatingControl.Instance.GetRating();
+        }
+
+        private void NoData()
+        {
+            //todo
         }
 
         private void SetStats(List<Statistic> rating)

@@ -10,7 +10,7 @@ namespace Bayraktar
 {
     public partial class Authorize : UserControl
     {
-        private readonly UserClient _userClient= CurrentClient.Instance.Client;
+        private readonly UserClient _userClient = CurrentClient.Instance.Client;
         public Authorize()
         {
             InitializeComponent();
@@ -45,14 +45,10 @@ namespace Bayraktar
 
         private void _invoke(Action action)
         {
-            try
-            {
-                if (!Dispatcher.CheckAccess())
-                    Dispatcher.Invoke(action);
-                else
-                    action();
-            }
-            catch{ }
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(action);
+            else
+                action();
         }
 
         private void _userClient_Info(string info)
@@ -75,10 +71,7 @@ namespace Bayraktar
 
         private async void _connect(bool isLogin)
         {
-            if (!_check())
-                return;
-            _boxReset();
-            _userClient.User = _getUserData();
+
 
             ButtonPanel.IsEnabled = false;
             try
@@ -95,14 +88,23 @@ namespace Bayraktar
             }
         }
 
+        private void _initUser()
+        {
+
+            if (!_check())
+                return;
+            _boxReset();
+            _userClient.User = _getUserData();
+        }
         private async void Registration_Click(object sender, RoutedEventArgs e)
         {
+            _initUser();
             _connect(false);
         }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
-
+            _initUser();
             _connect(true);
         }
 

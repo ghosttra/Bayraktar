@@ -29,11 +29,11 @@ namespace Bayraktar
                 return;
             target.Source = (BitmapSource)new ImageSourceConverter().ConvertFrom(source);
         }
-        private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Destroy();
-            ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
-        }
+        //private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    Destroy();
+        //    ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
+        //}
 
         public Action<MilitaryUnit> IsDestroyed;
         public void Destroy()

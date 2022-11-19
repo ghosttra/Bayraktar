@@ -108,6 +108,12 @@ namespace UserBayraktarServer
         public void Send(MessagePacket message)
         {
             var buffer = message.ToBytes();
+
+            //var length = new MessageDataContent(buffer.Length);
+            //var lengthBuffer = length.ToBytes();
+            //_stream.Write(lengthBuffer, 0, lengthBuffer.Length);
+            //_stream.Read(lengthBuffer, 0, lengthBuffer.Length);
+
             _stream.Write(buffer, 0, buffer.Length);
         }
         public MessageAuthorize Authorize()

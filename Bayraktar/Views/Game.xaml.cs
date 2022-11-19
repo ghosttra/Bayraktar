@@ -27,11 +27,17 @@ namespace Bayraktar
         Window _window => Parent as Window;
         public User User { get; set; }
 
+
+        private Game()
+        {
+            InitializeComponent();
+            Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
+            Focus();
+        }
         public Game(GameClient client, GameRole gameRole) : this()
         {
             Focus();
             _client = client;
-            _client.MaxWidth = (int)Width;
             _client.HealthChanged += HealthChanged;
             _client.ScoreChanged += ScoreChanged;
             _client.DestroyUnit += DestroyUnit;
@@ -49,19 +55,24 @@ namespace Bayraktar
                     //интерфейс обороны
                     break;
             }
+            _client.MaxWidth = (int)Width;
+
         }
 
         private void DestroyUnit(int tag)
         {
-            foreach (UserControl control in cnv.Children)
+            _invoke(() =>
             {
-                if (!(control is MilitaryUnit unit))
-                    continue;
-                if ((int)unit.Tag == tag)
+                foreach (UserControl control in cnv.Children)
                 {
-                    unit.Destroy();
+                    if (!(control is MilitaryUnit unit))
+                        continue;
+                    if ((int)unit.Tag == tag)
+                    {
+                        unit.Destroy();
+                    }
                 }
-            }
+            });
         }
 
         private void GameOver(GameClient client)
@@ -125,7 +136,6 @@ namespace Bayraktar
         {
             if (sender is MilitaryUnit unit)
             {
-                unit.Destroy();
                 _client.UnitDestroy((int)unit.Tag);
                 unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
             }
@@ -158,12 +168,6 @@ namespace Bayraktar
                 Dispatcher.Invoke(action);
             else
                 action();
-        }
-        private Game()
-        {
-            InitializeComponent();
-            Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-            Focus();
         }
 
 
@@ -243,6 +247,7 @@ namespace Bayraktar
         {
             _onCooldown = true;
             await Task.Delay(1000);
+            _onCooldown = false;
         }
     }
 }
