@@ -28,6 +28,7 @@ namespace Bayraktar
             try
             {
                 CurrentClient.Instance.Init();
+                CurrentClient.Instance.Client.Disconnect+=Disconnect;
                 CurrentClient.Instance.Client.StartGame+=  StartGame;
                 CurrentClient.Instance.Client.WaitForGame+= WaitForGame;
             }
@@ -38,6 +39,18 @@ namespace Bayraktar
             }
             Content = new Authorize();
         }
+
+        private void Disconnect()
+        {
+            _invoke(() =>
+            {
+                new MessageBox("Client has been disconnected by server") { Owner = this }.ShowDialog();
+                CurrentClient.Instance.Client.Refresh();
+                if (Content is Authorize) return;
+                Content = new Authorize();
+            });
+        }
+
 
         private void _initWaitingBox()
         {

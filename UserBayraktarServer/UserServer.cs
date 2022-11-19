@@ -75,15 +75,28 @@ namespace UserBayraktarServer
         }
         public event Action Stopped;
 
-        private void _stop()
+        private async void _stop()
         {
+            
             if(!_isRun)
                 return;
-            
+
+            await Task.Run(_disconnectAllUsers, _token);
+
             _isRun = false;
             _cts.Cancel();
             _server.Stop();
             Stopped?.Invoke();
+        }
+
+        private void _disconnectAllUsers()
+        {
+            _users.ForEach(u =>
+            {
+                u.CloseConnection -= CloseConnection;
+                u.Disconnect();
+            });
+            _users.Clear();
         }
 
         private void _accept()
@@ -117,34 +130,9 @@ namespace UserBayraktarServer
             clientConnection.InQueueEvent += InQueueEvent;
             clientConnection.CloseConnection += CloseConnection;
 
-            Task.Factory.StartNew(()=>_checkData(clientConnection), _token)
-                .ContinueWith(t =>
-                {
-                    clientConnection.RunAsync();
-                }, _token);
+            Task.Factory.StartNew(clientConnection.RunAsync, _token);
         }
 
-        #region Version
-
-        public string ActualVersion;
-        private void _checkData(UserConnection client)
-        {
-            //todo
-
-            //string version = client.CheckVersion();
-            //if (version == null || !version.Equals(ActualVersion))
-            //{
-            //    _updateClient(client);
-            //}
-        }
-
-        private void _updateClient(UserConnection client)
-        {
-            client.Send(new MessageCommand{Command = "UPDATE"});
-            client.Send(_getUnits());
-        }
-
-        #endregion
 
         private void InQueueEvent(UserConnection user, bool inQueue)
         {
@@ -189,14 +177,15 @@ namespace UserBayraktarServer
         {
             var gameServer = _createNewGame();
             user.Send(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
-            new AutomaticGameClient(gameServer.ServerEndPoint){Units = _context.Units.ToList()}.Start();
+            
+            var bot =new AutomaticGameClient(_createGameDataMessage(GameRole.Defense, gameServer.ServerEndPoint));
+
         }
         private GameServer _createNewGame()
         {
             var ipAddress = _generateIp();
             var endPoint = new IPEndPoint(ipAddress, 1000);
             var game = new GameServer(endPoint);
-            game.EndGame += (gameServer) => { _games.Remove(gameServer); };
             _games.Add(game);
             return game;
         }
@@ -227,10 +216,7 @@ namespace UserBayraktarServer
                     case "RATING":
                         var rating = _getRating();
                         rating.Description = command.Command;
-                        if (rating != null)
                             user.Send(rating);
-                        else
-                            user.Send(new MessageNull());
                         break;
                     case "DISCONNECTED":
                         user.Disconnect();
@@ -257,11 +243,13 @@ namespace UserBayraktarServer
 
         private void _stopServer(IPEndPoint gameResultServer)
         {
-            var games = _games.Where(g => g.ServerEndPoint.Equals(gameResultServer));
+            var games = _games.Where(g => g.ServerEndPoint.Equals(gameResultServer)).ToList();
             foreach (var game in games)
             {
                 game.End();
+                _games.Remove(game);
             }
+            
         }
 
         private void _saveResult(MessageGameResult gameResult)

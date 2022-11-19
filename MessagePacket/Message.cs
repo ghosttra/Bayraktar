@@ -10,21 +10,18 @@ using BayraktarGame;
 
 namespace Message
 {
-    public enum MessageType
-    {
-        Data, Command,
-        Null,
-        Text
-    }
+    //public enum MessageType
+    //{
+    //    Data, Command,
+    //    Null,
+    //    Text
+    //}
 
     [Serializable]
     public abstract class MessagePacket
     {
-        public MessageType Type { get; }
-
-        protected MessagePacket(MessageType type)
+        protected MessagePacket()
         {
-            Type = type;
         }
 
         public static MessagePacket FromBytes(byte[] messageArray)
@@ -52,18 +49,12 @@ namespace Message
     [Serializable]
     public class MessageText : MessagePacket
     {
-        public MessageText() : base(MessageType.Text)
-        {
-        }
         public string Text { get; set; }
     }
 
     [Serializable]
     public class MessageNull : MessagePacket
     {
-        public MessageNull() : base(MessageType.Null)
-        {
-        }
     }
 
     [Serializable]
@@ -83,9 +74,7 @@ namespace Message
         public IPEndPoint Server { get; set; }
         public GameRole GameRole { get; set; }
         public List<Unit> Units { get; set; }
-        public MessageGameData() : base(MessageType.Data)
-        {
-        }
+        
     }
 
     [Serializable]
@@ -94,18 +83,14 @@ namespace Message
         public int LocalPort { get; set; }
         public GameMode GameMode { get; set; }
 
-        public MessageConnectionGame() : base(MessageType.Command)
-        {
-        }
+        
     }
     [Serializable]
     public class MessageDataContent : MessagePacket
     {
-        public MessageDataContent() : base(MessageType.Data)
-        {
-        }
+        
 
-        public MessageDataContent(object content) : this()
+        public MessageDataContent(object content) 
         {
             SetContent(content);
         }
@@ -133,9 +118,7 @@ namespace Message
     [Serializable]
     public class MessageCommand : MessagePacket
     {
-        public MessageCommand() : base(MessageType.Command)
-        {
-        }
+        
         public string Command { get; set; }
         public object Additional { get; set; }
 
@@ -157,7 +140,7 @@ namespace Message
         public string Password { get; set; }
     }
     [Serializable]
-    public class MessageBool : MessageCommand
+    public class MessageBool : MessagePacket
     {
         public bool Response { get; }
 
@@ -175,11 +158,9 @@ namespace Message
     [Serializable]
     public class MessageCoords : MessagePacket
     {
-        public MessageCoords() : base(MessageType.Data)
-        {
-        }
+        
 
-        public MessageCoords(int x, int y) : this()
+        public MessageCoords(int x, int y) 
         {
             Coords = new Coords
             {
@@ -188,7 +169,7 @@ namespace Message
             };
         }
 
-        protected MessageCoords(Coords coords) : this()
+        protected MessageCoords(Coords coords) 
         {
             Coords = coords;
         }

@@ -158,13 +158,13 @@
     <Compile Include="Views\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RatingControl.cs" />
     <Compile Include="Views\RatingWindow.xaml.cs">
       <DependentUpon>RatingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SaveResult.xaml.cs">
       <DependentUpon>SaveResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs" />
     <Page Include="Views\AttackerWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -20,15 +20,16 @@ namespace GServer
         {
             ServerEndPoint = endPoint;
         }
-        //public Task SendMessageAsync(MessagePacket message) => Task.Factory.StartNew(() => SendMessage(message));
-        //public void SendMessage(MessagePacket message)
-        //{
-        //    var buffer = message.ToBytes();
-        //    new UdpClient().Send(buffer, buffer.Length, ServerEndPoint);
-        //}
-        
+        public Task SendMessageAsync(MessagePacket message) => Task.Factory.StartNew(() => SendMessage(message));
+        public void SendMessage(MessagePacket message)
+        {
+            var buffer = message.ToBytes();
+            new UdpClient().Send(buffer, buffer.Length, ServerEndPoint);
+        }
+
         public void End()
         {
+
             EndGame?.Invoke(this);
         }
         public void Dispose()

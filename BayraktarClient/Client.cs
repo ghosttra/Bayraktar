@@ -27,7 +27,7 @@ namespace BayraktarClient
         private const short _minSpeed = 5;
         public int MaxWidth = 300;
 
-        private int _hp = 5;
+        private int _hp = 1;
         public int HealthPoints
         {
             get
@@ -106,8 +106,9 @@ namespace BayraktarClient
         }
         public void Send(MessagePacket message)
         {
-            var buffer = message.ToBytes();
-            new UdpClient().Send(buffer, buffer.Length, Server);
+                var buffer = message.ToBytes();
+                new UdpClient().Send(buffer, buffer.Length, Server);
+            
         }
 
         private void _receive()
@@ -205,10 +206,58 @@ namespace BayraktarClient
         }
     }
 
-    public class AutomaticGameClient : GameClient, IDisposable
+    public class AutomaticGameClient
     {
-        public AutomaticGameClient(IPEndPoint server) : base(new User{Login = "BOT"}, 4093, server)
+        private GameClient _gameConnection;
+        public AutomaticGameClient(MessageGameData data)
         {
+            _gameConnection = new GameClient(new User(){Login = "BOT"}, 4093, data.Server) { Units = data.Units };
+            _gameConnection.GameOver += GameOver;
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.Interval = 2000;
+        }
+
+        private void GameOver(GameClient obj)
+        {
+            Stop();
+            Dispose();
+        }
+        private Timer _timer = new Timer();
+
+        public void Start()
+        {
+            _timer.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _attack();
+        }
+        private Random _random = new Random();
+        private int _CritAttackChanse = 10;
+        private void _attack()
+        {
+            _gameConnection.SetUnit(_random.Next(2000));
+            if (_random.Next(_CritAttackChanse) == 0)
+                _attack();
+        }
+
+        public void Stop()
+        {
+            _timer.Stop();
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
+        }
+    }
+    public class AutomaticGameClient1 : GameClient, IDisposable
+    {
+        
+        public AutomaticGameClient1(IPEndPoint server) : base(new User{Login = "BOT"}, 4093, server)
+        {
+
             _timer.Interval = 2000;
             _timer.Elapsed += Timer_Elapsed;
             GameOver+=EndAutoGame;
