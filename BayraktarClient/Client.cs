@@ -25,7 +25,7 @@ namespace BayraktarClient
         public List<Unit> Units;
         private const short _maxSpeed = 15;
         private const short _minSpeed = 5;
-        public int MaxWidth = 300;
+        public int MaxWidth = 2000;
 
         private int _hp = 1;
         public int HealthPoints
@@ -142,7 +142,7 @@ namespace BayraktarClient
                             DestroyUnit?.Invoke((int)command.Additional);
                             break;
                         case "ATTACK":
-                            SetUnit(_random.Next(2000));
+                            SetUnit();
                             break;
                         case "GAME_OVER":
                             GameOver?.Invoke(this);
@@ -160,12 +160,7 @@ namespace BayraktarClient
             };
             Send(command);
         }
-        public void SetUnit(Unit unit, int x, int y)
-        {
-            MessageUnit command = new MessageUnit(unit, x, y);
-            Send(command);
-        }
-
+        
         protected Random _random = new Random();
         protected List<int> _unitsOnField = new List<int>();
         public void SetUnit(int x)
@@ -176,18 +171,18 @@ namespace BayraktarClient
             };
             Send(messageUnit);
         }
+        public void SetUnit()
+        {
+            SetUnit(_random.Next(MaxWidth));
+
+        }
 
         private int _generateUnitId()
         {
             var count = _unitsOnField.Count;
             return count == 0 ? 0 : _unitsOnField[count - 1] + 1;
         }
-
-        public void GetAllUnits()
-        {
-
-        }
-
+        
         public Action<string> Info;
         public bool Win { get; set; } = false;
         public bool IsRun { get; set; }
@@ -207,52 +202,6 @@ namespace BayraktarClient
             Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }
     }
-
-    public class AutomaticGameClient
-    {
-        private GameClient _gameConnection;
-        public AutomaticGameClient(MessageGameData data)
-        {
-            _gameConnection = new GameClient(new User() { Login = "BOT" }, 4093, data.Server) { Units = data.Units };
-            _gameConnection.GameOver += GameOver;
-            _timer.Elapsed += Timer_Elapsed;
-            _timer.Interval = 2000;
-        }
-
-        private void GameOver(GameClient obj)
-        {
-            Stop();
-            Dispose();
-        }
-        private Timer _timer = new Timer();
-
-        public void Start()
-        {
-            _timer.Start();
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _attack();
-        }
-        private Random _random = new Random();
-        private int _CritAttackChanse = 10;
-        private void _attack()
-        {
-            _gameConnection.SetUnit(_random.Next(2000));
-            if (_random.Next(_CritAttackChanse) == 0)
-                _attack();
-        }
-
-        public void Stop()
-        {
-            _timer.Stop();
-        }
-
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
-    }
+    
 
 }
