@@ -177,6 +177,7 @@ namespace UserGameClient
                 {
                     var bytesRead = _stream.Read(buffer, 0, buffer.Length);
                     stream.Write(buffer, 0, bytesRead);
+                    Thread.Sleep(50);
                 } while (_stream.DataAvailable);
                 return MessagePacket.FromBytes(stream.ToArray());
             }
@@ -188,8 +189,16 @@ namespace UserGameClient
             _isRun = true;
             while (_isRun)
             {
-                var message = _read();
-                _handle(message);
+                try
+                {
+                    var message = _read();
+                    _handle(message);
+                }
+                catch (Exception e)
+                {
+                    _isRun= false;
+                    Disconnect();
+                }
             }
         }
 

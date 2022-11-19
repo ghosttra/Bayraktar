@@ -247,6 +247,7 @@ namespace Bayraktar
         {
             _onCooldown = true;
             await Task.Delay(1000);
+            _onCooldown = false;
         }
     }
 }
