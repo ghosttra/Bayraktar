@@ -34,7 +34,7 @@ namespace Bayraktar
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
             Focus();
         }
-        public Game(GameClient client, GameRole gameRole) : this()
+        public Game(GameClient client, GameRole gameRole, int gameWidth = 1920) : this()
         {
             Focus();
             _client = client;
@@ -55,7 +55,7 @@ namespace Bayraktar
                     //интерфейс обороны
                     break;
             }
-            _client.MaxWidth = (int)Width;
+            _client.MaxWidth = gameWidth;
 
         }
 

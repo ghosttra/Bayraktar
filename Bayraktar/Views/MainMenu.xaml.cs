@@ -29,8 +29,7 @@ namespace Bayraktar
         public MainMenu()
         {
             InitializeComponent();
-
-            _load();
+            
             Focus();
             SetCloudAnimation(cloudLeftTimer, CloudLeft, true);
             SetCloudAnimation(cloudRightTimer, CloudRight, true);
@@ -145,46 +144,7 @@ namespace Bayraktar
             Application.Current.Shutdown();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            save_method();
-        }
-        private void save_method()
-        {
-
-
-            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
-
-            //try
-            //{
-            //    using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
-            //    {
-            //        xmlSerializer.Serialize(fs, users);
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //}
-
-        }
-        private void _load()
-        {
-            //todo
-            //Вытягивать из сервера
-
-            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
-
-            //try
-            //{
-            //    using (FileStream fs = new FileStream(@"..\Data\PersonalData\Results.xml", FileMode.OpenOrCreate))
-            //    {
-            //        users = xmlSerializer.Deserialize(fs) as List<User>;
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //}
-        }
+       
 
         private void MainMenu_OnKeyDown(object sender, KeyEventArgs e)
         {

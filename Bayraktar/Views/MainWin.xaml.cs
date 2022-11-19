@@ -92,7 +92,12 @@ namespace Bayraktar
 
         private void StartGame(GameClient client, GameRole role)
         {
-           _invoke(()=> Content = new Game(client,role));
+           _invoke(() =>
+           {
+            var game = new Game(client, role, (int)Width);
+            Content = game;
+           });
+           
         }
         
         private void MainWin_OnClosing(object sender, CancelEventArgs e)
