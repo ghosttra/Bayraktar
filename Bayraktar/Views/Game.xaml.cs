@@ -31,6 +31,7 @@ namespace Bayraktar
         {
             Focus();
             _client = client;
+            _client.MaxWidth = (int)Width;
             _client.HealthChanged += HealthChanged;
             _client.ScoreChanged += ScoreChanged;
             _client.DestroyUnit += DestroyUnit;
@@ -97,6 +98,8 @@ namespace Bayraktar
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
             var x = (unitData.Coords.X > _window.Width - unit.X)? (int)(_window.Width - unit.X): unitData.Coords.X;
+
+
             Canvas.SetLeft(unit, x);
             Canvas.SetTop(unit, -unit.Y);
 

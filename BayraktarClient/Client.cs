@@ -16,7 +16,7 @@ namespace BayraktarClient
     public class GameClient
     {
         public IPEndPoint Server { get; }
-        private UdpClient _client;
+        protected UdpClient _client;
         public User User { get; }
 
         private CancellationTokenSource _cts;
@@ -25,9 +25,9 @@ namespace BayraktarClient
         public List<Unit> Units;
         private const short _maxSpeed = 15;
         private const short _minSpeed = 5;
-        public int MaxWidth = 300;
+        public int MaxWidth = 2000;
 
-        private int _hp = 5;
+        private int _hp = 1;
         public int HealthPoints
         {
             get
@@ -68,7 +68,6 @@ namespace BayraktarClient
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
-
         private void _gameOver(GameClient client)
         {
             try
@@ -106,8 +105,9 @@ namespace BayraktarClient
         }
         public void Send(MessagePacket message)
         {
-            var buffer = message.ToBytes();
-            new UdpClient().Send(buffer, buffer.Length, Server);
+                var buffer = message.ToBytes();
+                new UdpClient().Send(buffer, buffer.Length, Server);
+            
         }
 
         private void _receive()
@@ -141,6 +141,9 @@ namespace BayraktarClient
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
                             break;
+                        case "ATTACK":
+                            SetUnit();
+                            break;
                         case "GAME_OVER":
                             GameOver?.Invoke(this);
                             IsRun  = false;
@@ -157,12 +160,7 @@ namespace BayraktarClient
             };
             Send(command);
         }
-        public void SetUnit(Unit unit, int x, int y)
-        {
-            MessageUnit command = new MessageUnit(unit, x, y);
-            Send(command);
-        }
-
+        
         protected Random _random = new Random();
         protected List<int> _unitsOnField = new List<int>();
         public void SetUnit(int x)
@@ -173,18 +171,18 @@ namespace BayraktarClient
             };
             Send(messageUnit);
         }
+        public void SetUnit()
+        {
+            SetUnit(_random.Next(MaxWidth));
+
+        }
 
         private int _generateUnitId()
         {
             var count = _unitsOnField.Count;
             return count == 0 ? 0 : _unitsOnField[count - 1] + 1;
         }
-
-        public void GetAllUnits()
-        {
-
-        }
-
+        
         public Action<string> Info;
         public bool Win { get; set; } = false;
         public bool IsRun { get; set; }
@@ -204,50 +202,6 @@ namespace BayraktarClient
             Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }
     }
+    
 
-    public class AutomaticGameClient : GameClient, IDisposable
-    {
-        public AutomaticGameClient(IPEndPoint server) : base(new User{Login = "BOT"}, 4093, server)
-        {
-            _timer.Interval = 2000;
-            _timer.Elapsed += Timer_Elapsed;
-            GameOver+=EndAutoGame;
-        }
-
-        private void EndAutoGame(GameClient client)
-        {
-            Stop();
-            Dispose();
-        }
-
-        private Timer _timer = new Timer();
-
-        public void Start()
-        {
-            _timer.Start();
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _attack();
-        }
-
-        private void _attack()
-        {
-            SetUnit(_random.Next(2000));
-            if(_random.Next(2)==0)
-                _attack();
-        }
-
-        public void Stop()
-        {
-            _timer.Stop();
-        }
-
-        public void Dispose()
-        {
-            End();
-            _timer?.Dispose();
-        }
-    }
 }

@@ -14,7 +14,7 @@ using Message;
 
 namespace UserGameClient
 {
-    public class UserClient : IDisposable
+    public class UserClient 
     {
         private User _user;
         public User User
@@ -61,31 +61,30 @@ namespace UserGameClient
         public GameClient GameConnection;
         public Action<GameClient, GameRole> StartGame;
         public Action<bool> WaitForGame;
-        public Task StartSingleGame()
+        public void StartSingleGame()
         {
             SendCommand("SINGLE");
-            return Task.Run(_waitForGameServer, _token);
+            WaitForGame?.Invoke(true);
+
+            //  return Task.Run(_waitForGameServer, _token);
         }
 
-        public Task StartMultiGame()
+        public void StartMultiGame()
         {
             SendCommand("MULTI");
-            return Task.Run(_waitForGameServer, _token);
-        }
-
-        private void _waitForGameServer()
-        {
             WaitForGame?.Invoke(true);
-            var game = Receive();
-            if (game is MessageGameData data)
-            {
-                GameConnection = new GameClient(User, 1000, data.Server) { Units = data.Units };
-                GameConnection.GameOver+=GameOver;
-                WaitForGame?.Invoke(false);
-                StartGame?.Invoke(GameConnection, data.GameRole);
-            }
-        }
 
+            //return Task.Run(_waitForGameServer, _token);
+        }
+        
+
+        private void _startGame(MessageGameData data)
+        {
+            GameConnection = new GameClient(User, 1000, data.Server) { Units = data.Units };
+            GameConnection.GameOver += GameOver;
+            WaitForGame?.Invoke(false);
+            StartGame?.Invoke(GameConnection, data.GameRole);
+        }
         private void GameOver(GameClient client)
         {
             MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Score , Server = client.Server};
@@ -113,10 +112,8 @@ namespace UserGameClient
                     Close();
                     _client = new TcpClient();
                 }
-                //else
-                //    _ = StartAsync();
 
-                // _checkVersion();
+                await Task.Run(_start, _token);
             }
             catch (Exception e)
             {
@@ -124,49 +121,9 @@ namespace UserGameClient
                 Info?.Invoke(e.Message);
             }
         }
-
-        private void _checkVersion()
-        {
-            MessagePacket message;
-            do
-            {
-                message = _read();
-            } while (!(message is MessageCommand));
-
-            if ((message as MessageCommand).Command.Equals("VERSION"))
-            {
-                Send(new MessageText
-                {
-                    Text = Version
-                });
-            }
-        }
-
-        private string _versionPath => "GameVersion.ver";
-
-        public string Version
-        {
-            get
-            {
-                if (File.Exists(_versionPath))
-                {
-                    using (var stream = new StreamReader(_versionPath))
-                    {
-                        return stream.ReadToEnd();
-                    }
-                }
-                return null;
-            }
-            private set
-            {
-                using (var stream = new StreamWriter(_versionPath, false))
-                {
-                    stream.Write(value);
-                }
-            }
-        }
-
-        public Task ConnectAsync() => Task.Factory.StartNew(Connect);
+        
+        
+        public Task ConnectAsync() => Task.Factory.StartNew(Connect, _token);
         public void Connect()
         {
             _connect(() => _authorize(true));
@@ -177,7 +134,7 @@ namespace UserGameClient
         {
             _connect(() => _authorize(false));
         }
-        public Task ConnectAsyncR() => Task.Factory.StartNew(ConnectR);
+        public Task ConnectAsyncR() => Task.Factory.StartNew(ConnectR, _token);
   
         public void Close()
         {
@@ -190,6 +147,7 @@ namespace UserGameClient
             finally
             {
                 _client?.Close();
+                _client = null;
 
                 Connected?.Invoke(false);
             }
@@ -220,16 +178,62 @@ namespace UserGameClient
                     var bytesRead = _stream.Read(buffer, 0, buffer.Length);
                     stream.Write(buffer, 0, bytesRead);
                 } while (_stream.DataAvailable);
-                stream.Position = 0;
                 return MessagePacket.FromBytes(stream.ToArray());
             }
 
         }
-
-        public MessagePacket Receive()
+        private bool _isRun = false;
+        private void _start()
         {
-            return _read();
+            _isRun = true;
+            while (_isRun)
+            {
+                var message = _read();
+                _handle(message);
+            }
         }
+
+        public Action<List<Statistic>> GetRating;
+        public Action Disconnect;
+        private void _handle(MessagePacket message)
+        {
+            if(message == null)
+                return;
+            switch (message)
+            {
+                case MessageDataContent content:
+                    if (content.Description.Equals("RATING"))
+                    {
+                        GetRating?.Invoke(_loadRating(content.Content));
+                    }
+                    break;
+                case MessageGameData data:
+                    _startGame(data);
+                    break;
+                case MessageCommand command:
+                    switch (command.Command)
+                    {
+                        case "DISCONNECT":
+                            Disconnect?.Invoke();
+                            Close();
+                            break;
+                    }
+                    break;
+            }
+        }
+        private List<Statistic> _loadRating(byte[] dataContent)
+        {
+            using (MemoryStream stream = new MemoryStream(dataContent))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                if (formatter.Deserialize(stream) is List<Statistic> statistics)
+                {
+                    return statistics;
+                }
+                return null;
+            }
+        }
+       
         
 
       
@@ -250,16 +254,9 @@ namespace UserGameClient
         {
             _client = new TcpClient();
         }
+        
 
-        public void Dispose()
-        {
-            _client?.Dispose();
-        }
-
-        public void GetRating()
-        {
-            SendCommand("RATING");
-        }
+        
 
         public void StopWaitingForGame()
         {

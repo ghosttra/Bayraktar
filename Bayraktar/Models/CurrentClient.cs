@@ -31,7 +31,6 @@ namespace Bayraktar
         {
             Client?.Send(message);
         }
-        public MessagePacket Receive() => Client.Receive();
 
         public void Init()
         {
@@ -47,19 +46,20 @@ namespace Bayraktar
                 // ignored
             }
         }
+        
 
         public void GetRating()
         {
             Client.SendCommand("RATING");
         }
-        public async void StartSingleGame()
+        public  void StartSingleGame()
         {
-            await Client.StartSingleGame();
+            Client.StartSingleGame();
         }
 
-        public async void StartMultiGame()
+        public  void StartMultiGame()
         {
-            await Client.StartMultiGame();
+            Client.StartMultiGame();
         }
 
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +12,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Bayraktar;
 using BayraktarGame;
 using Message;
 
 namespace Bayraktar
 {
+   
+
     public partial class RatingWindow : UserControl
     {
         public RatingWindow()
@@ -28,60 +30,37 @@ namespace Bayraktar
 
         private void _init()
         {
-            var rating = _getStats()?.ToList();
-            if (rating != null)
+            RatingControl.Instance.Result+= SetStats;
+            RatingControl.Instance.GetRating();
+        }
+
+        private void SetStats(List<Statistic> rating)
+        {
+            _invoke(() =>
+            {
+                RatingsLB.ItemsSource = null;
                 RatingsLB.ItemsSource = rating;
+            });
         }
 
-        private IEnumerable<Statistic> _getStats()
+        private void _invoke(Action action)
         {
-            CurrentClient.Instance.GetRating();
-            try
-            {
-                var ratings = CurrentClient.Instance.Receive();
-                if (ratings is MessageDataContent data)
-                {
-                    return _loadRating(data.Content);
-                }
-                return null;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
+            if (!Dispatcher.CheckAccess())
+                Dispatcher.Invoke(action);
+            else
+                action();
         }
-
-        private List<Statistic> _loadRating(byte[] dataContent)
-        {
-            using (MemoryStream stream = new MemoryStream(dataContent))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                if (formatter.Deserialize(stream) is List<Statistic> statistics)
-                {
-                    return statistics;
-                }
-                return null;
-            }
-        }
-
-        private void _setStats(IEnumerable<Statistic> statistics)
-        {
-            RatingsLB.ItemsSource = null;
-            RatingsLB.ItemsSource = statistics;
-        }
-        private void SortByScoreBtn_Click(object sender, RoutedEventArgs e)
-        {
-           _setStats(_getStats().OrderBy(s => s.Score));
-        }
+        
 
         private void ShowMy_Click(object sender, RoutedEventArgs e)
         {
-            _setStats( _getStats().Where(s => s.User?.Login.Equals(CurrentClient.Instance.Client.User.Login)==true));
+            RatingControl.Instance.GetRating(RatingType.User, RatingSort.Date);
         }
 
         private void ShowAll_Click(object sender, RoutedEventArgs e)
         {
-            _setStats(_getStats());
+            RatingControl.Instance.GetRating(RatingType.All, RatingSort.Date);
+            
         }
         private void Exit(object sender, RoutedEventArgs e)
         {
@@ -96,6 +75,7 @@ namespace Bayraktar
 
         private void _exit()
         {
+            RatingControl.Instance.Result -= SetStats;
             ((Window)Parent).Content = new MainMenu();
         }
 

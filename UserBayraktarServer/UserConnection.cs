@@ -33,11 +33,7 @@ namespace UserBayraktarServer
         {
             InQueue = false;
         }
-
-        public void CancelWaitingForMultiplayer()
-        {
-            InQueue = false;
-        }
+        
         private readonly CancellationTokenSource _cts;
         private readonly CancellationToken _token;
         public User User { get; set; }
@@ -70,7 +66,7 @@ namespace UserBayraktarServer
                 if (message == null) return;
                 Query?.Invoke(this, message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Close();
             }
@@ -88,7 +84,7 @@ namespace UserBayraktarServer
         {
             MessageCommand command = new MessageCommand
             {
-                Command = "Disconnect"
+                Command = "DISCONNECT"
             };
             Send(command);
             Close();
@@ -122,17 +118,6 @@ namespace UserBayraktarServer
             }
             return null;
         }
-
-        public string CheckVersion()
-        {
-            Send(new MessageCommand{Command = "VERSION"});
-            if (_read() is MessageText version)
-            {
-                return version.Text;
-            }
-            return null;
-        }
-
         
     }
 }

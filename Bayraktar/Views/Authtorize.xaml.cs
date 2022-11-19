@@ -27,27 +27,32 @@ namespace Bayraktar
 
         private void _init()
         {
-            _userClient.Info += _userClient_Info;
             _subscribe();
         }
 
         private void _subscribe()
         {
+            _userClient.Info += _userClient_Info;
             _userClient.Connected += _userClient_Connected;
         }
 
 
         private void _unsubscribe()
         {
+            _userClient.Info -= _userClient_Info;
             _userClient.Connected -= _userClient_Connected;
         }
 
         private void _invoke(Action action)
         {
-            if (!Dispatcher.CheckAccess())
-                Dispatcher.Invoke(action);
-            else
-                action();
+            try
+            {
+                if (!Dispatcher.CheckAccess())
+                    Dispatcher.Invoke(action);
+                else
+                    action();
+            }
+            catch{ }
         }
 
         private void _userClient_Info(string info)
