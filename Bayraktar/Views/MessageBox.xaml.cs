@@ -30,6 +30,18 @@ namespace Bayraktar
                 ButtonPanel.Children.Add(button);
             }
         }
+        public MessageBox(string unitName, bool lines) {
+            InitializeComponent();
+            _init();
+            InfoLabel.Text = unitName;
+            List<Button> buttonsList = new List<Button>();
+            buttonsList.Add(_buttons["line1"]);
+            buttonsList.Add(_buttons["line2"]);
+            buttonsList.Add(_buttons["line3"]);
+            foreach (var button in buttonsList) {
+                ButtonPanel.Children.Add(button);
+            }
+        }
         public MessageBox(string info, MessageBoxButton buttons)
         {
             _init();
@@ -102,7 +114,34 @@ namespace Bayraktar
             };
             no.Click += No_Click; 
             _buttons.Add(no.Tag.ToString(), no);
-
+            var line1 = new Button {
+                Tag = "line1",
+                Content = "First Line",
+                IsDefault = true
+            };
+            line1.Click += Lines_Click;
+            _buttons.Add(line1.Tag.ToString(), line1);
+            var line2 = new Button {
+                Tag = "line2",
+                Content = "Second Line",
+                IsDefault = true
+            };
+            line2.Click += Lines_Click;
+            _buttons.Add(line2.Tag.ToString(), line2);
+            var line3 = new Button {
+                Tag = "line3",
+                Content = "Third Line",
+                IsDefault = true
+            };
+            line3.Click += Lines_Click;
+            _buttons.Add(line3.Tag.ToString(), line3);
+        }
+        public short unitLine { get; set; }
+        private void Lines_Click(object sender, RoutedEventArgs e) {
+            var b = sender as Button;
+            unitLine = short.Parse(b.Tag.ToString().Substring(4));
+            Result = System.Windows.Forms.DialogResult.Yes;
+            DialogResult = true;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

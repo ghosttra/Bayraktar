@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Bayraktar"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
-    <Border>
+    <Grid  x:Name="MUGrid">
         <Image x:Name="UnitImg" Height="300" Width="300" />
-    </Border>
+    </Grid>
 </UserControl>

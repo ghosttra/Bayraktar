@@ -12,11 +12,19 @@
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50" Click="Exit" x:Name="ExitBtn"></Button>
+       
         <DockPanel Grid.Column="0" LastChildFill="False">
             <Button DockPanel.Dock="Top" Content="Всi" Click="ShowAll_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
             <Button DockPanel.Dock="Top" Content="Мої ігри" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
             <!--<Button DockPanel.Dock="Top" Content="По очкам" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>-->
+
+        </DockPanel>
+        <DockPanel Grid.Column="3" LastChildFill="True">
+            <Button Tag="CS" DockPanel.Dock="Top" Content="По очкам (Ви)" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom"  x:Name="CScoreBtn" FontSize="50" Click="SortBtn_Click"/>
+            <Button Tag="AS" DockPanel.Dock="Top" Content="По очкам (Г)" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom"  x:Name="AScoreBtn" FontSize="50" Click="SortBtn_Click"/>
+            <Button Tag="CD" DockPanel.Dock="Top" Content="По даті (Ви)" Click="SortBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" x:Name="CDateBtn" FontSize="50"></Button>
+            <Button Tag="AD" DockPanel.Dock="Top" Content="По даті (Г)" Click="SortBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" x:Name="ADateBtn" FontSize="50"></Button>
+            <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50" Click="Exit" x:Name="ExitBtn"></Button>
 
         </DockPanel>
         <ListBox Background="SlateGray" Grid.Column="1"

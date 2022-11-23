@@ -15,5 +15,6 @@ namespace BayraktarGame
         public byte[] ImageDestroyed { get; set; }
         public int CoolDown { get; set; }
         public int Price { get; set; }
+        public short Line { get; set; }
     }
 }

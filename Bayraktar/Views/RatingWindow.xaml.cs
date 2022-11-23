@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,74 +17,83 @@ using Bayraktar;
 using BayraktarGame;
 using Message;
 
-namespace Bayraktar
-{
-   
+namespace Bayraktar {
 
-    public partial class RatingWindow : UserControl
-    {
-        public RatingWindow()
-        {
+
+    public partial class RatingWindow : UserControl {
+        public RatingWindow() {
             InitializeComponent();
             _init();
         }
 
-        private void _init()
-        {
-            RatingControl.Instance.Result+= SetStats;
-            RatingControl.Instance.NoData+=NoData;
+        private void _init() {
+            RatingControl.Instance.Result += SetStats;
+            RatingControl.Instance.NoData += NoData;
             RatingControl.Instance.GetRating();
         }
 
-        private void NoData()
-        {
+        private void NoData() {
             //todo
         }
 
-        private void SetStats(List<Statistic> rating)
-        {
-            _invoke(() =>
-            {
+        private void SetStats(List<Statistic> rating) {
+            _invoke(() => {
                 RatingsLB.ItemsSource = null;
                 RatingsLB.ItemsSource = rating;
             });
         }
 
-        private void _invoke(Action action)
-        {
+        private void _invoke(Action action) {
             if (!Dispatcher.CheckAccess())
                 Dispatcher.Invoke(action);
             else
                 action();
         }
-        
 
-        private void ShowMy_Click(object sender, RoutedEventArgs e)
-        {
+
+        private void ShowMy_Click(object sender, RoutedEventArgs e) {
             RatingControl.Instance.GetRating(RatingType.User, RatingSort.Date);
         }
 
-        private void ShowAll_Click(object sender, RoutedEventArgs e)
-        {
+        private void ShowAll_Click(object sender, RoutedEventArgs e) {
             RatingControl.Instance.GetRating(RatingType.All, RatingSort.Date);
-            
+
         }
-        private void Exit(object sender, RoutedEventArgs e)
-        {
+        private void Exit(object sender, RoutedEventArgs e) {
             _exit();
         }
 
-        private void RatingWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
+        private void RatingWindow_OnKeyDown(object sender, KeyEventArgs e) {
             if (e.Key == Key.Escape)
                 _exit();
         }
 
-        private void _exit()
-        {
+        private void _exit() {
             RatingControl.Instance.Result -= SetStats;
             ((Window)Parent).Content = new MainMenu();
         }
 
+        private void SortBtn_Click(object sender, RoutedEventArgs e) {
+            if (sender != null && sender is Button) {
+                var b = sender as Button;
+                switch (b.Tag.ToString()) {
+                    case "CS":
+                        RatingControl.Instance.GetRating(RatingType.User, RatingSort.Score);
+                        break;
+                    case "AS":
+                        RatingControl.Instance.GetRating(RatingType.All, RatingSort.Score);
+                        break;
+                    case "CD":
+                        RatingControl.Instance.GetRating(RatingType.User, RatingSort.Date);
+                        break;
+                    case "AD":
+                        RatingControl.Instance.GetRating(RatingType.All, RatingSort.Date);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
+

@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using BayraktarClient;
 using BayraktarGame;
 using Message;
+using Microsoft.FSharp.Core;
 
 namespace Bayraktar
 {
@@ -32,7 +33,7 @@ namespace Bayraktar
         {
             InitializeComponent();
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-            Focus();
+            //Focus();
         }
         public Game(GameClient client, GameRole gameRole, int gameWidth = 1920) : this()
         {
@@ -90,32 +91,27 @@ namespace Bayraktar
         {
             _invoke(() => _setUnit(unitData));
         }
-
+        Random rnd = new Random(DateTime.Now.GetHashCode());
         private void _setUnit(MessageUnit unitData)
         {
-            MilitaryUnit unit = new MilitaryUnit(unitData.Unit)
-            {
+            MilitaryUnit unit = new MilitaryUnit(unitData.Unit) {
                 Tag = unitData.Id
             };
             unit.IsDestroyed += IsDestroyed;
-            if (_gameRole == GameRole.Defense)
-            {
+            if (_gameRole == GameRole.Defense) {
                 unit.MouseLeftButtonUp += UnitDestroy_MouseUp;
             }
-            DoubleAnimation DA = new DoubleAnimation
-            {
+            DoubleAnimation DA = new DoubleAnimation {
                 From = -unit.Y,
                 To = SystemParameters.PrimaryScreenHeight + unit.Y,
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
-            var x = (unitData.Coords.X > _window.Width - unit.X)? (int)(_window.Width - unit.X): unitData.Coords.X;
-
+            var x = (unitData.Coords.X > _window.Width - unit.X) ? (int)(_window.Width - unit.X) : unitData.Coords.X;
 
             Canvas.SetLeft(unit, x);
             Canvas.SetTop(unit, -unit.Y);
 
-            DA.Completed += (s, e) =>
-            {
+            DA.Completed += (s, e) => {
                 _hit(unit);
             };
             unit.Animation = DA;
@@ -138,6 +134,7 @@ namespace Bayraktar
             {
                 _client.UnitDestroy((int)unit.Tag);
                 unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
+                unit.Animation.BeginAnimation(Canvas.TopProperty, null);
             }
         }
 
