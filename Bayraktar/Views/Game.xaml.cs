@@ -48,12 +48,10 @@ namespace Bayraktar
             switch (gameRole)
             {
                 case GameRole.Attack:
-                    //todo
+                    
                     MouseUp += AddUnit;
                     break;
                 case GameRole.Defense:
-                    //todo
-                    //интерфейс обороны
                     break;
             }
             _client.MaxWidth = gameWidth;
@@ -78,7 +76,7 @@ namespace Bayraktar
 
         private void GameOver(GameClient client)
         {
-            string result = "Game over";
+            var result = "Game over";
             
             _invoke(() =>
             {
@@ -91,7 +89,6 @@ namespace Bayraktar
         {
             _invoke(() => _setUnit(unitData));
         }
-        Random rnd = new Random(DateTime.Now.GetHashCode());
         private void _setUnit(MessageUnit unitData)
         {
             MilitaryUnit unit = new MilitaryUnit(unitData.Unit) {

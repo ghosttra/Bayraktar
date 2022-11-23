@@ -42,9 +42,13 @@
             <Border Panel.ZIndex="1" BorderThickness="4" Background="#4CF0FFFF" CornerRadius="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" BorderBrush="Tomato">
                 <StackPanel>
                     <!--<Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" HorizontalAlignment="Left" Source="Pictures/pause.png"/>-->
-                    <Label x:Name="lblScore" Content="Score: 0" Canvas.Top="113" Margin="10" />
-                    <Label x:Name="lblTime" Margin="10" Content="{Binding CurrentDateTime}" />
-                    <Label x:Name="HealthText" Margin="10" Content="Health: 5" />
+                    <UniformGrid Columns="2">
+                        <Label Content="Score:" Margin="10" />
+                        <Label x:Name="lblScore" Content="0" Margin="10"/>
+                        <Label Margin="10" Content="Health:" />
+                        <Label x:Name="HealthText" Margin="10" Content="0" />
+                    </UniformGrid>
+                    
                 </StackPanel>
             </Border>
             <Border   Grid.Column="0" Panel.ZIndex="0" x:Name="Road">

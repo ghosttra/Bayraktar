@@ -39,7 +39,7 @@ namespace Bayraktar {
                     Thread.Sleep(50);
                     try {
                         Dispatcher.Invoke(() => {
-                            lblMoney.Content = "Money: " + Money.ToString();
+                            lblMoney.Content = "Money: " + Money;
                         });
                     }
                     catch (Exception) {
