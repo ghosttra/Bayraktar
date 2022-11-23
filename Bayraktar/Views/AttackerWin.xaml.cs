@@ -38,7 +38,7 @@ namespace Bayraktar {
                     Money += 1;
                     Thread.Sleep(50);
                     try {
-                        this.Dispatcher.Invoke(() => {
+                        Dispatcher.Invoke(() => {
                             lblMoney.Content = "Money: " + Money.ToString();
                         });
                     }
@@ -63,10 +63,7 @@ namespace Bayraktar {
 
         Random rnd = new Random(DateTime.Now.GetHashCode());
         private void MilitaryUnitsLists_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-
-
-            var item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
-            if (item != null) {
+            if (ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) is ListBoxItem item) {
                 var _Unit = (Unit)MilitaryUnitsLists.SelectedItem;
                 var mb = new MessageBox(_Unit.Name, true);
 
@@ -76,25 +73,26 @@ namespace Bayraktar {
                     //сообщение клиенту об отправке юнита
 
                     mb.ShowDialog();
-                    _Unit.Line = mb.unitLine;
+                    var line = mb.unitLine;
                     Money -= _Unit.Price;
 
-                    AddMilitaryUnit(_Unit);
+                    AddMilitaryUnit(_Unit, line);
                 }
 
             }
         }
-        private void AddMilitaryUnit(Unit unit) {
-            MilitaryUnit _unit = new MilitaryUnit(unit);
-
-            _unit.Y = (short)rnd.Next(-50, 50);
+        private void AddMilitaryUnit(Unit unit, short line) {
+            MilitaryUnit _unit = new MilitaryUnit(unit)
+            {
+                Y = (short)rnd.Next(-50, 50)
+            };
 
             Canvas.SetLeft(_unit, _unit.Y);
             Canvas.SetTop(_unit, _unit.X);
             _unit.Width = Road.Width / 3;
             _unit.Height = Road.Width / 3;
 
-            var this_ = (CMUs.Children[_unit._unit.Line] as Border).Child;
+            var this_ = (CMUs.Children[line] as Border).Child;
             (this_ as Canvas).Children.Add(_unit);
 
             _unit.Move();

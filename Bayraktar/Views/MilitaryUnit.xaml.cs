@@ -14,7 +14,7 @@ namespace Bayraktar
 {
     public partial class MilitaryUnit : UserControl
     {
-        public Unit _unit { get; set; }
+        private Unit _unit { get; set; }
         public MilitaryUnit(Unit unit)
         {
             this._unit = unit;
@@ -46,7 +46,7 @@ namespace Bayraktar
             timer.Tick += Timer_Tick;
             timer.Start();
             _setImageSource(UnitImg, _unit.ImageDestroyed);
-            UnitImg.Source = new ImageSourceConverter().ConvertFromString(@"C:\Users\Макс\source\repos\Bayraktar\Bayraktar\Pictures\MilitaryUnits\APC-Z_Destroyed.png") as ImageSource;
+                //UnitImg.Source = new ImageSourceConverter().ConvertFromString(@"C:\Users\Макс\source\repos\Bayraktar\Bayraktar\Pictures\MilitaryUnits\APC-Z_Destroyed.png") as ImageSource;
             (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
             Stop();
         }

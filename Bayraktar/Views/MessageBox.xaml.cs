@@ -34,10 +34,12 @@ namespace Bayraktar
             InitializeComponent();
             _init();
             InfoLabel.Text = unitName;
-            List<Button> buttonsList = new List<Button>();
-            buttonsList.Add(_buttons["line1"]);
-            buttonsList.Add(_buttons["line2"]);
-            buttonsList.Add(_buttons["line3"]);
+            List<Button> buttonsList = new List<Button>
+            {
+                _buttons["line1"],
+                _buttons["line2"],
+                _buttons["line3"]
+            };
             foreach (var button in buttonsList) {
                 ButtonPanel.Children.Add(button);
             }

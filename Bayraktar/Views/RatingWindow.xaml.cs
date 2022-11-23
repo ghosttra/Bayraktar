@@ -29,7 +29,7 @@ namespace Bayraktar {
         private void _init() {
             RatingControl.Instance.Result += SetStats;
             RatingControl.Instance.NoData += NoData;
-            RatingControl.Instance.GetRating();
+            _updateRating();
         }
 
         private void NoData() {
@@ -50,15 +50,7 @@ namespace Bayraktar {
                 action();
         }
 
-
-        private void ShowMy_Click(object sender, RoutedEventArgs e) {
-            RatingControl.Instance.GetRating(RatingType.User, RatingSort.Date);
-        }
-
-        private void ShowAll_Click(object sender, RoutedEventArgs e) {
-            RatingControl.Instance.GetRating(RatingType.All, RatingSort.Date);
-
-        }
+        
         private void Exit(object sender, RoutedEventArgs e) {
             _exit();
         }
@@ -73,26 +65,33 @@ namespace Bayraktar {
             ((Window)Parent).Content = new MainMenu();
         }
 
-        private void SortBtn_Click(object sender, RoutedEventArgs e) {
-            if (sender != null && sender is Button) {
-                var b = sender as Button;
-                switch (b.Tag.ToString()) {
-                    case "CS":
-                        RatingControl.Instance.GetRating(RatingType.User, RatingSort.Score);
-                        break;
-                    case "AS":
-                        RatingControl.Instance.GetRating(RatingType.All, RatingSort.Score);
-                        break;
-                    case "CD":
-                        RatingControl.Instance.GetRating(RatingType.User, RatingSort.Date);
-                        break;
-                    case "AD":
-                        RatingControl.Instance.GetRating(RatingType.All, RatingSort.Date);
-                        break;
-                    default:
-                        break;
-                }
+        private RatingSort _sort = RatingSort.Date;
+        private RatingType _type = RatingType.All;
+        private void SortBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is Button button)) return;
+
+            switch (button.Tag.ToString()) {
+                case "Score":
+                    _sort = RatingSort.Score;
+                    break;
+                case "Date":
+                    _sort = RatingSort.Date;
+                    break;
+                case "My":
+                    _type = RatingType.User;
+                    break;
+                case "All":
+                    _type = RatingType.All;
+                    break;
             }
+
+            _updateRating();
+        }
+
+        private void _updateRating()
+        {
+            RatingControl.Instance.GetRating(_type, _sort);
         }
     }
 }

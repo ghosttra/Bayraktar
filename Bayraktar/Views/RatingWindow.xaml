@@ -12,18 +12,18 @@
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-       
+        <Grid.Resources>
+            <Style TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}"></Style>
+        </Grid.Resources>
+
         <DockPanel Grid.Column="0" LastChildFill="False">
-            <Button DockPanel.Dock="Top" Content="Всi" Click="ShowAll_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
-            <Button DockPanel.Dock="Top" Content="Мої ігри" Click="ShowMy_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>
-            <!--<Button DockPanel.Dock="Top" Content="По очкам" Click="SortByScoreBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50"></Button>-->
+            <Button  Tag="All" DockPanel.Dock="Top" Content="Всi" Click="SortBtn_Click" VerticalAlignment="Bottom" FontSize="50"/>
+            <Button   Tag="My" DockPanel.Dock="Top" Content="Мої ігри" Click="SortBtn_Click" VerticalAlignment="Bottom" FontSize="50"/>
 
         </DockPanel>
         <DockPanel Grid.Column="3" LastChildFill="True">
-            <Button Tag="CS" DockPanel.Dock="Top" Content="По очкам (Ви)" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom"  x:Name="CScoreBtn" FontSize="50" Click="SortBtn_Click"/>
-            <Button Tag="AS" DockPanel.Dock="Top" Content="По очкам (Г)" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom"  x:Name="AScoreBtn" FontSize="50" Click="SortBtn_Click"/>
-            <Button Tag="CD" DockPanel.Dock="Top" Content="По даті (Ви)" Click="SortBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" x:Name="CDateBtn" FontSize="50"></Button>
-            <Button Tag="AD" DockPanel.Dock="Top" Content="По даті (Г)" Click="SortBtn_Click" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" x:Name="ADateBtn" FontSize="50"></Button>
+            <Button Tag="Score" DockPanel.Dock="Top" Content="По очкам" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom"  x:Name="AScoreBtn" FontSize="50" Click="SortBtn_Click"/>
+            <Button Tag="Date" DockPanel.Dock="Top" Content="По даті" Click="SortBtn_Click" Style="{DynamicResource MenuButtonStyle}" x:Name="CDateBtn" FontSize="50" Height="71"/>
             <Button Content="Вихід" IsCancel="True" Grid.Column="2" Style="{DynamicResource MenuButtonStyle}" VerticalAlignment="Bottom" FontSize="50" Click="Exit" x:Name="ExitBtn"></Button>
 
         </DockPanel>
