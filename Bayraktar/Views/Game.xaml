@@ -41,8 +41,10 @@
 
             <Border Panel.ZIndex="2" BorderThickness="4" Background="#4CF0FFFF" CornerRadius="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" BorderBrush="Tomato">
                 <StackPanel>
-                    <!--<Image x:Name="Pause" Width="50" Height="50" MouseLeftButtonUp="Pause_MouseLeftButtonUp" HorizontalAlignment="Left" Source="Pictures/pause.png"/>-->
+                    
                     <UniformGrid Columns="2">
+                        <Label Content="Role:" Margin="10" />
+                        <Label x:Name="lblRole" Margin="10" />
                         <Label Content="Score:" Margin="10" />
                         <Label x:Name="lblScore" Content="0" Margin="10"/>
                         <Label Margin="10" Content="Health:" />

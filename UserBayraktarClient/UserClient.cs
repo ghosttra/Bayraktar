@@ -65,29 +65,32 @@ namespace UserGameClient
         {
             SendCommand("SINGLE");
             WaitForGame?.Invoke(true);
-
-            //  return Task.Run(_waitForGameServer, _token);
+            
         }
 
         public void StartMultiGame()
         {
             SendCommand("MULTI");
             WaitForGame?.Invoke(true);
-
-            //return Task.Run(_waitForGameServer, _token);
+            
         }
         
 
         private void _startGame(MessageGameData data)
         {
-            GameConnection = new GameClient(User, 1000, data.Server) { Units = data.Units };
+            GameConnection = new GameClient(User, 1000, data.Server)
+            {
+                Units = data.Units,
+                Role = data.GameRole
+            };
             GameConnection.GameOver += GameOver;
             WaitForGame?.Invoke(false);
             StartGame?.Invoke(GameConnection, data.GameRole);
         }
         private void GameOver(GameClient client)
         {
-            MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Score , Server = client.Server};
+
+            MessageGameResult result = new MessageGameResult { User = client.User, Score = client.Role==GameRole.Defense?client.ScoreDefense:client.ScoreAttack , Server = client.Server};
             Send(result);
         }
 

@@ -42,23 +42,37 @@ namespace BayraktarClient
             }
         }
 
-        private int _score = 0;
-        public int Score
+        private int _scoreDefense = 0;
+        public int ScoreDefense
         {
-            get => _score;
+            get => _scoreDefense;
             set
             {
-                _score = value;
-                _scoreChanged?.Invoke(value);
+                _scoreDefense = value;
+                _scoreDefenseChanged?.Invoke(value);
+            }
+        }
+        private int _scoreAttack = 0;
+        public int ScoreAttack
+        {
+            get => _scoreAttack;
+            set
+            {
+                _scoreAttack = value;
+                _scoreAttackChanged?.Invoke(value);
             }
         }
 
 
         public Action<int> HealthChanged;
         public Action<int> _healthChanged;
-        public Action<int> ScoreChanged;
-        public Action<int> _scoreChanged;
+        public Action<int> ScoreDefenseChanged;
+        public Action<int> _scoreDefenseChanged;
+        public Action<int> ScoreAttackChanged;
+        public Action<int> _scoreAttackChanged;
         public Action<GameClient> GameOver;
+
+        public GameRole Role;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
             User = user;
@@ -69,16 +83,23 @@ namespace BayraktarClient
             _token = _cts.Token;
             HealthPoints = 5;
             _healthChanged+=healthChanged;
-            _scoreChanged+=scoreChanged;
+            _scoreDefenseChanged+=scoreDefense;
+            _scoreAttackChanged += scoreAttack;
             Send(new MessageNull());
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
 
-        private void scoreChanged(int score)
+        private void scoreAttack(int score)
+        {
+            Send(new MessageCommand() { Additional = score, Command = "SCORE_ATTACK" });
+
+        }
+
+        private void scoreDefense(int score)
         {
             
-            Send(new MessageCommand() { Additional = score, Command = "SCORE" });
+            Send(new MessageCommand() { Additional = score, Command = "SCORE_DEFENSE" });
         }
 
         private void healthChanged(int health)
@@ -155,12 +176,16 @@ namespace BayraktarClient
                     {
                         case "SHOOT":
                             HealthPoints--;
+                            ScoreAttack+= _random.Next(50, 100);
                             break;
                         case "HEALTH":
                             HealthChanged?.Invoke((int)command.Additional);
                             break;
-                        case "SCORE":
-                            ScoreChanged?.Invoke((int)command.Additional);
+                        case "SCORE_DEFENSE":
+                            ScoreDefenseChanged?.Invoke((int)command.Additional);
+                            break;
+                        case "SCORE_ATTACK":
+                            ScoreAttackChanged?.Invoke((int)command.Additional);
                             break;
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
@@ -216,7 +241,7 @@ namespace BayraktarClient
 
         public void Exit()
         {
-            Info?.Invoke($"User {User.Login} has leaved");
+           // Info?.Invoke($"User {User.Login} has leaved");
             End();
         }
         
@@ -224,7 +249,7 @@ namespace BayraktarClient
         public void UnitDestroy(int unitTag)
         {
             _unitsOnField.Remove(unitTag);
-            Score += _random.Next(50, 100);
+            ScoreDefense += _random.Next(50, 100);
             HealthPoints++;
             Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }

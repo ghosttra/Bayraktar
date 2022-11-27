@@ -34,25 +34,25 @@ namespace Bayraktar
         {
             InitializeComponent();
             Cursor = new Cursor(System.IO.Path.GetFullPath(@"../Data/Pictures/curOfBayraktar.cur"));
-            //Focus();
         }
         public Game(GameClient client, GameRole gameRole, int gameWidth = 1920) : this()
         {
             Focus();
             _client = client;
             _client.HealthChanged += HealthChanged;
-            _client.ScoreChanged += ScoreChanged;
             _client.DestroyUnit += DestroyUnit;
             _client.GameOver += GameOver;
             _client.SetUnitAction += SetUnitAction;
             _gameRole = gameRole;
+            lblRole.Content = _gameRole.ToString();
             switch (gameRole)
             {
                 case GameRole.Attack:
-                    
                     MouseUp += AddUnit;
+                    _client.ScoreAttackChanged += ScoreChanged;
                     break;
                 case GameRole.Defense:
+                    _client.ScoreDefenseChanged += ScoreChanged;
                     break;
             }
 
@@ -77,7 +77,7 @@ namespace Bayraktar
         private void GameOver(GameClient client)
         {
             var result = "Game over";
-            
+
             _invoke(() =>
             {
                 new MessageBox(result) { Owner = Parent as Window }.ShowDialog();
@@ -91,32 +91,33 @@ namespace Bayraktar
         }
         private void _setUnit(MessageUnit unitData)
         {
-            MilitaryUnit unit = new MilitaryUnit(unitData.Unit) {
+            MilitaryUnit unit = new MilitaryUnit(unitData.Unit)
+            {
                 Tag = unitData.Id
             };
             unit.Destroyed += IsDestroyed;
-            if (_gameRole == GameRole.Defense) {
+            if (_gameRole == GameRole.Defense)
+            {
                 unit.MouseLeftButtonUp += UnitDestroy_MouseUp;
             }
-            DoubleAnimation da = new DoubleAnimation {
+            DoubleAnimation da = new DoubleAnimation
+            {
                 From = -unit.Y,
                 To = SystemParameters.PrimaryScreenHeight + unit.Y,
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
             var x = (unitData.Coords.X > _window.Width - unit.X) ? (int)(_window.Width - unit.X) : unitData.Coords.X;
 
-            da.Completed += (s, e) => {
-                if(!unit.IsDestroying) 
+            da.Completed += (s, e) =>
+            {
+                if (!unit.IsDestroying)
                     _hit(unit);
             };
             unit.Animation = da;
             var clock = da.CreateClock();
-            clocks.Add(clock);
 
             Canvas.SetLeft(unit, x);
-            //Canvas.SetTop(unit, -unit.Y);
             unit.ApplyAnimationClock(Canvas.TopProperty, clock);
-            //unit.Animation.BeginAnimation(Canvas.TopProperty, da);
             cnv.Children.Add(unit);
 
 
@@ -143,9 +144,7 @@ namespace Bayraktar
             if (sender is MilitaryUnit unit)
             {
                 _client.UnitDestroy((int)unit.Tag);
-                unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
-               // unit.ApplyAnimationClock(Canvas.TopProperty, null);
-               //unit.Animation.ApplyAnimationClock(Canvas.TopProperty, null);
+                unit.MouseLeftButtonUp -= UnitDestroy_MouseUp;
             }
         }
 
@@ -157,14 +156,10 @@ namespace Bayraktar
 
         private void ScoreChanged(int score)
         {
-            //пример
-            //todo
             _invoke(() => lblScore.Content = score);
         }
         private void HealthChanged(int hp)
         {
-            //пример
-            //todo
             _invoke(() => HealthText.Content = hp);
         }
 
@@ -179,37 +174,13 @@ namespace Bayraktar
         }
 
 
-        List<AnimationClock> clocks = new List<AnimationClock>();
-
-
-        private void PauseAnimation()
-        {
-            foreach (var clock in clocks)
-            {
-                clock.Controller?.Pause();
-            }
-        }
-        private void ResumeAnimation()
-        {
-            foreach (var clock in clocks)
-            {
-                clock.Controller?.Resume();
-            }
-        }
-
         private void PauseFunc(string title, bool isDefeat)
         {
-            //Rect.Visibility = Visibility.Visible;
-            //PauseAnimation();
             PauseWindow pauseWindow = new PauseWindow(title, isDefeat);
             pauseWindow.ShowDialog();
             if (pauseWindow.DialogResult.HasValue && pauseWindow.DialogResult.Value)
             {
                 _client.Exit();
-            }
-            else
-            {
-                //ResumeAnimation();
             }
 
         }
