@@ -35,7 +35,7 @@ namespace BayraktarClient
             set
             {
                 _hp = value;
-                HealthChanged?.Invoke(HealthPoints);
+                _healthChanged?.Invoke(HealthPoints);
 
                 if (value <= 0)
                     End();
@@ -49,13 +49,15 @@ namespace BayraktarClient
             set
             {
                 _score = value;
-                ScoreChanged?.Invoke(value);
+                _scoreChanged?.Invoke(value);
             }
         }
 
 
         public Action<int> HealthChanged;
+        public Action<int> _healthChanged;
         public Action<int> ScoreChanged;
+        public Action<int> _scoreChanged;
         public Action<GameClient> GameOver;
         public GameClient(User user, int localPort, IPEndPoint server)
         {
@@ -66,10 +68,24 @@ namespace BayraktarClient
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             HealthPoints = 5;
+            _healthChanged+=healthChanged;
+            _scoreChanged+=scoreChanged;
             Send(new MessageNull());
             GameOver += _gameOver;
             Task.Factory.StartNew(_start, _token);
         }
+
+        private void scoreChanged(int score)
+        {
+            
+            Send(new MessageCommand() { Additional = score, Command = "SCORE" });
+        }
+
+        private void healthChanged(int health)
+        {
+            Send(new MessageCommand() { Additional = health, Command = "HEALTH" });
+        }
+
         private void _gameOver(GameClient client)
         {
             try
@@ -139,6 +155,12 @@ namespace BayraktarClient
                     {
                         case "SHOOT":
                             HealthPoints--;
+                            break;
+                        case "HEALTH":
+                            HealthChanged?.Invoke((int)command.Additional);
+                            break;
+                        case "SCORE":
+                            ScoreChanged?.Invoke((int)command.Additional);
                             break;
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
