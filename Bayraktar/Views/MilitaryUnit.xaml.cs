@@ -27,12 +27,12 @@ namespace Bayraktar
 
             threadMove = new Thread(f => {
                 while (true) {
-                    X += 1;
+                    Xposition += 1;
                     Thread.Sleep(5);
                     this.Dispatcher.Invoke(() => {
-                        Canvas.SetTop(this, X);
+                        Canvas.SetTop(this, Xposition);
                     });
-                    if (X > SystemParameters.PrimaryScreenHeight + 250) {
+                    if (Xposition > SystemParameters.PrimaryScreenHeight + 250) {
                         Stop();
                         break;
                     }
@@ -54,8 +54,11 @@ namespace Bayraktar
             MUGrid.Children.Remove(UnitImg);
             timer.Stop();
         }
-        public int X { get; set; } = -300;
-        public int Y { get; set; }
+
+        public double X => UnitImg.Width;
+        public double Y => UnitImg.Height;
+        public int Xposition { get; set; } = -300;
+        public int Yposition { get; set; }
         Thread threadMove;
         public void Move() {
             threadMove.Start();
@@ -78,13 +81,14 @@ namespace Bayraktar
         //    Destroy();
         //    ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
         //}
-
-        public Action<MilitaryUnit> IsDestroyed;
+        public bool IsDestroying;
+        public Action<MilitaryUnit> Destroyed;
         public void Destroy()
         {
+            IsDestroying = true;
             _setImageSource(UnitImg, _unit.ImageDestroyed);
             
-            IsDestroyed?.Invoke(this);
+            Destroyed?.Invoke(this);
         }
     }
 }

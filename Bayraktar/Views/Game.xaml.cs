@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
@@ -54,7 +55,6 @@ namespace Bayraktar
                 case GameRole.Defense:
                     break;
             }
-            _client.MaxWidth = gameWidth;
 
         }
 
@@ -94,32 +94,46 @@ namespace Bayraktar
             MilitaryUnit unit = new MilitaryUnit(unitData.Unit) {
                 Tag = unitData.Id
             };
-            unit.IsDestroyed += IsDestroyed;
+            unit.Destroyed += IsDestroyed;
             if (_gameRole == GameRole.Defense) {
                 unit.MouseLeftButtonUp += UnitDestroy_MouseUp;
             }
-            DoubleAnimation DA = new DoubleAnimation {
+            DoubleAnimation da = new DoubleAnimation {
                 From = -unit.Y,
                 To = SystemParameters.PrimaryScreenHeight + unit.Y,
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
             var x = (unitData.Coords.X > _window.Width - unit.X) ? (int)(_window.Width - unit.X) : unitData.Coords.X;
 
-            Canvas.SetLeft(unit, x);
-            Canvas.SetTop(unit, -unit.Y);
-            DA.Completed += (s, e) => {
-                _hit(unit);
+            da.Completed += (s, e) => {
+                if(!unit.IsDestroying) 
+                    _hit(unit);
             };
-            unit.Animation = DA;
-            var clock = DA.CreateClock();
-
+            unit.Animation = da;
+            var clock = da.CreateClock();
             clocks.Add(clock);
+
+            Canvas.SetLeft(unit, x);
+            //Canvas.SetTop(unit, -unit.Y);
             unit.ApplyAnimationClock(Canvas.TopProperty, clock);
+            //unit.Animation.BeginAnimation(Canvas.TopProperty, da);
             cnv.Children.Add(unit);
+
+
         }
 
         private async void IsDestroyed(MilitaryUnit unit)
         {
+            _invoke(() =>
+            {
+                DoubleAnimation da = new DoubleAnimation
+                {
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(3000)
+                };
+                unit.ApplyAnimationClock(Canvas.TopProperty, da.CreateClock());
+
+            });
             await Task.Delay(3000);
             cnv.Children.Remove(unit);
         }
@@ -130,8 +144,8 @@ namespace Bayraktar
             {
                 _client.UnitDestroy((int)unit.Tag);
                 unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
-               // unit.Animation.Freeze();
-                unit.Animation.BeginAnimation(Canvas.TopProperty, null);
+               // unit.ApplyAnimationClock(Canvas.TopProperty, null);
+               //unit.Animation.ApplyAnimationClock(Canvas.TopProperty, null);
             }
         }
 

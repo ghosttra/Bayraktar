@@ -74,7 +74,6 @@ namespace BayraktarClient
         {
             try
             {
-
                 _cts?.Cancel();
                 _cts?.Dispose();
             }
@@ -93,6 +92,7 @@ namespace BayraktarClient
         private void _start()
         {
             IsRun= true;
+            HealthPoints = 5;
             while (IsRun)
             {
                 try

@@ -84,11 +84,11 @@ namespace Bayraktar {
         private void AddMilitaryUnit(Unit unit, short line) {
             MilitaryUnit _unit = new MilitaryUnit(unit)
             {
-                Y = (short)rnd.Next(-50, 50)
+                Yposition = (short)rnd.Next(-50, 50)
             };
 
-            Canvas.SetLeft(_unit, _unit.Y);
-            Canvas.SetTop(_unit, _unit.X);
+            Canvas.SetLeft(_unit, _unit.Yposition);
+            Canvas.SetTop(_unit, _unit.Xposition);
             _unit.Width = Road.Width / 3;
             _unit.Height = Road.Width / 3;
 

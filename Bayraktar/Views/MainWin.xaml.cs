@@ -94,7 +94,7 @@ namespace Bayraktar
         {
            _invoke(() =>
            {
-            var game = new Game(client, role, (int)Width);
+            var game = new Game(client, role);
             Content = game;
            });
            
