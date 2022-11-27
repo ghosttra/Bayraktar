@@ -65,11 +65,11 @@ namespace BayraktarClient
 
 
         public Action<int> HealthChanged;
-        public Action<int> _healthChanged;
+        private Action<int> _healthChanged;
         public Action<int> ScoreDefenseChanged;
-        public Action<int> _scoreDefenseChanged;
+        private Action<int> _scoreDefenseChanged;
         public Action<int> ScoreAttackChanged;
-        public Action<int> _scoreAttackChanged;
+        private Action<int> _scoreAttackChanged;
         public Action<GameClient> GameOver;
 
         public GameRole Role;
@@ -82,8 +82,8 @@ namespace BayraktarClient
             _cts = new CancellationTokenSource();
             _token = _cts.Token;
             HealthPoints = 5;
-            _healthChanged+=healthChanged;
-            _scoreDefenseChanged+=scoreDefense;
+            _healthChanged += healthChanged;
+            _scoreDefenseChanged += scoreDefense;
             _scoreAttackChanged += scoreAttack;
             Send(new MessageNull());
             GameOver += _gameOver;
@@ -98,7 +98,7 @@ namespace BayraktarClient
 
         private void scoreDefense(int score)
         {
-            
+
             Send(new MessageCommand() { Additional = score, Command = "SCORE_DEFENSE" });
         }
 
@@ -128,7 +128,7 @@ namespace BayraktarClient
         }
         private void _start()
         {
-            IsRun= true;
+            IsRun = true;
             HealthPoints = 5;
             while (IsRun)
             {
@@ -144,9 +144,9 @@ namespace BayraktarClient
         }
         public void Send(MessagePacket message)
         {
-                var buffer = message.ToBytes();
-                new UdpClient().Send(buffer, buffer.Length, Server);
-            
+            var buffer = message.ToBytes();
+            new UdpClient().Send(buffer, buffer.Length, Server);
+
         }
 
         private void _receive()
@@ -164,7 +164,7 @@ namespace BayraktarClient
             if (buffer == null)
                 return;
             var message = MessagePacket.FromBytes(buffer);
-            
+
             switch (message)
             {
 
@@ -176,10 +176,13 @@ namespace BayraktarClient
                     {
                         case "SHOOT":
                             HealthPoints--;
-                            ScoreAttack+= _random.Next(50, 100);
+                            ScoreAttack += _random.Next(50, 100);
                             break;
                         case "HEALTH":
-                            HealthChanged?.Invoke((int)command.Additional);
+                            var health = (int)command.Additional;
+                            if (_hp != health)
+                                _hp = health;
+                            HealthChanged?.Invoke(health);
                             break;
                         case "SCORE_DEFENSE":
                             ScoreDefenseChanged?.Invoke((int)command.Additional);
@@ -195,7 +198,7 @@ namespace BayraktarClient
                             break;
                         case "GAME_OVER":
                             GameOver?.Invoke(this);
-                            IsRun  = false;
+                            IsRun = false;
                             break;
                     }
                     break;
@@ -209,14 +212,15 @@ namespace BayraktarClient
             };
             Send(command);
         }
-        
+
         protected Random _random = new Random();
         protected List<int> _unitsOnField = new List<int>();
         public void SetUnit(int x)
         {
             MessageUnit messageUnit = new MessageUnit(Units[_random.Next(Units.Count)], x, 0)
             {
-                Speed = _random.Next(_minSpeed, _maxSpeed), Id = _generateUnitId()
+                Speed = _random.Next(_minSpeed, _maxSpeed),
+                Id = _generateUnitId()
             };
             Send(messageUnit);
         }
@@ -229,23 +233,23 @@ namespace BayraktarClient
         private int _generateUnitId()
         {
             var count = _unitsOnField.Count;
-            
+
             var id = count == 0 ? 0 : _unitsOnField[count - 1] + 1;
             _unitsOnField.Add(id);
             return id;
         }
-        
+
         public Action<string> Info;
         public bool Win { get; set; } = false;
         public bool IsRun { get; set; }
 
         public void Exit()
         {
-           // Info?.Invoke($"User {User.Login} has leaved");
+            // Info?.Invoke($"User {User.Login} has leaved");
             End();
         }
-        
-        
+
+
         public void UnitDestroy(int unitTag)
         {
             _unitsOnField.Remove(unitTag);
@@ -254,6 +258,6 @@ namespace BayraktarClient
             Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }
     }
-    
+
 
 }
