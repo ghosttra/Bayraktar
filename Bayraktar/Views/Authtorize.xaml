@@ -36,15 +36,21 @@
                 <Setter Property="FontSize" Value="50"></Setter>
             </Style>
         </Grid.Resources>
-        <UniformGrid Columns="2" HorizontalAlignment="Center" Height="350">
-            <Label>Login</Label>
-            <TextBox Name="LoginBox" />
-            <Label>Password</Label>
-            <PasswordBox Name="PassWordBox" />
-        </UniformGrid>
-        <Canvas Grid.Row="0">
-            <Image Source="Pictures/mainlogo.png" HorizontalAlignment="Left" Canvas.Left="636" Canvas.Top="10" VerticalAlignment="Center" Width="659" Height="339"/>
-        </Canvas>
+<Grid>
+<Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition/>
+</Grid.RowDefinitions>
+    <Image  Source="Pictures/mainlogo.png" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="659" Height="339"/>
+
+    <UniformGrid Grid.Row="1" Columns="2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="350">
+        <Label>Login</Label>
+        <TextBox Name="LoginBox" />
+        <Label>Password</Label>
+        <PasswordBox Name="PassWordBox" />
+    </UniformGrid>
+
+</Grid>
         <StackPanel x:Name="ButtonPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button VerticalAlignment="Bottom" Name="LoginBtn" Content="Login" Click="Login_OnClick"/>
             <Button VerticalAlignment="Bottom" Name="RegistrationBtn" Content="Registration" Click="Registration_Click"/>

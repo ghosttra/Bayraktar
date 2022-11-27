@@ -107,7 +107,6 @@ namespace Bayraktar
 
             Canvas.SetLeft(unit, x);
             Canvas.SetTop(unit, -unit.Y);
-
             DA.Completed += (s, e) => {
                 _hit(unit);
             };
@@ -131,6 +130,7 @@ namespace Bayraktar
             {
                 _client.UnitDestroy((int)unit.Tag);
                 unit.MouseLeftButtonUp-=UnitDestroy_MouseUp;
+               // unit.Animation.Freeze();
                 unit.Animation.BeginAnimation(Canvas.TopProperty, null);
             }
         }
