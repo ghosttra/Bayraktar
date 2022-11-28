@@ -185,10 +185,17 @@ namespace BayraktarClient
                             HealthChanged?.Invoke(health);
                             break;
                         case "SCORE_DEFENSE":
-                            ScoreDefenseChanged?.Invoke((int)command.Additional);
+                            var scoreD = (int)command.Additional;
+                            if (_scoreDefense != scoreD)
+                                _scoreDefense= scoreD;
+                            ScoreDefenseChanged?.Invoke(scoreD);
+
                             break;
                         case "SCORE_ATTACK":
-                            ScoreAttackChanged?.Invoke((int)command.Additional);
+                            var scoreA = (int)command.Additional;
+                            if (_scoreAttack != scoreA)
+                                _scoreAttack = scoreA;
+                            ScoreAttackChanged?.Invoke(scoreA);
                             break;
                         case "DESTROY":
                             DestroyUnit?.Invoke((int)command.Additional);
