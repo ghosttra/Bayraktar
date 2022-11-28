@@ -64,10 +64,10 @@ namespace Bayraktar
             switch (Sort)
             {
                 case RatingSort.Date:
-                    result = result.OrderBy(r => r.Date);
+                    result = result.OrderByDescending(r => r.Date);
                     break;
                 case RatingSort.Score:
-                    result = result.OrderBy(r => r.Score);
+                    result = result.OrderByDescending(r => r.Score);
                     break;
             }
             return result.ToList();

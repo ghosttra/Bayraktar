@@ -52,7 +52,7 @@
 
                             <TextBlock Grid.Row="1" Foreground="White" Text="{ Binding Score, StringFormat='{}Score: {0}'}" 
                                        HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Row="2" Foreground="White" Text="{ Binding TimeOf_AtteptEnd, StringFormat='{}{0:dd/MM/yyyy | H:mm}'}" 
+                            <TextBlock Grid.Row="2" Foreground="White" Text="{ Binding Date, StringFormat='{}{0:dd/MM/yyyy | H:mm}'}" 
                                        HorizontalAlignment="Center"/>
                         </Grid>
                     </Border>
