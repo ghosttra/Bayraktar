@@ -20,40 +20,40 @@ namespace Bayraktar
             this._unit = unit;
             InitializeComponent();
             _setImageSource(UnitImg, _unit.Image);
-
-            this.UnitImg.MouseLeftButtonUp += MU_MouseLeftButtonUp;
-
             _setImageSource(UnitImg, _unit.Image);
 
-            threadMove = new Thread(f => {
-                while (true) {
-                    Xposition += 1;
-                    Thread.Sleep(5);
-                    this.Dispatcher.Invoke(() => {
-                        Canvas.SetTop(this, Xposition);
-                    });
-                    if (Xposition > SystemParameters.PrimaryScreenHeight + 250) {
-                        Stop();
-                        break;
-                    }
-                }
-            });
+
+            //this.UnitImg.MouseLeftButtonUp += MU_MouseLeftButtonUp;
+
+
+            //threadMove = new Thread(f => {
+            //    while (true) {
+            //        Xposition += 1;
+            //        Thread.Sleep(5);
+            //        this.Dispatcher.Invoke(() => {
+            //            Canvas.SetTop(this, Xposition);
+            //        });
+            //        if (Xposition > SystemParameters.PrimaryScreenHeight + 250) {
+            //            Stop();
+            //            break;
+            //        }
+            //    }
+            //});
         }
-        DispatcherTimer timer;
-        private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(5);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-            _setImageSource(UnitImg, _unit.ImageDestroyed);
-                //UnitImg.Source = new ImageSourceConverter().ConvertFromString(@"C:\Users\Макс\source\repos\Bayraktar\Bayraktar\Pictures\MilitaryUnits\APC-Z_Destroyed.png") as ImageSource;
-            (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
-            Stop();
-        }
-        private void Timer_Tick(object sender, EventArgs e) {
-            MUGrid.Children.Remove(UnitImg);
-            timer.Stop();
-        }
+        //DispatcherTimer timer;
+        //private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+        //    timer = new DispatcherTimer();
+        //    timer.Interval = TimeSpan.FromSeconds(5);
+        //    timer.Tick += Timer_Tick;
+        //    timer.Start();
+        //    _setImageSource(UnitImg, _unit.ImageDestroyed);
+        //    (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
+        //    Stop();
+        ////}
+        //private void Timer_Tick(object sender, EventArgs e) {
+        //    MUGrid.Children.Remove(UnitImg);
+        //    timer.Stop();
+        //}
 
         public double X => UnitImg.Width;
         public double Y => UnitImg.Height;
