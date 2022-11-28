@@ -21,52 +21,12 @@ namespace Bayraktar
             InitializeComponent();
             _setImageSource(UnitImg, _unit.Image);
             _setImageSource(UnitImg, _unit.Image);
-
-
-            //this.UnitImg.MouseLeftButtonUp += MU_MouseLeftButtonUp;
-
-
-            //threadMove = new Thread(f => {
-            //    while (true) {
-            //        Xposition += 1;
-            //        Thread.Sleep(5);
-            //        this.Dispatcher.Invoke(() => {
-            //            Canvas.SetTop(this, Xposition);
-            //        });
-            //        if (Xposition > SystemParameters.PrimaryScreenHeight + 250) {
-            //            Stop();
-            //            break;
-            //        }
-            //    }
-            //});
-        }
-        //DispatcherTimer timer;
-        //private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-        //    timer = new DispatcherTimer();
-        //    timer.Interval = TimeSpan.FromSeconds(5);
-        //    timer.Tick += Timer_Tick;
-        //    timer.Start();
-        //    _setImageSource(UnitImg, _unit.ImageDestroyed);
-        //    (sender as Image).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
-        //    Stop();
-        ////}
-        //private void Timer_Tick(object sender, EventArgs e) {
-        //    MUGrid.Children.Remove(UnitImg);
-        //    timer.Stop();
-        //}
-
-        public double X => UnitImg.Width;
-        public double Y => UnitImg.Height;
-        public int Xposition { get; set; } = -300;
-        public int Yposition { get; set; }
-        Thread threadMove;
-        public void Move() {
-            threadMove.Start();
         }
 
-        public void Stop() {
-            threadMove.Abort();
-        }
+        public double UnitWidth => UnitImg.Width;
+        public double UnitHeight => UnitImg.Height;
+        
+        
 
         public DoubleAnimation Animation;
        
@@ -76,11 +36,6 @@ namespace Bayraktar
                 return;
             target.Source = (BitmapSource)new ImageSourceConverter().ConvertFrom(source);
         }
-        //private void MU_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    Destroy();
-        //    ((Image)sender).MouseLeftButtonUp -= MU_MouseLeftButtonUp;
-        //}
         public bool IsDestroying;
         public Action<MilitaryUnit> Destroyed;
         public void Destroy()

@@ -102,11 +102,11 @@ namespace Bayraktar
             }
             DoubleAnimation da = new DoubleAnimation
             {
-                From = -unit.Y,
-                To = SystemParameters.PrimaryScreenHeight + unit.Y,
+                From = -unit.UnitHeight,
+                To = SystemParameters.PrimaryScreenHeight + unit.UnitHeight,
                 Duration = TimeSpan.FromSeconds(unitData.Speed)
             };
-            var x = (unitData.Coords.X > _window.Width - unit.X) ? (int)(_window.Width - unit.X) : unitData.Coords.X;
+            var x = (unitData.Coords.X > _window.Width - unit.UnitWidth) ? (int)(_window.Width - unit.UnitWidth) : unitData.Coords.X;
 
             da.Completed += (s, e) =>
             {

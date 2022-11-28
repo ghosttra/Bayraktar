@@ -82,20 +82,20 @@ namespace Bayraktar {
             }
         }
         private void AddMilitaryUnit(Unit unit, short line) {
-            MilitaryUnit _unit = new MilitaryUnit(unit)
-            {
-                Yposition = (short)rnd.Next(-50, 50)
-            };
+            //MilitaryUnit _unit = new MilitaryUnit(unit)
+            //{
+            //    Yposition = (short)rnd.Next(-50, 50)
+            //};
 
-            Canvas.SetLeft(_unit, _unit.Yposition);
-            Canvas.SetTop(_unit, _unit.Xposition);
-            _unit.Width = Road.Width / 3;
-            _unit.Height = Road.Width / 3;
+            //Canvas.SetLeft(_unit, _unit.UnitHeight);
+            //Canvas.SetTop(_unit, _unit.UnitWidth);
+            //_unit.Width = Road.Width / 3;
+            //_unit.Height = Road.Width / 3;
 
-            var this_ = (CMUs.Children[line] as Border).Child;
-            (this_ as Canvas).Children.Add(_unit);
+            //var this_ = (CMUs.Children[line] as Border).Child;
+            //(this_ as Canvas).Children.Add(_unit);
 
-            _unit.Move();
+            //_unit.Move();
         }
     }
 }
