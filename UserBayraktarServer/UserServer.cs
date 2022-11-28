@@ -47,7 +47,7 @@ namespace UserBayraktarServer
             {
                 Inform?.Invoke("Starting server");
                 _server.Start();
-                Inform?.Invoke("Wait for connection");
+                Inform?.Invoke("Wait for connections");
                 while (_isRun)
                 {
                     try
