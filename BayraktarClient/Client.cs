@@ -252,7 +252,6 @@ namespace BayraktarClient
 
         public void Exit()
         {
-            // Info?.Invoke($"User {User.Login} has leaved");
             End();
         }
 
