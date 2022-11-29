@@ -187,7 +187,7 @@ namespace BayraktarClient
                         case "SCORE_DEFENSE":
                             var scoreD = (int)command.Additional;
                             if (_scoreDefense != scoreD)
-                                _scoreDefense= scoreD;
+                                _scoreDefense = scoreD;
                             ScoreDefenseChanged?.Invoke(scoreD);
 
                             break;
@@ -261,7 +261,8 @@ namespace BayraktarClient
         {
             _unitsOnField.Remove(unitTag);
             ScoreDefense += _random.Next(50, 100);
-            HealthPoints++;
+            if (_random.Next(10) == 5)
+                HealthPoints++;
             Send(new MessageCommand() { Command = "DESTROY", Additional = unitTag });
         }
     }
